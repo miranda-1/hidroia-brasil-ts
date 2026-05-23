@@ -45,14 +45,14 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
 
     // Porto Velho (MAD-02) and Angra (SSE-08) represent Cluster -1 (Outliers)
     const exactStations: PcaPoint[] = [
-      { id: "TAQ-01", name: "Estação Taquari-01", state: "RS", basin: "Bacia Taquari-Antas", x: 440, y: 70, cluster: 3, score: 0.91, flow: "685 cm", rain: "261 mm" },
-      { id: "REC-05", name: "Estação Recife-05", state: "PE", basin: "Recife Metropolitana", x: 460, y: 90, cluster: 3, score: 0.69, flow: "421 cm", rain: "198 mm" },
-      { id: "SFR-03", name: "Estação São Francisco-03", state: "BA", basin: "Bacia do Rio São Francisco", x: 140, y: 230, cluster: 0, score: 0.63, flow: "31%", rain: "48 mm" },
-      { id: "PAN-04", name: "Estação Paraguai-04", state: "MS", basin: "Pantanal Alto Paraguai", x: 180, y: 210, cluster: 0, score: 0.74, flow: "28 cm", rain: "36 mm" },
-      { id: "MAD-02", name: "Estação Madeira-02", state: "RO", basin: "Bacia do Rio Madeira", x: 80, y: 50, cluster: -1, score: 0.88, flow: "0 m³/s", rain: "243 mm" },
-      { id: "AMZ-07", name: "Estação Solimões-07", state: "AM", basin: "Bacia do Rio Amazonas", x: 280, y: 150, cluster: 1, score: 0.15, flow: "1240 cm", rain: "152 mm" },
-      { id: "SSE-08", name: "Estação Costeira-08", state: "RJ", basin: "Litoral Sudeste", x: 410, y: 250, cluster: -1, score: 0.82, flow: "0 cm", rain: "0 mm" },
-      { id: "DOC-06", name: "Estação Doce-06", state: "MG", basin: "Bacia do Rio Doce", x: 370, y: 170, cluster: 2, score: 0.58, flow: "298 cm", rain: "118 mm" }
+      { id: "TAQ-01", name: "Estação Taquari", state: "RS", basin: "Rio Taquari-Antas", x: 440, y: 70, cluster: 3, score: 0.91, flow: "685 cm", rain: "261 mm" },
+      { id: "REC-05", name: "Estação Recife", state: "PE", basin: "Capibaribe", x: 460, y: 90, cluster: 3, score: 0.69, flow: "Atípico", rain: "198 mm" },
+      { id: "SFR-03", name: "Estação São Francisco", state: "BA", basin: "Rio São Francisco", x: 140, y: 230, cluster: 0, score: 0.63, flow: "31 cm", rain: "48 mm" },
+      { id: "PAN-04", name: "Estação Alto Paraguai", state: "MT", basin: "Rio Paraguai", x: 180, y: 210, cluster: 0, score: 0.74, flow: "28 cm", rain: "36 mm" },
+      { id: "MAD-02", name: "Estação Porto Velho", state: "RO", basin: "Rio Madeira", x: 80, y: 50, cluster: -1, score: 0.88, flow: "0 m³/s", rain: "243 mm" },
+      { id: "AMZ-07", name: "Estação Humaitá", state: "AM", basin: "Rio Madeira", x: 280, y: 150, cluster: 1, score: 0.15, flow: "380 cm", rain: "152 mm" },
+      { id: "SSE-08", name: "Estação Parnaíba", state: "PI", basin: "Rio Parnaíba", x: 300, y: 130, cluster: 1, score: 0.22, flow: "Normal", rain: "14 mm" },
+      { id: "DOC-06", name: "Estação Rio Doce", state: "MG", basin: "Rio Doce", x: 370, y: 170, cluster: 2, score: 0.58, flow: "298 cm", rain: "118 mm" }
     ];
 
     exactStations.forEach(s => points.push(s));

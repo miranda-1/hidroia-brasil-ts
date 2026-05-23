@@ -18,10 +18,26 @@ export interface Station {
   x: number;
   y: number;
   risk: "low" | "med" | "high" | "crit" | "fail";
-  level: number;
-  rain7: number;
+  level: number; // mantido para retrocompatibilidade
+  rain7: number;  // mantido para retrocompatibilidade
   state: string;
   risk_type: string;
+
+  // Novos campos padrão simulados inspirados pela ANA
+  code: string;
+  uf: string;
+  basin: string;
+  type: "Fluviométrica" | "Pluviométrica";
+  source: string; // "Mock inspirado em ANA/HIDRO"
+  status: "Normal" | "Atenção" | "Atípico" | "Anomalia" | "Falha";
+  levelCm?: number;
+  flowM3s?: number;
+  rainfall24hMm: number;
+  rainfall7dMm: number;
+  anomalyScore: number;
+  dataQuality: "bruto" | "consistido";
+  lastReading: string;
+  note: string;
 }
 
 export interface SubStation {
@@ -37,22 +53,21 @@ export interface SubStation {
 export interface HydroRecord {
   id: string;
   date: string;
-  source: "ANA" | "INMET";
-  st: string; // matches st in mock DB_ROWS
-  stationCode?: string;
-  region: string;
-  state: string;
-  river?: string;
-  city?: string;
-  variable: string;
-  lvl: string;
-  r24: number;
-  r7: number;
-  m7: string;
-  dev: string;
-  cluster: string; // allows flexibility for clusters like "Evento extremo" etc.
-  score: number; // matches score in mock DB_ROWS
-  anomalyScore?: number;
-  risk: "low" | "med" | "high" | "crit" | "fail";
-  d24: number;
+  source: string; // ex: "Mock inspirado em ANA/HIDRO" ou "ANA" ou "INMET"
+  code: string;       // Código ANA/SNIRH
+  name: string;       // Estação (nome)
+  uf: string;         // UF
+  region: string;     // Região
+  basin: string;      // Bacia
+  type: "Fluviométrica" | "Pluviométrica";
+  levelCm?: number;   // Nível (cm)
+  flowM3s?: number;   // Vazão (m3/s)
+  rainfall24hMm: number; // Chuva 24h (mm)
+  rainfall7dMm: number;  // Chuva 7d (mm)
+  dataQuality: "bruto" | "consistido";
+  score: number;      // Score IA
+  risk: "low" | "med" | "high" | "crit" | "fail"; // Status Risco (lógica interna)
+  status: "Normal" | "Atenção" | "Atípico" | "Anomalia" | "Falha"; // Rótulo em PT
+  cluster: string;
+  note: string;
 }

@@ -164,12 +164,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
 
           <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
             <div>
-              <div className="card-eyebrow">Região analisada</div>
-              <div style={{ fontSize: 19, fontWeight: 600, marginTop: 2 }}>{activeStation.region}</div>
+              <div className="card-eyebrow">Estação monitorada (ANA)</div>
+              <div style={{ fontSize: 19, fontWeight: 600, marginTop: 2 }}>{activeStation.name} ({activeStation.uf})</div>
               <div className="small mono" style={{ color: "var(--text-2)", marginTop: 2 }}>
-                {activeStation.state} • {activeStation.river} • {activeStation.id}
+                Código: {activeStation.code} • Bacia: {activeStation.basin} • Rio: {activeStation.river}
               </div>
               <div className="small" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.4 }}>
+                Tipo: <strong style={{ color: "var(--aqua)" }}>{activeStation.type}</strong> • Qualidade: <strong style={{ color: activeStation.dataQuality === "consistido" ? "oklch(0.62 0.17 150)" : "oklch(0.75 0.14 40)" }}>{activeStation.dataQuality}</strong>
+              </div>
+              <div className="small" style={{ marginTop: 2, fontSize: 12, lineHeight: 1.4 }}>
                 Grupo atribuído: <strong style={{ color: "var(--cyan)" }}>{activeStat.cluster}</strong>
               </div>
             </div>
@@ -208,10 +211,42 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
               </div>
             </div>
 
+            {/* Leituras Observadas (Mock) */}
+            <div style={{ padding: "12px 14px", borderRadius: 8, background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)" }}>
+              <div className="card-eyebrow" style={{ marginBottom: 6 }}>Leituras Observadas (Simuladas)</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
+                {activeStation.levelCm !== undefined && (
+                  <div>
+                    <span className="small" style={{ color: "var(--text-3)", fontSize: 10, display: "block" }}>Nível do Rio</span>
+                    <strong style={{ fontSize: 13, color: "var(--cyan)" }}>{activeStation.levelCm} cm</strong>
+                  </div>
+                )}
+                {activeStation.flowM3s !== undefined && (
+                  <div>
+                    <span className="small" style={{ color: "var(--text-3)", fontSize: 10, display: "block" }}>Vazão Estimada</span>
+                    <strong style={{ fontSize: 13, color: "var(--cyan)" }}>{activeStation.flowM3s.toLocaleString()} m³/s</strong>
+                  </div>
+                )}
+                <div>
+                  <span className="small" style={{ color: "var(--text-3)", fontSize: 10, display: "block" }}>Precipitação 24h</span>
+                  <strong style={{ fontSize: 13, color: "var(--aqua)" }}>{activeStation.rainfall24hMm} mm</strong>
+                </div>
+                <div>
+                  <span className="small" style={{ color: "var(--text-3)", fontSize: 10, display: "block" }}>Acumulado 7 dias</span>
+                  <strong style={{ fontSize: 13, color: "var(--aqua)" }}>{activeStation.rainfall7dMm} mm</strong>
+                </div>
+              </div>
+            </div>
+
             <div>
               <div className="card-eyebrow" style={{ marginBottom: 4 }}>Parâmetro de isolamento</div>
               <p className="small" style={{ margin: "0 0 8px 0", lineHeight: 1.4, color: "var(--text-2)" }}>
                 {activeStat.factor}
+              </p>
+
+              <div className="card-eyebrow" style={{ marginBottom: 4 }}>Nota explicativa da estação</div>
+              <p className="small" style={{ margin: "0 0 10px 0", lineHeight: 1.4, color: "var(--text-2)", fontStyle: "italic" }}>
+                "{activeStation.note}"
               </p>
               
               <div className="card-eyebrow" style={{ marginBottom: 8 }}>Fatores de decisão (Score contributions)</div>

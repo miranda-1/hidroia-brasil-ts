@@ -108,6 +108,16 @@ export const Methodology: React.FC = () => {
           </div>
 
           <div className="card">
+            <div className="card-eyebrow">Padrão Hidrometeorológico</div>
+            <div style={{ fontSize: 18, fontWeight: 600, marginTop: 4, color: "var(--cyan)" }}>
+              Estrutura inspirada no HIDRO/ANA
+            </div>
+            <p className="small" style={{ lineHeight: 1.5, marginTop: 8, color: "var(--text-2)" }}>
+              Cada estação de monitoramento simulada no **HidroIA** possui atributos estruturais fiéis ao modelo real de dados hidrometeorológicos da ANA: código de estação de 8 dígitos, UF, bacia hidrológica, tipo (fluviométrica ou pluviométrica), nível do rio, vazão, precipitação acumulada (24h/7d) e indicador de qualidade de dado (bruto vs consistido). Esses campos simulados são consolidados e processados para alimentar os indicadores, clusters e anomalias da plataforma.
+            </p>
+          </div>
+
+          <div className="card">
             <div className="card-eyebrow">Modelos e Funções Matemáticas</div>
             <div className="col" style={{ gap: 12, marginTop: 8 }}>
               {[

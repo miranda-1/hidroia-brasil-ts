@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export const Recommendations: React.FC = () => {
-  const [selectedRegion, setSelectedRegion] = useState<string>("Bacia Taquari-Antas");
+  const [selectedRegion, setSelectedRegion] = useState<string>("Rio Taquari-Antas");
 
   const RECOMMENDATIONS: Record<string, {
     risk: "low" | "med" | "high" | "crit" | "fail";
@@ -28,69 +28,79 @@ export const Recommendations: React.FC = () => {
     model: string;
     conf: string;
   }> = {
-    "Bacia Taquari-Antas": {
+    "Rio Taquari-Antas": {
       risk: "crit",
-      title: "Bacia Taquari-Antas",
-      event: "Inundação rápida",
-      details: "A região da Bacia Taquari-Antas apresenta risco crítico devido à elevação extremamente acelerada do Rio Taquari (+112 cm em 24h) e ao acumulado elevado de chuva nos últimos 7 dias (261 mm). Recomenda-se acionar o protocolo de evacuação imediata com a Defesa Civil local, intensificar o monitoramento em tempo real das cotas de transbordo e priorizar o alerta preventivo para a população ribeirinha nos municípios de Lajeado, Estrela e Encantado.",
-      action: "Evacuação e Resgate",
-      time: "08:30",
+      title: "Rio Taquari-Antas",
+      event: "Cheia / inundação crítica",
+      details: "A bacia do Rio Taquari-Antas apresenta risco crítico devido à elevação extremamente acelerada do Rio Taquari (+112 cm em 24h na estação TAQ-01 / RS) sob chuva acumulada torrencial severa de 261 mm em 7 dias (dado bruto). O score de anomalia do Isolation Forest de 0.91 indica comportamento grave. Recomenda-se acionar o protocolo de evacuação imediata com a Defesa Civil local, intensificar o monitoramento em tempo real das cotas de transbordo e emitir alertas preventivos à população ribeirinha nos municípios de Lajeado, Estrela e Encantado.",
+      action: "Evacuação / Alerta Máximo",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "91%"
     },
-    "Bacia do Rio Madeira": {
+    "Rio Madeira": {
       risk: "fail",
-      title: "Bacia do Rio Madeira",
-      event: "Falha física de sensor telemétrico",
-      details: "A região da Bacia do Rio Madeira (estação de Porto Velho MAD-02) exibe leitura nula (0 m³/s) sob chuva intensa. A validação cruzada com as estações vizinhas indica divergência física de hardware. Recomenda-se a suspensão de alertas automáticos e envio imediato de equipe técnica para desobstrução e calibração dos sensores de campo.",
-      action: "Manutenção Técnica",
-      time: "08:30",
+      title: "Rio Madeira",
+      event: "Suspeita de falha física de sensor",
+      details: "A bacia do Rio Madeira exibe uma leitura nula e inativa (0 m³/s e 0 cm) na estação fluviométrica de Porto Velho (MAD-02 / RO) sob precipitação acumulada elevada antecedente (243 mm, dado bruto). A validação cruzada espacial com a estação de Humaitá (AM) confirma a inconsistência física do sinal. Recomenda-se a suspensão imediata de alertas de inundação automáticos para este nó e o envio de equipe técnica de campo para desobstrução e inspeção de calibração do sensor físico.",
+      action: "Inspeção Técnica de Campo",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "88%"
     },
-    "Bacia do Rio São Francisco": {
+    "Rio São Francisco": {
       risk: "med",
-      title: "Bacia do Rio São Francisco",
-      event: "Escassez hídrica crônica",
-      details: "A região da Bacia do Rio São Francisco apresenta padrão de estiagem severa (Cluster 0), com vazão em declínio contínuo e operando a 31% da média histórica seasonal em Juazeiro. Recomenda-se acionar restrições graduais de captação para irrigação não essencial e coordenar com o comitê de bacia a gestão de descarga dos reservatórios.",
-      action: "Gestão de Outorgas",
-      time: "08:30",
+      title: "Rio São Francisco",
+      event: "Estiagem hídrica prolongada",
+      details: "A bacia do Rio São Francisco apresenta padrão de estiagem severa (Cluster 0), com vazão em declínio contínuo e operando a apenas 31% da média histórica sazonal em Juazeiro (SFR-03 / BA, dado consistido). Recomenda-se acionar restrições graduais de captação para irrigação de grande porte não essencial e coordenar com o comitê de bacia a gestão de descarga dos reservatórios principais.",
+      action: "Gestão de Outorgas / Captação",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "72%"
     },
-    "Pantanal Alto Paraguai": {
+    "Rio Paraguai": {
       risk: "high",
-      title: "Pantanal Alto Paraguai",
-      event: "Seca e variação hidrológica extrema",
-      details: "A região apresenta anomalia severa de baixo nível no Rio Paraguai em Corumbá (cota 28 cm). Recomenda-se controle rigoroso de captação nas cabeceiras e restrições preventivas à navegação de grande porte para evitar encalhes, além de reforço nas brigadas contra incêndios florestais.",
-      action: "Navegação / Captação",
-      time: "08:30",
+      title: "Rio Paraguai",
+      event: "Seca severa no Pantanal",
+      details: "A bacia do Rio Paraguai na estação de Alto Paraguai (PAN-04 / MT) exibe nível extremamente atípico e rebaixado (28 cm), estando 26% abaixo do desvio padrão sazonal esperado (dado bruto). O score de anomalia da IA é de 0.74. Recomenda-se o acionamento de alertas para navegação de grande porte para evitar encalhes, controle rigoroso de captações industriais no leito principal e reforço nas brigadas de incêndios florestais locais.",
+      action: "Alerta à Navegação e Captação",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "84%"
     },
-    "Recife Metropolitana": {
+    "Capibaribe": {
       risk: "high",
-      title: "Recife Metropolitana",
-      event: "Alagamento rápido",
-      details: "Risco alto devido a precipitação acumulada extrema (198 mm) na bacia urbana. Recomenda-se acionar pré-alerta para evacuação preventiva de encostas sob risco de deslizamento e mobilização imediata de equipes de drenagem urbana nos pontos críticos de Recife, Olinda e Jaboatão.",
-      action: "Evacuação Encostas",
-      time: "08:30",
+      title: "Capibaribe",
+      event: "Precipitação acumulada severa",
+      details: "A bacia urbana do Capibaribe em Recife (REC-05 / PE) exibe chuva acumulada severa de 96 mm em 24h e 198 mm em 7 dias (dado bruto). O score de anomalia de 0.69 gerou alerta de chuva extrema. Recomenda-se acionar pré-alerta para evacuação preventiva de encostas sob risco de deslizamento de terra e mobilização imediata de equipes de drenagem urbana nos pontos críticos de alagamento.",
+      action: "Drenagem e Deslizamentos",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "84%"
     },
-    "Bacia do Rio Doce": {
+    "Rio Doce": {
       risk: "med",
-      title: "Bacia do Rio Doce",
-      event: "Comportamento atípico / Sedimentos",
-      details: "Região em atenção por elevação de nível gradual (+18 cm) com aumento na turbidez. Recomenda-se acionar monitoramento químico especial de qualidade de água e notificar as concessionárias de tratamento para eventuais ajustes de coagulação.",
-      action: "Qualidade da Água",
-      time: "08:30",
+      title: "Rio Doce",
+      event: "Pressão hídrica / Turbidez",
+      details: "A bacia do Rio Doce em Governador Valadares (DOC-06 / MG) exibe nível de 298 cm com elevação gradual e turbidez de sedimentos atípica sob chuvas acumuladas de 118 mm (dado bruto). Recomenda-se acionar monitoramento químico especial de qualidade de água e notificar as concessionárias locais de tratamento para eventuais ajustes operacionais preventivos.",
+      action: "Monitorar Qualidade / Captação",
+      time: "17:30",
       model: "if-kmeans-v0.2",
       conf: "72%"
+    },
+    "Rio Parnaíba": {
+      risk: "low",
+      title: "Rio Parnaíba",
+      event: "Comportamento hídrico estável",
+      details: "A bacia do Rio Parnaíba (estação de Parnaíba SSE-08 / PI) exibe comportamento hidrológico estável dentro da normalidade estatística sazonal, com precipitação acumulada de apenas 14 mm em 7 dias (dado consistido). O score de anomalia da IA é baixo (0.22). Recomenda-se manter o ciclo ordinário de monitoramento eletrônico via satélite sem necessidade de intervenções.",
+      action: "Monitoramento Ordinário",
+      time: "17:30",
+      model: "if-kmeans-v0.2",
+      conf: "95%"
     }
   };
 
-  const rec = RECOMMENDATIONS[selectedRegion] || RECOMMENDATIONS["Bacia Taquari-Antas"];
+  const rec = RECOMMENDATIONS[selectedRegion] || RECOMMENDATIONS["Rio Taquari-Antas"];
 
   const groups = [
     { k: "crit", title: "Recomendações para risco CRÍTICO", items: [
@@ -126,7 +136,7 @@ export const Recommendations: React.FC = () => {
               onChange={e => setSelectedRegion(e.target.value)}
               style={{ fontSize: 12, padding: "5px 10px" }}
             >
-              {REGIONS.filter(r => r !== "Todas as regiões" && r !== "Bacia do Rio Amazonas" && r !== "Litoral Sudeste").map(r => (
+              {REGIONS.filter(r => r !== "Todas as regiões").map(r => (
                 <option key={r} value={r}>{r}</option>
               ))}
             </select>

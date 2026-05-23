@@ -22,7 +22,7 @@ export const CLUSTER_PROFILES: Record<string, ClusterProfile> = {
     lvl: "Vazão média: 31%",
     rain: "Precipitação: 45 mm (7d)",
     count: 28,
-    stations: "SF-03 (Juazeiro), Paraguai-04 (Corumbá), SF-02 (Petrolina)"
+    stations: "São Francisco (BA), Alto Paraguai (MT)"
   },
   "1": {
     name: "Cluster 1: Comportamento Normal",
@@ -31,7 +31,7 @@ export const CLUSTER_PROFILES: Record<string, ClusterProfile> = {
     lvl: "Vazão média: 100%",
     rain: "Precipitação: 110 mm (7d)",
     count: 62,
-    stations: "Solimões-07 (Manaus), SF-01 (Pirapora), Doce-02 (Ipatinga)"
+    stations: "Humaitá (AM), Parnaíba (PI)"
   },
   "2": {
     name: "Cluster 2: Transição Sazonal",
@@ -40,7 +40,7 @@ export const CLUSTER_PROFILES: Record<string, ClusterProfile> = {
     lvl: "Nível médio: 298 cm",
     rain: "Precipitação: 118 mm (7d)",
     count: 24,
-    stations: "Doce-06 (Gov. Valadares), Humaitá (Madeira-03), Doce-01 (Colatina)"
+    stations: "Rio Doce (MG), Humaitá (AM)"
   },
   "3": {
     name: "Cluster 3: Extremos de Inundação",
@@ -49,7 +49,7 @@ export const CLUSTER_PROFILES: Record<string, ClusterProfile> = {
     lvl: "Nível médio: 685 cm",
     rain: "Precipitação: 261 mm (7d)",
     count: 12,
-    stations: "Taquari-01 (Lajeado), Recife-05 (Recife), Taquari-02 (Estrela)"
+    stations: "Taquari (RS), Recife (PE)"
   },
   "-1": {
     name: "Cluster -1: Inconsistência Telemétrica (Falhas)",
@@ -57,7 +57,7 @@ export const CLUSTER_PROFILES: Record<string, ClusterProfile> = {
     desc: "Leituras anômalas isoladas por DBSCAN que exibem desconexão física: leitura de nível nulo sob forte chuva.",
     lvl: "Medição nula: 0 m³/s",
     rain: "Precipitação: 243 mm (7d)",
-    count: 2,
-    stations: "Madeira-02 (Porto Velho), Costeira-08 (Angra dos Reis)"
+    count: 1,
+    stations: "Porto Velho (RO)"
   }
 };
