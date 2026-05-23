@@ -24,46 +24,60 @@ interface AnomalyScoreChartProps {
   riskColor?: string;
 }
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: ChartDataPoint;
+  }>;
+  unit?: string;
+  riskColor?: string;
+}
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({
+  active,
+  payload,
+  unit = "cm",
+  riskColor = "var(--cyan)"
+}) => {
+  if (active && payload && payload.length) {
+    const p = payload[0].payload;
+    return (
+      <div className="card" style={{
+        padding: "10px 12px",
+        background: "oklch(0.20 0.03 235 / 0.96)",
+        border: "1px solid var(--border-soft)",
+        boxShadow: "0 4px 20px oklch(0 0 0 / 0.5)",
+        fontSize: 11
+      }}>
+        <div className="mono small" style={{ marginBottom: 4 }}>Dia {p.day}</div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+          <span style={{ color: "var(--text-2)" }}>Nível observado:</span>
+          <span className="mono" style={{ fontWeight: 600, color: p.anomaly ? "var(--risk-crit)" : riskColor }}>
+            {p.level} {unit}
+          </span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: 2 }}>
+          <span style={{ color: "var(--muted)" }}>Envelope climatológico:</span>
+          <span className="mono" style={{ color: "var(--muted)" }}>
+            {p.normalMin} - {p.normalMax} {unit}
+          </span>
+        </div>
+        {p.anomaly && (
+          <div style={{ color: "var(--risk-crit)", fontWeight: 600, marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
+            ⚠️ Anomalia Crítica Detectada
+          </div>
+        )}
+      </div>
+    );
+  }
+  return null;
+};
+
 export const AnomalyScoreChart: React.FC<AnomalyScoreChartProps> = ({
   data,
   unit = "cm",
   riskColor = "var(--cyan)"
 }) => {
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const p = payload[0].payload;
-      return (
-        <div className="card" style={{
-          padding: "10px 12px",
-          background: "oklch(0.20 0.03 235 / 0.96)",
-          border: "1px solid var(--border-soft)",
-          boxShadow: "0 4px 20px oklch(0 0 0 / 0.5)",
-          fontSize: 11
-        }}>
-          <div className="mono small" style={{ marginBottom: 4 }}>Dia {p.day}</div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
-            <span style={{ color: "var(--text-2)" }}>Nível observado:</span>
-            <span className="mono" style={{ fontWeight: 600, color: p.anomaly ? "var(--risk-crit)" : riskColor }}>
-              {p.level} {unit}
-            </span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: 2 }}>
-            <span style={{ color: "var(--muted)" }}>Envelope climatológico:</span>
-            <span className="mono" style={{ color: "var(--muted)" }}>
-              {p.normalMin} - {p.normalMax} {unit}
-            </span>
-          </div>
-          {p.anomaly && (
-            <div style={{ color: "var(--risk-crit)", fontWeight: 600, marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
-              ⚠️ Anomalia Crítica Detectada
-            </div>
-          )}
-        </div>
-      );
-    }
-    return null;
-  };
-
   // Find anomaly points for reference dots
   const anomalyPoints = data.filter(d => d.anomaly);
 
@@ -93,7 +107,7 @@ export const AnomalyScoreChart: React.FC<AnomalyScoreChartProps> = ({
             tick={{ fill: "var(--muted)", fontSize: 10, fontFamily: "var(--font-mono)" }} 
           />
           
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip unit={unit} riskColor={riskColor} />} />
 
           {/* Climatological Envelope (Area) */}
           <Area

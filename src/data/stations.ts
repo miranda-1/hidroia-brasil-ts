@@ -2,14 +2,14 @@ import type { Station, SubStation } from "../types/hydro";
 
 
 export const STATIONS: Station[] = [
-  { id: "TAQ-01", name: "Estação Taquari-01", city: "Lajeado",       region: "Bacia Taquari-Antas",    river: "Rio Taquari",    x: 470, y: 505, risk: "crit",  level: 685, rain7: 261, state: "RS", risk_type: "Cheia / inundação" },
-  { id: "MAD-02", name: "Estação Madeira-02", city: "Porto Velho",   region: "Bacia do Rio Madeira",   river: "Rio Madeira",    x: 260, y: 280, risk: "fail",  level: 0,   rain7: 243, state: "AM/RO", risk_type: "Falha de sensor" },
-  { id: "SFR-03", name: "Estação São Francisco-03", city: "Juazeiro", region: "Bacia do Rio São Francisco", river: "Rio São Francisco", x: 580, y: 215, risk: "med",   level: 31,  rain7: 48,  state: "MG/BA/PE", risk_type: "Escassez hídrica" },
-  { id: "PAN-04", name: "Estação Paraguai-04", city: "Corumbá",       region: "Pantanal Alto Paraguai", river: "Rio Paraguai",   x: 360, y: 390, risk: "high",  level: 28,  rain7: 36,  state: "MS/MT", risk_type: "Seca e variação" },
-  { id: "REC-05", name: "Estação Recife-05",  city: "Recife",        region: "Recife Metropolitana",   river: "Bacia urbana",   x: 710, y: 210, risk: "high",  level: 421, rain7: 198, state: "PE", risk_type: "Alagamento urbano" },
-  { id: "DOC-06", name: "Estação Doce-06",   city: "Gov. Valadares", region: "Bacia do Rio Doce",      river: "Rio Doce",       x: 610, y: 360, risk: "med",   level: 298, rain7: 118, state: "MG/ES", risk_type: "Pressão hídrica" },
-  { id: "AMZ-07", name: "Estação Solimões-07",city: "Manaus",        region: "Bacia do Rio Amazonas",  river: "Rio Solimões",   x: 220, y: 190, risk: "low",   level: 1240,rain7: 152, state: "AM", risk_type: "Comportamento normal" },
-  { id: "SSE-08", name: "Estação Costeira-08",city: "Angra dos Reis",region: "Litoral Sudeste",        river: "Estação Costeira",x: 550, y: 440, risk: "fail",  level: 0,   rain7: 0,   state: "RJ", risk_type: "Falha de sensor" }
+  { id: "TAQ-01", name: "Estação Taquari-01", city: "Lajeado",       region: "Bacia Taquari-Antas",    river: "Rio Taquari",    x: 406, y: 491, risk: "crit",  level: 685, rain7: 261, state: "RS", risk_type: "Cheia / inundação" },
+  { id: "MAD-02", name: "Estação Madeira-02", city: "Porto Velho",   region: "Bacia do Rio Madeira",   river: "Rio Madeira",    x: 250, y: 240, risk: "fail",  level: 0,   rain7: 243, state: "AM/RO", risk_type: "Falha de sensor" },
+  { id: "SFR-03", name: "Estação São Francisco-03", city: "Juazeiro", region: "Bacia do Rio São Francisco", river: "Rio São Francisco", x: 554, y: 199, risk: "med",   level: 31,  rain7: 48,  state: "MG/BA/PE", risk_type: "Escassez hídrica" },
+  { id: "PAN-04", name: "Estação Paraguai-04", city: "Corumbá",       region: "Pantanal Alto Paraguai", river: "Rio Paraguai",   x: 359, y: 372, risk: "high",  level: 28,  rain7: 36,  state: "MS/MT", risk_type: "Seca e variação" },
+  { id: "REC-05", name: "Estação Recife-05",  city: "Recife",        region: "Recife Metropolitana",   river: "Bacia urbana",   x: 644, y: 205, risk: "high",  level: 421, rain7: 198, state: "PE", risk_type: "Alagamento urbano" },
+  { id: "DOC-06", name: "Estação Doce-06",   city: "Gov. Valadares", region: "Bacia do Rio Doce",      river: "Rio Doce",       x: 554, y: 349, risk: "med",   level: 298, rain7: 118, state: "MG/ES", risk_type: "Pressão hídrica" },
+  { id: "AMZ-07", name: "Estação Solimões-07",city: "Manaus",        region: "Bacia do Rio Amazonas",  river: "Rio Solimões",   x: 301, y: 159, risk: "low",   level: 1240,rain7: 152, state: "AM", risk_type: "Comportamento normal" },
+  { id: "SSE-08", name: "Estação Costeira-08",city: "Angra dos Reis",region: "Litoral Sudeste",        river: "Estação Costeira",x: 539, y: 399, risk: "fail",  level: 0,   rain7: 0,   state: "RJ", risk_type: "Falha de sensor" }
 ];
 
 export const REGIONS: string[] = [

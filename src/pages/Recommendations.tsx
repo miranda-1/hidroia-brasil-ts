@@ -15,11 +15,7 @@ import {
   Cpu
 } from "lucide-react";
 
-interface RecommendationsProps {
-  // no props needed for this static/simulated dashboard
-}
-
-export const Recommendations: React.FC<RecommendationsProps> = () => {
+export const Recommendations: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>("Bacia Taquari-Antas");
 
   const RECOMMENDATIONS: Record<string, {

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import { 
   Home, 
@@ -46,7 +47,6 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
-  let lastGroup = "";
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -57,9 +57,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
         </div>
       </div>
       <nav className="nav">
-        {NAV_ITEMS.map(item => {
-          const showHeader = item.group !== lastGroup;
-          lastGroup = item.group;
+        {NAV_ITEMS.map((item, idx) => {
+          const showHeader = idx === 0 || item.group !== NAV_ITEMS[idx - 1].group;
           return (
             <React.Fragment key={item.k}>
               {showHeader && <div className="nav-section">{item.group}</div>}
