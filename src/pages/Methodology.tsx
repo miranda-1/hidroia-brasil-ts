@@ -40,7 +40,7 @@ export const Methodology: React.FC = () => {
       <PageHeader 
         category="METODOLOGIA DE CIÊNCIA DE DADOS" 
         title="Metodologia e Arquitetura de IA" 
-        subtitle="Como o HidroIA Brasil analisa séries temporais de dados públicos hidrometeorológicos usando Machine Learning Não Supervisionado."
+        subtitle="Como o HidroIA analisa séries temporais de dados públicos hidrometeorológicos usando Machine Learning Não Supervisionado."
         rightElement={
           <button className="btn btn-sm">
             <Download size={12} /> Artigo acadêmico (PDF)

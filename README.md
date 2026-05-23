@@ -1,6 +1,6 @@
-# 🌊 HidroIA Brasil
+# 🌊 HidroIA
 
-O **HidroIA Brasil** é uma plataforma acadêmica inovadora de monitoramento hídrico e análise hidrometeorológica por telemetria. Desenvolvido como um protótipo *frontend-only* para o **DAC — Desafio de Articulação de Competências** do 5º semestre do curso de Ciência da Computação, o projeto atua como um simulador inteligente SaaS de alta fidelidade visual. 
+O **HidroIA** é uma plataforma acadêmica inovadora de monitoramento hídrico e análise hidrometeorológica por telemetria. Desenvolvido como um protótipo *frontend-only* para o **DAC — Desafio de Articulação de Competências** do 5º semestre do curso de Ciência da Computação, o projeto atua como um simulador inteligente SaaS de alta fidelidade visual. 
 
 A plataforma simula a aplicação de algoritmos de Inteligência Artificial Não Supervisionada para segmentar perfis de comportamento das bacias hidrográficas brasileiras, detectar anomalias críticas de medição e apoiar decisões da Defesa Civil.
 
@@ -18,7 +18,7 @@ A plataforma simula a aplicação de algoritmos de Inteligência Artificial Não
 
 ## 📌 Visão Geral
 
-O principal propósito do **HidroIA Brasil** é demonstrar como o ecossistema tecnológico e conceitual de Ciência da Computação pode responder a demandas reais de prevenção de desastres socioambientais, saneamento e gestão de águas no Brasil. Suas metas principais incluem:
+O principal propósito do **HidroIA** é demonstrar como o ecossistema tecnológico e conceitual de Ciência da Computação pode responder a demandas reais de prevenção de desastres socioambientais, saneamento e gestão de águas no Brasil. Suas metas principais incluem:
 
 *   **Visualização de Dados Hidrológicos**: Transformar séries temporais de chuva (pluviometria) e níveis de água (fluviometria) simulados em painéis interativos ricos.
 *   **Representação Conceitual de IA**: Demonstrar visualmente a aplicação de algoritmos de Ciência de Dados (redução de dimensionalidade, agrupamento e detecção de *outliers*).
@@ -55,7 +55,7 @@ O sistema conta com um conjunto completo de painéis simulados operacionais:
 
 ## 🤖 Conceitos de IA Representados
 
-A inteligência analítica demonstrada na interface do **HidroIA Brasil** é embasada em técnicas consolidadas de Ciência de Dados, simuladas no frontend de maneira logicamente consistente:
+A inteligência analítica demonstrada na interface do **HidroIA** é embasada em técnicas consolidadas de Ciência de Dados, simuladas no frontend de maneira logicamente consistente:
 
 | Conceito Representado | Algoritmo Inspirador | Função no Protótipo |
 | :--- | :--- | :--- |
@@ -100,7 +100,7 @@ Apresenta a listagem e conexão técnica das disciplinas ministradas no 5º seme
 
 ## 🎓 Articulação com o DAC
 
-O **HidroIA Brasil** integra os saberes do 5º semestre do curso de Ciência da Computação através de justificativas e conceitos de engenharia específicos:
+O **HidroIA** integra os saberes do 5º semestre do curso de Ciência da Computação através de justificativas e conceitos de engenharia específicos:
 
 *   **Ciência de Dados**: Ciclo completo dos dados. Tratamento de *gaps*, padronização por *Z-Score*, representação gráfica avançada e modelagem teórica com K-Means e Isolation Forest.
 *   **Análise de Algoritmos**: Estrutura de busca reativa em tempo de $O(n)$ na base de dados, ordenação e classificação de incidentes em tempo de $O(n \log n)$ na exibição de logs e discussões sobre complexidade temporal e espacial.
@@ -193,7 +193,7 @@ Para clonar e testar o projeto no seu computador pessoal, certifique-se de ter o
 ## ⚠️ Limitações Importantes do Protótipo
 
 > [!WARNING]  
-> O **HidroIA Brasil** é exclusivamente um **protótipo educacional de apoio acadêmico** e possui restrições severas de infraestrutura e finalidade:
+> O **HidroIA** é exclusivamente um **protótipo educacional de apoio acadêmico** e possui restrições severas de infraestrutura e finalidade:
 > *   **Simulação Estrita**: Todas as leituras e telemetrias de sensores hidrográficos exibidas no site são fictícias e geradas de forma simulada.
 > *   **Sem Conexão Operacional**: O painel **não está integrado** operacionalmente com os servidores reais da Agência Nacional de Águas (ANA) ou do INMET. As marcas servem como referências conceituais de engenharia de dados.
 > *   **Frontend-Only**: Não existe banco de dados persistente (PostgreSQL, MongoDB) ou backend ativo (Node, Python). O estado reside puramente na memória RAM do navegador durante o uso.

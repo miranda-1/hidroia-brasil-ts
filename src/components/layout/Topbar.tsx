@@ -19,7 +19,7 @@ export const Topbar: React.FC<TopbarProps> = ({ route }) => {
 
   return (
     <div className="topbar">
-      <span className="topbar-crumb">HIDROIA BRASIL · {item.crumb}</span>
+      <span className="topbar-crumb">HIDROIA · {item.crumb}</span>
       <div style={{ width: 1, height: 16, background: "var(--border-soft)" }}/>
       <span className="topbar-title">{item.label}</span>
       <div className="topbar-spacer"/>

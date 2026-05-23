@@ -2,6 +2,7 @@ import React from "react";
 import { BrazilSensorMap } from "../components/map/BrazilSensorMap";
 import { STATIONS } from "../data/stations";
 import { WarningBox } from "../components/ui/WarningBox";
+import { WaterDropLogo } from "../components/ui/WaterDropLogo";
 import { 
   Database, 
   Layers, 
@@ -40,9 +41,9 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div className="row">
-          <div className="brand-mark" style={{ width: 30, height: 30 }}></div>
+          <WaterDropLogo size={30} />
           <div>
-            <div className="brand-name">Hidro<span>IA</span> Brasil</div>
+            <div className="brand-name">Hidro<span>IA</span></div>
             <div className="brand-sub">Ciência de Dados • v0.2 acadêmico</div>
           </div>
         </div>
@@ -86,7 +87,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             fontSize: 15, color: "var(--text-2)", lineHeight: 1.6,
             maxWidth: 580, marginTop: 24
           }}>
-            O <strong>HidroIA Brasil</strong> é uma plataforma acadêmica de aprendizado não supervisionado que integra dados brutos da ANA e do INMET. Através de K-Means, Isolation Forest e PCA, a plataforma detecta anomalias temporais, aponta falhas de sensores e apoia decisões estratégicas de gestão hídrica, ambiental e socioambiental.
+            O <strong>HidroIA</strong> é uma plataforma acadêmica de aprendizado não supervisionado que integra dados brutos da ANA e do INMET. Através de K-Means, Isolation Forest e PCA, a plataforma detecta anomalias temporais, aponta falhas de sensores e apoia decisões estratégicas de gestão hídrica, ambiental e socioambiental.
           </p>
 
           <div className="row" style={{ gap: 12, marginTop: 32 }}>
@@ -236,7 +237,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div>
-          HidroIA Brasil · Desafio de Articulação de Competências · Ciência da Computação · ANA • INMET
+          HidroIA · Desafio de Articulação de Competências · Ciência da Computação · ANA • INMET
         </div>
       </footer>
     </div>

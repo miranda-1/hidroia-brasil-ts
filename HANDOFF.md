@@ -1,7 +1,7 @@
-# HANDOFF — HidroIA Brasil / DAC 5º Semestre
+# HANDOFF — HidroIA / DAC 5º Semestre
 
 ## 1. Resumo executivo
-O **HidroIA Brasil** é um protótipo acadêmico frontend-only desenvolvido para o **DAC — Desafio de Articulação de Competências** do 5º semestre do curso de Ciência da Computação. O sistema serve como um painel dinâmico inteligente (SaaS ambiental/IA) projetado para o monitoramento hídrico, com ênfase na identificação de perfis hidrológicos, telemetria de sensores e detecção de anomalias por meio de Inteligência Artificial Não Supervisionada. 
+O **HidroIA** é um protótipo acadêmico frontend-only desenvolvido para o **DAC — Desafio de Articulação de Competências** do 5º semestre do curso de Ciência da Computação. O sistema serve como um painel dinâmico inteligente (SaaS ambiental/IA) projetado para o monitoramento hídrico, com ênfase na identificação de perfis hidrológicos, telemetria de sensores e detecção de anomalias por meio de Inteligência Artificial Não Supervisionada. 
 
 Seu principal objetivo acadêmico é materializar e integrar as competências e saberes adquiridos ao longo do semestre (Ciência de Dados, Análise de Algoritmos, Estruturas de Dados, Eletrônica Digital, Programação Paralela e Distribuída, e Gerência de Projetos de TI) sob a ótica de autonomia intelectual do estudante, respondendo a uma demanda real de gestão ambiental, saneamento básico e prevenção de desastres naturais no território nacional.
 
@@ -60,7 +60,7 @@ src/
 ├── components/      # Componentes reutilizáveis da interface, subdivididos em:
 │   ├── charts/      # Gráficos analíticos interativos (AnomalyScoreChart, ClusterScatterChart).
 │   ├── layout/      # Estrutura de navegação e envoltório principal (AppShell, Sidebar, Topbar).
-│   └── map/         # Mapa esquemático do Brasil e sensores interativos (BrazilSensorMap).
+│   ├── map/         # Mapa esquemático do Brasil e sensores interativos (BrazilSensorMap).
 │   └── ui/          # Elementos fundamentais e cartões visuais (PageHeader, MetricCard, SectionCard, StatusBadge, WarningBox, Spark).
 ├── data/            # Dados mockados e estruturados em TypeScript (anomalies, clusters, stations, etc.).
 ├── pages/           # Telas completas que compõem os fluxos da aplicação (Landing, Dashboard, Clustering, etc.).
@@ -75,7 +75,7 @@ src/
 ---
 
 ## 5. Arquitetura geral da aplicação
-O HidroIA Brasil adota uma arquitetura simplificada de página única (**Single Page Application — SPA**) controlada por estado no React, eliminando a necessidade de roteadores pesados como `react-router-dom`:
+O HidroIA adota uma arquitetura simplificada de página única (**Single Page Application — SPA**) controlada por estado no React, eliminando a necessidade de roteadores pesados como `react-router-dom`:
 
 1. **Controle de Rotas (`App.tsx`)**: O estado `route` gerencia a tela ativa na viewport como uma string (`landing`, `dashboard`, `clustering`, `anomalies`, `ai`, `rec`, `dac`, `data`). Uma função auxiliar `renderActiveScreen` intercepta esse estado e injeta a página React correspondente.
 2. **Envelopamento Estrutural (`AppShell.tsx`)**: Com exceção da Landing Page, todas as páginas internas da plataforma são renderizadas como filhas do componente `AppShell`. Isso garante uma interface unificada, onde a **Sidebar** lateral e a **Topbar** superior cercam o conteúdo dinâmico principal.
@@ -143,7 +143,7 @@ A aplicação possui 8 páginas principais projetadas para cobrir a experiência
 ### Layout
 - **`AppShell`**: Define o esqueleto visual do painel SaaS. Envolve o fluxo principal do site em um layout CSS Grid composto por uma coluna de navegação de largura fixa (248px) à esquerda e uma coluna flexível de conteúdo à direita.
 - **`Sidebar`**: Barra de navegação lateral. Renderiza a marca, o agrupamento de botões associados a ícones do Lucide e o rodapé institucional reforçando o caráter acadêmico. Possui efeito hover sutil e destaca a rota ativa mudando o background para um ciano suave e aplicando uma borda colorida.
-- **`Topbar`**: Barra de controle superior. Exibe os breadcrumbs, o título descritivo da tela, um ponto verde pulsante indicando estado de escuta telemétrica simulada, e o botão de atualização com feedback visual giratório.
+- **`Topbar`**: Barra de controle superior. Exibe os breadcrumbs, o título descritivo da tela, um ponto verde pras prateleiras telemétricas indicando estado de escuta telemétrica simulada, e o botão de atualização com feedback visual giratório.
 
 ### UI
 - **`PageHeader`**: Padroniza o cabeçalho das páginas, injetando opcionalmente uma categoria superior em caixa alta e na cor ciano, o título principal da tela, um texto descritivo secundário e botões ou seletores alinhados à direita.
@@ -154,7 +154,7 @@ A aplicação possui 8 páginas principais projetadas para cobrir a experiência
 - **`Spark`**: Gera sparklines (gráficos de linha miniatura) em formato de vetor SVG autônomo a partir de um array numérico, aplicando uma curva contínua e estilizada com opacidade sutil em tempo recorde de renderização.
 
 ### Visual / Especializados
-- **`BrazilSensorMap`**: Componente de cartografia esquemática do território nacional. Desenha os contornos do Brasil e as principais bacias fluviais a partir de caminhos vetoriais (`SVG Paths`) predefinidos. Recebe a lista de estações e plota dinamicamente os pinos dos sensores com base nas coordenadas calculadas, aplicando uma animação pulsante em gradiente vermelho se a estação exibir risco crítico, ou um anel giratório tracejado se o sensor estiver selecionado pelo usuário.
+- **`BrazilSensorMap`**: Componente de cartografia geográfica do território nacional. Desenha os contornos do Brasil e as principais bacias fluviais a partir de caminhos vetoriais (`SVG Paths`) predefinidos. Recebe a lista de estações e plota dinamicamente os pinos dos sensores com base nas coordenadas calculadas, aplicando uma animação pulsante em gradiente vermelho se a estação exibir risco crítico, ou um anel giratório tracejado se o sensor estiver selecionado pelo usuário.
 - **`AnomalyScoreChart`**: Gráfico analítico de linha e área da série temporal observada contra o envelope climatológico normal. Utiliza a biblioteca `recharts` configurando degradês de cores e posicionando manualmente bolinhas vermelhas (`ReferenceDot`) nos dias em que a leitura ultrapassou o limiar da Isolation Forest.
 - **`ClusterScatterChart`**: Componente interativo de dispersão em SVG que projeta a redução de dimensionalidade PCA das 128 estações geradas deterministicamente por semente matemática. Desenha círculos sombreados para ilustrar os centros abstratos dos clusters e renderiza um cartão de detalhes flutuante com informações de score e bacia conforme o usuário passa o mouse sobre os pontos.
 
@@ -186,7 +186,7 @@ Embora a aplicação execute em modo frontend-only sem um interpretador de model
 ---
 
 ## 10. Articulação com o DAC
-O HidroIA Brasil estabelece conexão explícita e direta com as disciplinas curriculares do 5º Semestre:
+O HidroIA estabelece conexão explícita e direta com as disciplinas curriculares do 5º Semestre:
 
 - **Ciência de Dados**: O protótipo demonstra o ciclo de vida dos dados, desde a captação, tratamento de gaps e normalização por Z-Score até a visualização rica e interpretativa de séries históricas de chuva e vazão.
 - **Análise de Algoritmos**: Conexão com a eficiência computacional das buscas, ordenação de rankings por criticidade de score e avaliação de complexidade de tempo ($O(n \log n)$ para rankings, $O(1)$ para tabelas hash de subestações), garantindo escalabilidade em bacias com milhares de sensores.
@@ -194,7 +194,7 @@ O HidroIA Brasil estabelece conexão explícita e direta com as disciplinas curr
 - **Eletrônica Digital**: Justifica a conversão do sinal físico (pressão do rio ou precipitação física) capturado por sensores de campo em sinais analógico-digitais (ADC) representados em barramentos digitais e transmitidos por buffers de telemetria, além de associar álgebra booleana e portas lógicas a validações básicas de hardware.
 - **Programação Paralela e Distribuída**: Debate sobre a arquitetura de processamento em larga escala necessária para avaliar simultaneamente as centenas de bacias federais, abordando conceitos teóricos de speedup, eficiência, paralelismo de dados regionais e aceleração matemática em GPU com CUDA.
 - **Gerência de Projetos em TI**: Estruturação do desenvolvimento seguindo boas práticas do PMBOK (gerenciamento de escopo, tempo, riscos de integridade de dados e garantia de qualidade) e adoção de metodologias ágeis (Scrum) para a condução do protótipo em ciclos rápidos.
-- **Autonomia Intelectual do Estudante**: Materializada no esforço ativo de pesquisa interdisciplinar e pensamento crítico da equipe ao projetar um sistema ético de apoio à decisão sem dependências operacionais externas cegas.
+- **Autonomia Intelectual do Estudante**: Materializada no esforço ativo de pesquisa interdisciplinar aplicada e na criação de um ecossistema integrador focado na ética e na responsabilidade social.
 
 ---
 
@@ -205,7 +205,7 @@ O HidroIA Brasil estabelece conexão explícita e direta com as disciplinas curr
 > 2. **Sem Backend e Banco**: Não há servidor rodando código estruturado, rotinas de scraping ativas ou banco de dados persistente. O estado do sistema reside na memória RAM do navegador durante a sessão.
 > 3. **Sem Integração Operacional**: O sistema não se conecta, via API ou requisição física, aos servidores da Agência Nacional de Águas (ANA) ou do Instituto Nacional de Meteorologia (INMET). As referências a esses órgãos no layout servem como indicação de fontes conceituais originais de inspiração.
 > 4. **Inteligência Artificial Conceitual**: Os scores, variâncias e clusters exibidos nos gráficos e painéis da interface gráfica são inferências mockadas de forma coerente e representações conceituais do pipeline matemático, sem a execução de modelos matemáticos ativos (como bibliotecas TensorFlow ou Scikit-Learn compiladas) rodando em tempo de execução no cliente.
-> 5. **Sem Caráter de Previsão de Desastres**: O HidroIA Brasil **não substitui** os boletins, alertas operacionais e previsões oficiais emitidos pela Defesa Civil, CEMADEN, ANA, INMET ou especialistas em hidrologia de campo. Ele é classificado unicamente como um **protótipo educacional de apoio à decisão**.
+> 5. **Sem Caráter de Previsão de Desastres**: O HidroIA **não substitui** os boletins, alertas operacionais e previsões oficiais emitidos pela Defesa Civil, CEMADEN, ANA, INMET ou especialistas em hidrologia de campo. Ele é classificado unicamente como um **protótipo educacional de apoio à decisão**.
 
 ---
 
@@ -220,7 +220,7 @@ A interface gráfica foi concebida sob os mais altos padrões estéticos das pla
 ---
 
 ## 13. Pontos de atenção para próximas alterações
-Se você for continuar o desenvolvimento do HidroIA Brasil ou implementar novas funcionalidades, atente-se a estas diretrizes:
+Se você for continuar o desenvolvimento do HidroIA ou implementar novas funcionalidades, atente-se a estas diretrizes:
 - **Preservar a Natureza Frontend-Only**: Não tente adicionar conexões pesadas de backend com NodeJS ou Python a menos que seja uma diretriz direta da disciplina do DAC. A leveza e o carregamento instantâneo do protótipo estático são grandes trunfos no momento da apresentação física.
 - **Não Vender como Sistema de Produção**: Preserve visíveis os avisos, disclaimers de rodapé e o componente `WarningBox` que protegem legal e tecnicamente a natureza de simulação da plataforma.
 - **Coerência Científica do DAC**: Qualquer alteração de funcionalidade ou adição de telas deve obrigatoriamente conversar com os conceitos de Ciência de Computação detalhados na tela de articulação. Evite remover a tela de metodologia ou a tela do DAC, pois são as de maior peso na nota final das bancas.

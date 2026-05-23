@@ -46,13 +46,15 @@ interface SidebarProps {
   go: (k: string) => void;
 }
 
+import { WaterDropLogo } from "../ui/WaterDropLogo";
+
 export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <div className="brand-mark"></div>
+        <WaterDropLogo />
         <div>
-          <div className="brand-name">Hidro<span>IA</span> Brasil</div>
+          <div className="brand-name">Hidro<span>IA</span></div>
           <div className="brand-sub">monitoramento hídrico</div>
         </div>
       </div>

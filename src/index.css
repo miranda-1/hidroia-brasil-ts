@@ -1,4 +1,4 @@
-/* HidroIA Brasil — visual system */
+/* HidroIA — visual system */
 
 :root {
   --bg-deep:     oklch(0.155 0.025 240);
@@ -93,15 +93,12 @@ button { font-family: inherit; cursor: pointer; }
     radial-gradient(circle at 30% 30%, oklch(0.92 0.12 185), oklch(0.55 0.18 215));
   position: relative;
   box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08), 0 6px 16px -6px oklch(0.55 0.18 215 / 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .brand-mark::after {
-  content: "";
-  position: absolute; inset: 8px;
-  border-radius: 50%;
-  border: 1.5px solid oklch(1 0 0 / 0.85);
-  border-bottom-color: transparent;
-  border-right-color: transparent;
-  transform: rotate(-45deg);
+  content: none;
 }
 .brand-name {
   font-weight: 600;

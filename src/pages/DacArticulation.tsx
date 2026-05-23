@@ -29,7 +29,7 @@ export const DacArticulation: React.FC = () => {
       <PageHeader 
         category="DAC • 5º SEMESTRE" 
         title="Articulação com o DAC" 
-        subtitle="Como as disciplinas do semestre se conectam à proposta do HidroIA Brasil."
+        subtitle="Como as disciplinas do semestre se conectam à proposta do HidroIA."
         rightElement={
           <span className="chip" style={{ padding: "4px 10px", fontSize: 11, background: "var(--cyan-soft)", color: "var(--cyan)", border: "1px solid var(--cyan)" }}>
             INTEGRAÇÃO ACADÊMICA
@@ -58,7 +58,7 @@ export const DacArticulation: React.FC = () => {
           <div className="card-title" style={{ fontSize: 18, fontWeight: 600 }}>Integração Geral do Projeto</div>
         </div>
         <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.6, margin: 0 }}>
-          O HidroIA Brasil foi desenvolvido como um artefato prático que materializa e consolida as competências exigidas no Desafio de Articulação de Competências (DAC) da Ciência da Computação. O projeto vai além do código bruto: ele conecta sensores eletrônicos simulados, engenharia de algoritmos de alta eficiência, paralelização em grande escala, rigoroso controle de projeto e autonomia intelectual para criar um painel dinâmico que atende a diretrizes reais de sustentabilidade e defesa civil no Brasil.
+          O HidroIA foi desenvolvido como um artefato prático que materializa e consolida as competências exigidas no Desafio de Articulação de Competências (DAC) da Ciência da Computação. O projeto vai além do código bruto: ele conecta sensores eletrônicos simulados, engenharia de algoritmos de alta eficiência, paralelização em grande escala, rigoroso controle de projeto e autonomia intelectual para criar um painel dinâmico que atende a diretrizes reais de sustentabilidade e defesa civil no Brasil.
         </p>
       </div>
 
@@ -132,7 +132,7 @@ export const DacArticulation: React.FC = () => {
           <div className="card-title" style={{ fontSize: 16, fontWeight: 600 }}>Síntese da Articulação</div>
         </div>
         <p style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.6, margin: 0 }}>
-          O HidroIA Brasil integra as competências do semestre ao transformar dados ambientais brutos em uma solução tecnológica de análise, visualização e apoio à decisão. A proposta une ciência de dados, algoritmos, estruturas de dados, eletrônica digital, paralelismo, gestão de projetos e autonomia intelectual em um protótipo acadêmico voltado à sustentabilidade e ao impacto social.
+          O HidroIA integra as competências do semestre ao transformar dados ambientais brutos em uma solução tecnológica de análise, visualização e apoio à decisão. A proposta une ciência de dados, algoritmos, estruturas de dados, eletrônica digital, paralelismo, gestão de projetos e autonomia intelectual em um protótipo acadêmico voltado à sustentabilidade e ao impacto social.
         </p>
       </div>
     </div>
