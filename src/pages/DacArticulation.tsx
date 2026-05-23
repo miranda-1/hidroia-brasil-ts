@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { DISCIPLINES } from "../data/disciplines";
 import { 
@@ -10,7 +10,9 @@ import {
   Calendar, 
   Shield, 
   Sparkles,
-  Check 
+  Check,
+  Info,
+  ArrowRight
 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -23,7 +25,10 @@ const iconMap: Record<string, React.ReactNode> = {
   Shield: <Shield size={16} />
 };
 
-export const DacArticulation: React.FC = () => {
+export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go }) => {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   return (
     <div className="page">
       <PageHeader 
@@ -69,54 +74,168 @@ export const DacArticulation: React.FC = () => {
         gap: 20,
         marginBottom: 24
       }}>
-        {DISCIPLINES.map((s, idx) => (
-          <div key={idx} className="card" style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            padding: 20,
-            border: "1px solid var(--border-soft)",
-            background: "var(--card-bg)"
-          }}>
-            <div>
-              <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                <span className="mono" style={{ fontSize: 28, fontWeight: 700, opacity: 0.15, lineHeight: 1 }}>{idx + 1 < 10 ? `0${idx + 1}` : idx + 1}</span>
-                <span className="chip" style={{
-                  padding: "2px 8px",
-                  fontSize: 10,
-                  fontWeight: 600,
-                  background: `${s.badgeColor}1a`,
-                  color: s.badgeColor,
-                  border: `1px solid ${s.badgeColor}33`
-                }}>
-                  {s.badge}
-                </span>
+        {DISCIPLINES.map((s, idx) => {
+          const isClickable = !!s.targetRoute;
+          const isHovered = hoveredId === s.id;
+          const isExpanded = expandedId === s.id;
+
+          return (
+            <div 
+              key={idx} 
+              className="card" 
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                padding: 20,
+                background: "var(--card-bg)",
+                border: isHovered && isClickable ? "1px solid var(--cyan)" : "1px solid var(--border-soft)",
+                boxShadow: isHovered && isClickable ? "0 0 16px var(--cyan-soft)" : "var(--shadow-card)",
+                cursor: isClickable ? "pointer" : "default",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                transform: isHovered && isClickable ? "translateY(-2px)" : "none"
+              }}
+              onMouseEnter={() => isClickable && setHoveredId(s.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              onClick={() => {
+                if (isClickable && go) {
+                  go(s.targetRoute!);
+                }
+              }}
+            >
+              <div>
+                <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                  <span className="mono" style={{ fontSize: 28, fontWeight: 700, opacity: 0.15, lineHeight: 1 }}>{idx + 1 < 10 ? `0${idx + 1}` : idx + 1}</span>
+                  <div className="row" style={{ gap: 8, alignItems: "center" }}>
+                    {/* Botão de Informações "Como usamos?" */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedId(isExpanded ? null : s.id);
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        padding: "2px 8px",
+                        fontSize: 10,
+                        fontWeight: 600,
+                        borderRadius: 4,
+                        background: isExpanded ? "var(--cyan-soft)" : "transparent",
+                        color: isExpanded ? "var(--cyan)" : "var(--text-3)",
+                        border: `1px solid ${isExpanded ? "var(--cyan)" : "var(--border-soft)"}`,
+                        cursor: "pointer",
+                        transition: "all 0.2s ease"
+                      }}
+                      title="Como usamos esta disciplina no projeto?"
+                    >
+                      <Info size={11} />
+                      <span>Como usamos?</span>
+                    </button>
+
+                    {/* Badge da Disciplina */}
+                    <span className="chip" style={{
+                      padding: "2px 8px",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      background: `${s.badgeColor}1a`,
+                      color: s.badgeColor,
+                      border: `1px solid ${s.badgeColor}33`
+                    }}>
+                      {s.badge}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="row" style={{ gap: 8, marginBottom: 10 }}>
+                  <span style={{ color: s.badgeColor, display: "flex", alignItems: "center" }}>
+                    {iconMap[s.iconName] || <Cpu size={16} />}
+                  </span>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>{s.name}</h3>
+                </div>
+
+                <p className="small" style={{ lineHeight: 1.5, color: "var(--text-2)", marginBottom: 14 }}>
+                  {s.summary}
+                </p>
+
+                {/* Caixa explicativa de aplicação da disciplina no HidroIA */}
+                {isExpanded && (
+                  <div 
+                    style={{
+                      marginTop: 8,
+                      marginBottom: 14,
+                      padding: 12,
+                      borderRadius: 6,
+                      background: "oklch(0.14 0.02 238 / 0.7)",
+                      border: "1px solid var(--cyan-soft)",
+                      borderLeft: "3px solid var(--cyan)",
+                      transition: "all 0.3s ease"
+                    }}
+                    onClick={(e) => e.stopPropagation()} // impede cliques na caixa explicativa de navegarem
+                  >
+                    <div style={{ fontSize: 10, fontWeight: 600, color: "var(--cyan)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                      Aplicação Prática no HidroIA:
+                    </div>
+                    <p className="small" style={{ color: "var(--text)", lineHeight: 1.4, margin: 0 }}>
+                      {s.applicationText}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <div className="row" style={{ gap: 8, marginBottom: 10 }}>
-                <span style={{ color: s.badgeColor, display: "flex", alignItems: "center" }}>
-                  {iconMap[s.iconName] || <Cpu size={16} />}
-                </span>
-                <h3 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>{s.name}</h3>
+              <div>
+                <div style={{ marginBottom: 12 }}>
+                  <div className="card-eyebrow" style={{ marginBottom: 6, fontSize: 10 }}>Tópicos Articulados</div>
+                  <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 5 }}>
+                    {s.topics.map((p, pIdx) => (
+                      <li key={pIdx} className="small" style={{ color: "var(--text)", lineHeight: 1.4 }}>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Indicação visual de destino */}
+                <div style={{ marginTop: 16, paddingTop: 12, borderTop: "1px solid var(--border-soft)" }}>
+                  {isClickable ? (
+                    <div 
+                      className="row" 
+                      style={{ 
+                        justifyContent: "space-between", 
+                        alignItems: "center", 
+                        color: isHovered ? "var(--cyan)" : "var(--text-2)", 
+                        transition: "all 0.2s ease" 
+                      }}
+                    >
+                      <span style={{ fontSize: 11, fontWeight: 600 }}>{s.visualIndication || "Abrir módulo aplicado"}</span>
+                      <ArrowRight 
+                        size={14} 
+                        style={{
+                          transform: isHovered ? "translateX(4px)" : "translateX(0)",
+                          transition: "transform 0.2s ease"
+                        }} 
+                      />
+                    </div>
+                  ) : (
+                    <div className="row" style={{ justifyContent: "space-between", alignItems: "center", color: "var(--text-3)" }}>
+                      <span style={{ fontSize: 11, fontWeight: 500, fontStyle: "italic" }}>{s.visualIndication || "Aplicação transversal"}</span>
+                      <span style={{ 
+                        fontSize: 9, 
+                        padding: "2px 6px", 
+                        borderRadius: 4, 
+                        background: "oklch(1 0 0 / 0.05)", 
+                        border: "1px solid var(--border-soft)", 
+                        textTransform: "uppercase" 
+                      }}>
+                        Conceitual
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <p className="small" style={{ lineHeight: 1.5, color: "var(--text-2)", marginBottom: 14 }}>
-                {s.summary}
-              </p>
             </div>
-
-            <div>
-              <div className="card-eyebrow" style={{ marginBottom: 6, fontSize: 10 }}>Tópicos Articulados</div>
-              <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 5 }}>
-                {s.topics.map((p, pIdx) => (
-                  <li key={pIdx} className="small" style={{ color: "var(--text)", lineHeight: 1.4 }}>
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Synthesis section */}

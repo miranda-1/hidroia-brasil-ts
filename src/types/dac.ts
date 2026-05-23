@@ -6,4 +6,7 @@ export interface Discipline {
   badge: string;
   badgeColor: string;
   iconName: string;
+  targetRoute?: string;
+  applicationText?: string;
+  visualIndication?: string;
 }

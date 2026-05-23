@@ -64,7 +64,7 @@ function App() {
       case "dac":
         return (
           <AppShell route={route} go={setRoute} screenLabel={getScreenLabel(route)}>
-            <DacArticulation />
+            <DacArticulation go={setRoute} />
           </AppShell>
         );
       case "data":

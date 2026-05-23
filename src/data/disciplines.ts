@@ -1,6 +1,5 @@
 import type { Discipline } from "../types/dac";
 
-
 export const DISCIPLINES: Discipline[] = [
   {
     id: "ds",
@@ -16,7 +15,10 @@ export const DISCIPLINES: Discipline[] = [
       "Criação de indicadores como chuva acumulada e média móvel",
       "Análise exploratória para entender padrões",
       "Criação de gráficos e visualizações ricas"
-    ]
+    ],
+    targetRoute: "data",
+    visualIndication: "Ir para Base de Dados",
+    applicationText: "No HidroIA, Ciência de Dados aparece na organização dos dados simulados de chuva, vazão, nível dos rios, criticidade e região. Esses dados alimentam indicadores, gráficos, filtros e a base consolidada."
   },
   {
     id: "aa",
@@ -32,7 +34,10 @@ export const DISCIPLINES: Discipline[] = [
       "Percorrer todas as leituras de uma estação: O(n)",
       "Criação de rankings de anomalias críticas de forma eficiente",
       "Busca por estação, data ou evento fora do padrão"
-    ]
+    ],
+    targetRoute: "anomalies",
+    visualIndication: "Ir para Anomalias",
+    applicationText: "No HidroIA, Análise de Algoritmos aparece na ordenação de anomalias por criticidade, na busca por estações, no ranqueamento de eventos e na avaliação conceitual de complexidade para grandes volumes de dados."
   },
   {
     id: "ed",
@@ -48,7 +53,10 @@ export const DISCIPLINES: Discipline[] = [
       "Listas encadeadas para inserir ou remover leituras inválidas",
       "Árvores para organizar país, região, bacia, estação e leituras",
       "Árvores AVL para consultas eficientes por data e estação"
-    ]
+    ],
+    targetRoute: "data",
+    visualIndication: "Ir para Base de Dados",
+    applicationText: "No HidroIA, Estruturas de Dados aparece na organização dos registros em listas, tabelas, agrupamentos por estação/região e estruturas que permitem percorrer, filtrar e consultar leituras simuladas."
   },
   {
     id: "dig",
@@ -64,7 +72,10 @@ export const DISCIPLINES: Discipline[] = [
       "Armazenamento e transmissão digital de dados",
       "Álgebra de Boole para regras simples de validação de hardware",
       "Portas lógicas para combinar condições de alerta e ruídos"
-    ]
+    ],
+    targetRoute: "dashboard",
+    visualIndication: "Ir para Dashboard",
+    applicationText: "No HidroIA, Eletrônica Digital aparece na origem conceitual dos dados: sensores, sinais, conversão analógico-digital, telemetria, ruídos e falhas de leitura."
   },
   {
     id: "ppd",
@@ -80,7 +91,10 @@ export const DISCIPLINES: Discipline[] = [
       "Soma de prefixos paralela para chuva acumulada rápida",
       "Métricas como tempo de execução, speedup, eficiência e escalabilidade",
       "Programação distribuída para consolidar resultados de bacias federais"
-    ]
+    ],
+    targetRoute: "ai",
+    visualIndication: "Ir para Metodologia",
+    applicationText: "No HidroIA, Programação Paralela e Distribuída aparece como possibilidade de processar múltiplas estações, regiões e janelas temporais simultaneamente, melhorando escalabilidade em uma versão futura."
   },
   {
     id: "gp",
@@ -96,7 +110,10 @@ export const DISCIPLINES: Discipline[] = [
       "Gerenciamento de riscos como instabilidade na coleta de dados",
       "Scrum para organizar o desenvolvimento do protótipo em sprints",
       "Planejamento de apresentações, documentação e handoff"
-    ]
+    ],
+    targetRoute: undefined,
+    visualIndication: "Aplicação transversal",
+    applicationText: "No HidroIA, Gerência de Projetos em TI aparece no planejamento do escopo, organização das entregas, controle de riscos, qualidade, comunicação e preparação da apresentação acadêmica."
   },
   {
     id: "aut",
@@ -111,6 +128,9 @@ export const DISCIPLINES: Discipline[] = [
       "Gestão do tempo para cumprir as metas acadêmicas",
       "Pensamento crítico sobre limitações e premissas do sistema",
       "Responsabilidade ética ao tratar o sistema como apoio, não substituto"
-    ]
+    ],
+    targetRoute: undefined,
+    visualIndication: "Base conceitual do projeto",
+    applicationText: "No HidroIA, Autonomia Intelectual aparece na pesquisa ativa, tomada de decisão, estudo das tecnologias, entendimento das limitações do protótipo e responsabilidade ética no uso de dados e IA."
   }
 ];
