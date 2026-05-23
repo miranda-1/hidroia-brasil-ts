@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { STATIONS } from "../../data/stations";
 
 export interface PcaPoint {
   id: string;
@@ -31,7 +32,7 @@ export const ClusterScatterChart: React.FC<ClusterScatterChartProps> = ({
 }) => {
   // Generate 128 stations for PCA Projection
   // Seedable/predictable coordinates to look beautiful and clustered
-  const pcaPoints = useMemo(() => {
+  const pcaPoints = useMemo<PcaPoint[]>(() => {
     const points: PcaPoint[] = [];
     const seedRandom = (seed: number) => {
       const x = Math.sin(seed) * 10000;
@@ -39,7 +40,7 @@ export const ClusterScatterChart: React.FC<ClusterScatterChartProps> = ({
     };
 
     // Original primary stations mapping for consistency
-    const exactStations = [
+    const exactStations: PcaPoint[] = [
       { id: "TAQ-01", name: "Estação Taquari", state: "RS", basin: "Rio Taquari-Antas", x: 440, y: 70, cluster: 3, score: 0.91, flow: "685 cm", rain: "261 mm" },
       { id: "REC-05", name: "Estação Recife", state: "PE", basin: "Capibaribe", x: 460, y: 90, cluster: 3, score: 0.69, flow: "Atípico", rain: "198 mm" },
       { id: "SFR-03", name: "Estação São Francisco", state: "BA", basin: "Rio São Francisco", x: 140, y: 230, cluster: 0, score: 0.63, flow: "31 cm", rain: "48 mm" },
@@ -98,100 +99,166 @@ export const ClusterScatterChart: React.FC<ClusterScatterChartProps> = ({
   }, []);
 
   const getClusterColor = (c: number): string => {
-    if (c === 0) return "var(--risk-med)";   // Estiagem (Amarelo)
-    if (c === 1) return "var(--risk-low)";   // Normal (Verde)
-    if (c === 2) return "var(--risk-high)";  // Transição (Laranja)
-    if (c === 3) return "var(--risk-crit)";  // Extremo (Vermelho)
-    return "var(--risk-fail)";              // Outlier (Cinza)
-  };
-
-  const getClusterText = (c: number): string => {
-    if (c === 0) return "Cluster 0 (Estiagem)";
-    if (c === 1) return "Cluster 1 (Normal)";
-    if (c === 2) return "Cluster 2 (Transição)";
-    if (c === 3) return "Cluster 3 (Extremo)";
-    return "Cluster -1 (Outlier)";
+    if (c === 0) return "var(--risk-med)";   // Estiagem
+    if (c === 1) return "var(--risk-low)";   // Normal
+    if (c === 2) return "var(--risk-high)";  // Transição
+    if (c === 3) return "var(--risk-crit)";  // Extremo
+    return "var(--risk-fail)";              // Outlier
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: 320, background: "oklch(1 0 0 / 0.015)", border: "1px solid var(--border-soft)", borderRadius: "var(--radius)" }}>
-      {/* Abstract PCA Axes */}
-      <div style={{ position: "absolute", left: 14, bottom: 10, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)", letterSpacing: "0.05em" }}>
-        COMPONENTE PRINCIPAL 1 (PC1)
-      </div>
-      <div style={{ position: "absolute", left: 10, top: 14, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)", letterSpacing: "0.05em", transform: "rotate(-90deg)", transformOrigin: "left top", marginTop: 120 }}>
-        COMPONENTE PRINCIPAL 2 (PC2)
-      </div>
+    <div style={{ 
+      position: "relative", 
+      background: "oklch(0.12 0.015 240)", 
+      borderRadius: 10, 
+      padding: 10, 
+      border: "1px solid var(--border-soft)" 
+    }}>
+      <svg viewBox="0 0 500 300" width="100%" height="340" style={{ display: "block" }}>
+        {/* Grid Lines */}
+        <line x1="250" x2="250" y1="10" y2="290" stroke="oklch(1 0 0 / 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+        <line x1="10" x2="490" y1="150" y2="150" stroke="oklch(1 0 0 / 0.08)" strokeWidth="1" strokeDasharray="3 3" />
 
-      <svg viewBox="0 0 500 300" style={{ width: "100%", height: "100%", display: "block" }}>
-        {/* Grid lines */}
-        <line x1="250" y1="0" x2="250" y2="300" stroke="var(--border-soft)" strokeDasharray="3 5" />
-        <line x1="0" y1="150" x2="500" y2="150" stroke="var(--border-soft)" strokeDasharray="3 5" strokeWidth={0.8} />
+        {/* Ambient Cluster Bubbles */}
+        <circle cx="160" cy="220" r="55" fill="var(--risk-med-bg)" opacity={0.14} stroke="var(--risk-med)" strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx="280" cy="140" r="75" fill="var(--risk-low-bg)" opacity={0.11} stroke="var(--risk-low)" strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx="360" cy="180" r="55" fill="var(--risk-high-bg)" opacity={0.14} stroke="var(--risk-high)" strokeWidth={1} strokeDasharray="3 3" />
+        <circle cx="430" cy="80" r="45" fill="var(--risk-crit-bg)" opacity={0.14} stroke="var(--risk-crit)" strokeWidth={1} strokeDasharray="3 3" />
 
-        {/* Cluster outline circles (abstract centers) */}
-        <circle cx="160" cy="220" r="50" fill="var(--risk-med-bg)" opacity={0.25} />
-        <circle cx="280" cy="140" r="70" fill="var(--risk-low-bg)" opacity={0.2} />
-        <circle cx="360" cy="180" r="50" fill="var(--risk-high-bg)" opacity={0.25} />
-        <circle cx="430" cy="80" r="40" fill="var(--risk-crit-bg)" opacity={0.25} />
-
-        {/* Scatter points */}
+        {/* Scatter Points */}
         {pcaPoints.map((p) => {
-          const isSelected = selectedCluster === "all" || selectedCluster === String(p.cluster);
-          const isHovered = hoveredStation?.id === p.id;
-          const isClicked = selectedStation?.id === p.id;
-
+          const active = selectedCluster === "all" || selectedCluster === String(p.cluster);
+          const hovered = hoveredStation && hoveredStation.id === p.id;
+          const selected = selectedStation && selectedStation.id === p.id;
           const color = getClusterColor(p.cluster);
 
           return (
-            <circle
-              key={p.id}
-              cx={p.x}
-              cy={p.y}
-              r={isHovered ? 8 : isClicked ? 7 : p.id.startsWith("EST") ? 4 : 6.5}
-              fill={color}
-              opacity={isSelected ? (isHovered ? 1 : 0.8) : 0.08}
-              stroke={isClicked ? "var(--text)" : isHovered ? "var(--text)" : p.id.startsWith("EST") ? "none" : "oklch(1 0 0 / 0.2)"}
-              strokeWidth={1.5}
-              style={{ cursor: "pointer", transition: "all 0.1s ease" }}
-              onMouseEnter={() => setHoveredStation(p)}
-              onMouseLeave={() => setHoveredStation(null)}
-              onClick={() => setSelectedStation(isClicked ? null : p)}
-            />
+            <g key={p.id}
+               style={{ cursor: "pointer", transition: "opacity 0.2s" }}
+               opacity={active ? (hovered || selected ? 1.0 : 0.85) : 0.15}
+               onClick={() => setSelectedStation(selected ? null : p)}
+               onMouseEnter={() => setHoveredStation(p)}
+               onMouseLeave={() => setHoveredStation(null)}>
+              
+              {/* Pulsating ring for selected or hovered dot */}
+              {(selected || hovered) && (
+                <circle cx={p.x} cy={p.y} r="12" fill="none" stroke={color} strokeWidth="1.5">
+                  <animate attributeName="r" values="9;13;9" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+              )}
+              
+              <circle 
+                cx={p.x} 
+                cy={p.y} 
+                r={selected ? 7.5 : hovered ? 7 : p.id.startsWith("EST") ? 4.5 : 6} 
+                fill={color} 
+                stroke="oklch(0 0 0 / 0.3)" 
+                strokeWidth={1} 
+              />
+            </g>
           );
         })}
       </svg>
 
-      {/* Hover card inside scatter */}
-      {hoveredStation && (
-        <div className="card" style={{
-          position: "absolute",
-          left: hoveredStation.x > 250 ? hoveredStation.x * 0.9 - 190 : hoveredStation.x * 0.9 + 20,
-          top: hoveredStation.y > 150 ? hoveredStation.y * 0.9 - 130 : hoveredStation.y * 0.9 + 10,
-          width: 200,
-          padding: 10,
-          background: "oklch(0.20 0.03 235 / 0.94)",
-          backdropFilter: "blur(6px)",
-          border: `1px solid ${getClusterColor(hoveredStation.cluster)}33`,
-          zIndex: 10,
-          pointerEvents: "none",
-          boxShadow: "0 8px 30px oklch(0 0 0 / 0.6)"
-        }}>
-          <div className="mono" style={{ fontSize: 9, color: "var(--muted-2)", marginBottom: 2 }}>{hoveredStation.id}</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text)" }}>{hoveredStation.name}</div>
-          <div className="small" style={{ fontSize: 10, color: "var(--text-2)", marginTop: 2 }}>{hoveredStation.basin} • {hoveredStation.state}</div>
-          
-          <div className="divider" style={{ margin: "6px 0" }} />
+      {/* Component Axes labels */}
+      <div style={{ position: "absolute", bottom: 12, right: 18, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)" }}>
+        PCA 1 — intensidade hidrológica (58.4% var)
+      </div>
+      <div style={{ position: "absolute", top: 12, left: 18, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)", transform: "rotate(90deg)", transformOrigin: "left top" }}>
+        PCA 2 — variação do comportamento (34.2% var)
+      </div>
+      
+      <div style={{ position: "absolute", bottom: 12, left: 18, fontSize: 8, color: "var(--text-3)", fontStyle: "italic" }}>
+        * PCA não representa localização geográfica. É uma projeção matemática de similaridade (protótipo acadêmico).
+      </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
-            <span style={{ color: "var(--muted)" }}>Score Anomalia:</span>
-            <span className="mono" style={{ fontWeight: 600, color: hoveredStation.score > 0.6 ? "var(--risk-crit)" : "var(--text)" }}>{hoveredStation.score}</span>
+      {/* Synchronized Tooltip */}
+      {(hoveredStation || selectedStation) && (() => {
+        const p = (hoveredStation || selectedStation)!;
+        const match = STATIONS.find(st => st.id === p.id);
+        const color = getClusterColor(p.cluster);
+        const clusterNames: Record<number, string> = {
+          0: "Estiagem crítica",
+          1: "Comportamento normal",
+          2: "Transição sazonal",
+          3: "Extremos de inundação",
+          [-1]: "Ruído / Falha de Sensor"
+        };
+
+        return (
+          <div style={{
+            position: "absolute", bottom: 18, left: 18,
+            padding: "10px 14px", borderRadius: 8,
+            background: "oklch(0.20 0.03 235 / 0.95)",
+            border: `1px solid ${color}`,
+            width: 250, backdropFilter: "blur(6px)",
+            pointerEvents: "none",
+            boxShadow: "0 8px 30px oklch(0 0 0 / 0.5)",
+            zIndex: 20
+          }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text)" }}>{match ? match.name : p.name}</div>
+            <div className="small mono" style={{ color: "var(--text-3)", marginTop: 2 }}>
+              UF: {match ? match.uf : p.state} • Bacia: {match ? match.basin : p.basin}
+            </div>
+            <div className="small" style={{ marginTop: 4, fontWeight: 500, color }}>
+              Perfil: {clusterNames[p.cluster] || "Desconhecido"}
+            </div>
+
+            <div style={{ margin: "6px 0", borderTop: "1px dashed var(--border-soft)" }} />
+
+            {/* Operational readings */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {match ? (
+                <>
+                  {match.type === "Fluviométrica" ? (
+                    <>
+                      {match.levelCm !== undefined && (
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Nível do Rio:</span>
+                          <span className="mono" style={{ color: "var(--cyan)" }}>{match.levelCm} cm</span>
+                        </div>
+                      )}
+                      {match.flowM3s !== undefined && (
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Vazão Estimada:</span>
+                          <span className="mono" style={{ color: "var(--cyan)" }}>{match.flowM3s.toLocaleString()} m³/s</span>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="small italic" style={{ fontSize: 9, color: "var(--text-3)", marginBottom: 2 }}>
+                      Estação Pluviométrica (Medição de Chuva)
+                    </div>
+                  )}
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                    <span style={{ color: "var(--text-3)" }}>Chuva 24h:</span>
+                    <span className="mono" style={{ color: "var(--aqua)" }}>{match.rainfall24hMm} mm</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                    <span style={{ color: "var(--text-3)" }}>Acumulado 7d:</span>
+                    <span className="mono" style={{ color: "var(--aqua)" }}>{match.rainfall7dMm} mm</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                    <span style={{ color: "var(--text-3)" }}>Vazão / Nível:</span>
+                    <span className="mono" style={{ color: "var(--cyan)" }}>{p.flow}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                    <span style={{ color: "var(--text-3)" }}>Precipitação 7d:</span>
+                    <span className="mono" style={{ color: "var(--aqua)" }}>{p.rain}</span>
+                  </div>
+                </>
+              )}
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginTop: 2 }}>
+                <span style={{ color: "var(--text-3)" }}>Score IA (Anomalia):</span>
+                <span className="mono" style={{ fontWeight: 600, color: p.score > 0.6 ? "var(--risk-crit)" : "var(--text)" }}>{p.score.toFixed(2)}</span>
+              </div>
+            </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginTop: 2 }}>
-            <span style={{ color: "var(--muted)" }}>Agrupamento:</span>
-            <span style={{ fontWeight: 600, color: getClusterColor(hoveredStation.cluster) }}>{getClusterText(hoveredStation.cluster)}</span>
-          </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 };

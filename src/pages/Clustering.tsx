@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { Spark } from "../components/ui/Spark";
 import { CLUSTER_PROFILES } from "../data/clusters";
+import { STATIONS } from "../data/stations";
 
 import { 
   RefreshCw, 
@@ -126,16 +127,16 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
       {/* K-Means KPIs */}
       <div className="kpis">
         {[
-          { label: "Algoritmo de Agrupamento", value: "K-Means", trend: "Não Supervisionado" },
-          { label: "Número de Clusters (K)", value: "4 + Ruídos", trend: "K ótimo (Elbow)" },
-          { label: "Coeficiente Silhouette", value: "0.71", trend: "Alta densidade" },
-          { label: "Registros Analisados", value: "12.480", trend: "Dados ANA/INMET" },
-          { label: "Variabilidade Explicada", value: "92%", trend: "2 componentes PCA" }
+          { label: "Algoritmo", value: "K-Means", trend: "Agrupamento não supervisionado" },
+          { label: "Clusters", value: "4 + ruído", trend: "Perfis hidrológicos simulados" },
+          { label: "Silhouette", value: "0.71", trend: "Boa separação entre grupos" },
+          { label: "Base analisada", value: "8 estações", trend: "Leituras hidrometeorológicas simuladas" },
+          { label: "PCA", value: "92%", trend: "Variabilidade explicada" }
         ].map((k, i) => (
           <div key={i} className="kpi">
             <div className="kpi-label">{k.label}</div>
             <div className="kpi-value">{k.value}</div>
-            <div className="kpi-trend down">● {k.trend}</div>
+            <div className="kpi-trend down" style={{ color: "var(--text-3)" }}>● {k.trend}</div>
             <div className="kpi-spark">
               <Spark data={[15, 22, 25, 32, 45, 41, 38]} color="var(--cyan)" />
             </div>
@@ -146,11 +147,16 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
       {/* Scatter plot and side panel */}
       <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, marginTop: 18 }}>
         <div className="card" style={{ padding: 20 }}>
-          <div className="card-head" style={{ marginBottom: 12 }}>
-            <div className="card-title">
-              <Layers size={14} className="ico" style={{ marginRight: 6 }} /> Projeção PCA 2D · Espaço de Estados Hidrológicos
+          <div style={{ marginBottom: 14 }}>
+            <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
+              <Layers size={16} className="ico" style={{ marginRight: 8, color: "var(--cyan)" }} /> Mapa de similaridade das estações
             </div>
-            <span className="mono small">PCA (Componente 1 e 2)</span>
+            <div className="card-eyebrow" style={{ marginTop: 4, textTransform: "none", fontSize: 11, color: "var(--text-3)", letterSpacing: "normal" }}>
+              Projeção PCA dos dados simulados usados pelo K-Means
+            </div>
+            <p className="small" style={{ margin: "6px 0 0 0", color: "var(--text-2)", lineHeight: 1.4 }}>
+              Cada ponto representa uma estação hidrometeorológica simulada. Pontos próximos possuem comportamento parecido.
+            </p>
           </div>
 
           {/* Interactive SVG scatter plot */}
@@ -159,6 +165,12 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
               {/* Grid Lines */}
               <line x1="250" x2="250" y1="10" y2="290" stroke="oklch(1 0 0 / 0.08)" strokeWidth="1" strokeDasharray="3 3" />
               <line x1="10" x2="490" y1="150" y2="150" stroke="oklch(1 0 0 / 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+
+              {/* Bolhas/Áreas suaves de agrupamento de clusters (K-Means) */}
+              <circle cx="160" cy="220" r="55" fill="var(--risk-med-bg)" opacity={0.14} stroke="var(--risk-med)" strokeWidth={1} strokeDasharray="3 3" />
+              <circle cx="280" cy="140" r="75" fill="var(--risk-low-bg)" opacity={0.11} stroke="var(--risk-low)" strokeWidth={1} strokeDasharray="3 3" />
+              <circle cx="360" cy="180" r="55" fill="var(--risk-high-bg)" opacity={0.14} stroke="var(--risk-high)" strokeWidth={1} strokeDasharray="3 3" />
+              <circle cx="430" cy="80" r="45" fill="var(--risk-crit-bg)" opacity={0.14} stroke="var(--risk-crit)" strokeWidth={1} strokeDasharray="3 3" />
 
               {/* Points */}
               {pcaPoints.map((p) => {
@@ -184,12 +196,19 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                     
                     {/* Ring for selected / hovered point */}
                     {(selected || hovered) && (
-                      <circle cx={p.x} cy={p.y} r="8" fill="none" stroke={color} strokeWidth="1.5">
-                        <animate attributeName="r" values="6;10;6" dur="1.5s" repeatCount="indefinite" />
+                      <circle cx={p.x} cy={p.y} r="12" fill="none" stroke={color} strokeWidth="1.5">
+                        <animate attributeName="r" values="9;13;9" dur="1.5s" repeatCount="indefinite" />
                       </circle>
                     )}
                     
-                    <circle cx={p.x} cy={p.y} r={selected ? 4.5 : hovered ? 4 : 3} fill={color} />
+                    <circle 
+                      cx={p.x} 
+                      cy={p.y} 
+                      r={selected ? 7.5 : hovered ? 7 : p.id.startsWith("EST") ? 4.5 : 6} 
+                      fill={color} 
+                      stroke="oklch(0 0 0 / 0.3)" 
+                      strokeWidth={1} 
+                    />
                   </g>
                 );
               })}
@@ -197,48 +216,146 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
 
             {/* Component Axes labels */}
             <div style={{ position: "absolute", bottom: 12, right: 18, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)" }}>
-              PCA 1 (58.4% var)
+              PCA 1 — intensidade hidrológica (58.4% var)
             </div>
             <div style={{ position: "absolute", top: 12, left: 18, fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted)", transform: "rotate(90deg)", transformOrigin: "left top" }}>
-              PCA 2 (34.2% var)
+              PCA 2 — variação do comportamento (34.2% var)
+            </div>
+            
+            <div style={{ position: "absolute", bottom: 12, left: 18, fontSize: 8, color: "var(--text-3)", fontStyle: "italic" }}>
+              * PCA não representa localização geográfica. É uma projeção matemática de similaridade (protótipo acadêmico).
             </div>
 
             {/* Tooltip inline */}
-            {(hoveredStation || selectedStation) && (
-              <div style={{
-                position: "absolute", bottom: 18, left: 18,
-                padding: "8px 12px", borderRadius: 8,
-                background: "oklch(0.20 0.03 235 / 0.95)",
-                border: "1px solid var(--border)",
-                maxWidth: 240, backdropFilter: "blur(6px)",
-                pointerEvents: "none"
-              }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text)" }}>{(hoveredStation || selectedStation)!.name}</div>
-                <div className="small mono" style={{ color: "var(--text-2)", marginTop: 2 }}>
-                  Estado: {(hoveredStation || selectedStation)!.state} • Cluster {(hoveredStation || selectedStation)!.cluster}
+            {(hoveredStation || selectedStation) && (() => {
+              const p = (hoveredStation || selectedStation)!;
+              const match = STATIONS.find(st => st.id === p.id);
+              const colors: Record<number, string> = {
+                0: "var(--risk-med)",
+                1: "var(--risk-low)",
+                2: "var(--risk-high)",
+                3: "var(--risk-crit)",
+                [-1]: "var(--risk-fail)"
+              };
+              const color = colors[p.cluster] || "var(--text)";
+              const clusterNames: Record<number, string> = {
+                0: "Estiagem crítica",
+                1: "Comportamento normal",
+                2: "Transição sazonal",
+                3: "Extremos de inundação",
+                [-1]: "Ruído / Falha de Sensor"
+              };
+
+              return (
+                <div style={{
+                  position: "absolute", bottom: 18, left: 18,
+                  padding: "10px 14px", borderRadius: 8,
+                  background: "oklch(0.20 0.03 235 / 0.95)",
+                  border: `1px solid ${color}`,
+                  width: 250, backdropFilter: "blur(6px)",
+                  pointerEvents: "none",
+                  boxShadow: "0 8px 30px oklch(0 0 0 / 0.5)",
+                  zIndex: 20
+                }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text)" }}>{match ? match.name : p.name}</div>
+                  <div className="small mono" style={{ color: "var(--text-3)", marginTop: 2 }}>
+                    UF: {match ? match.uf : p.state} • Bacia: {match ? match.basin : p.basin}
+                  </div>
+                  <div className="small" style={{ marginTop: 4, fontWeight: 500, color }}>
+                    Perfil: {clusterNames[p.cluster] || "Desconhecido"}
+                  </div>
+
+                  <div style={{ margin: "6px 0", borderTop: "1px dashed var(--border-soft)" }} />
+
+                  {/* Leituras Operacionais */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                    {match ? (
+                      <>
+                        {match.type === "Fluviométrica" ? (
+                          <>
+                            {match.levelCm !== undefined && (
+                              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                                <span style={{ color: "var(--text-3)" }}>Nível do Rio:</span>
+                                <span className="mono" style={{ color: "var(--cyan)" }}>{match.levelCm} cm</span>
+                              </div>
+                            )}
+                            {match.flowM3s !== undefined && (
+                              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                                <span style={{ color: "var(--text-3)" }}>Vazão Estimada:</span>
+                                <span className="mono" style={{ color: "var(--cyan)" }}>{match.flowM3s.toLocaleString()} m³/s</span>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="small italic" style={{ fontSize: 9, color: "var(--text-3)", marginBottom: 2 }}>
+                            Estação Pluviométrica (Medição de Chuva)
+                          </div>
+                        )}
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Chuva 24h:</span>
+                          <span className="mono" style={{ color: "var(--aqua)" }}>{match.rainfall24hMm} mm</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Acumulado 7d:</span>
+                          <span className="mono" style={{ color: "var(--aqua)" }}>{match.rainfall7dMm} mm</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Vazão / Nível:</span>
+                          <span className="mono" style={{ color: "var(--cyan)" }}>{p.flow}</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                          <span style={{ color: "var(--text-3)" }}>Precipitação 7d:</span>
+                          <span className="mono" style={{ color: "var(--aqua)" }}>{p.rain}</span>
+                        </div>
+                      </>
+                    )}
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginTop: 2 }}>
+                      <span style={{ color: "var(--text-3)" }}>Score IA (Anomalia):</span>
+                      <span className="mono" style={{ fontWeight: 600, color: p.score > 0.6 ? "var(--risk-crit)" : "var(--text)" }}>{p.score.toFixed(2)}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="small" style={{ color: "var(--cyan)", marginTop: 4 }}>
-                  Leitura: {(hoveredStation || selectedStation)!.flow} • Chuva: {(hoveredStation || selectedStation)!.rain}
-                </div>
-              </div>
-            )}
+              );
+            })()}
+          </div>
+
+          {/* Legenda explicativa rica */}
+          <div style={{ 
+            marginTop: 14, 
+            padding: "10px 14px", 
+            borderRadius: 8, 
+            background: "oklch(1 0 0 / 0.01)", 
+            border: "1px solid var(--border-soft)", 
+            fontSize: 11,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "8px 16px",
+            color: "var(--text-2)"
+          }}>
+            <div>• <strong style={{ color: "var(--text)" }}>Cada ponto:</strong> uma estação simulada monitorada.</div>
+            <div>• <strong style={{ color: "var(--text)" }}>Distância:</strong> grau de similaridade (comportamento próximo).</div>
+            <div>• <strong style={{ color: "var(--text)" }}>Cores:</strong> perfis hidrológicos (clusters do K-Means).</div>
+            <div>• <strong style={{ color: "var(--text)" }}>Ponto isolado:</strong> possível ruído ou falha física de sensor.</div>
           </div>
 
           {/* Color filter legend */}
-          <div style={{ display: "flex", gap: 8, marginTop: 14, justifyContent: "space-between", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 6, marginTop: 12, justifyContent: "space-between", flexWrap: "wrap" }}>
             {[
-              { k: "all", l: "Todos", c: "var(--text)" },
-              { k: "0", l: "Estiagem", c: "var(--risk-med)" },
-              { k: "1", l: "Normal", c: "var(--risk-low)" },
-              { k: "2", l: "Transição", c: "var(--risk-high)" },
-              { k: "3", l: "Extremo", c: "var(--risk-crit)" },
-              { k: "-1", l: "Ruído/Falha", c: "var(--risk-fail)" }
+              { k: "all", l: "Todos os perfis", c: "var(--text)" },
+              { k: "0", l: "Estiagem crítica", c: "var(--risk-med)" },
+              { k: "1", l: "Comportamento normal", c: "var(--risk-low)" },
+              { k: "2", l: "Transição sazonal", c: "var(--risk-high)" },
+              { k: "3", l: "Extremos de inundação", c: "var(--risk-crit)" },
+              { k: "-1", l: "Ruído/Falha de Sensor", c: "var(--risk-fail)" }
             ].map(item => (
               <button key={item.k}
                       onClick={() => { setSelectedCluster(item.k); setSelectedStation(null); }}
                       className={`btn btn-sm ${selectedCluster === item.k ? "" : "btn-ghost"}`}
                       style={{
-                        fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                        fontSize: 11, padding: "4px 8px", borderRadius: 6,
                         border: selectedCluster === item.k ? `1px solid ${item.c}` : "1px solid transparent",
                         color: item.c
                       }}>
@@ -284,8 +401,28 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                 </div>
               </div>
             ) : (
-              <div className="small" style={{ color: "var(--muted)", display: "flex", alignItems: "center", gap: 6 }}>
-                <HelpCircle size={14} /> Selecione um cluster abaixo do gráfico para ver seu perfil interpretado de inteligência artificial.
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <p className="small" style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
+                  Cada ponto representa uma estação hidrometeorológica simulada. O algoritmo K-Means agrupa estações com leituras parecidas, usando atributos como chuva, vazão, nível do rio e score de anomalia.
+                </p>
+                <p className="small" style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
+                  Quando um grupo aparece separado dos outros, significa que ele possui comportamento diferente, como seca, cheia, transição sazonal ou falha de sensor.
+                </p>
+                <div style={{ 
+                  marginTop: 4, 
+                  padding: 10, 
+                  borderRadius: 8, 
+                  background: "oklch(1 0 0 / 0.02)", 
+                  border: "1px dashed var(--border-soft)",
+                  color: "var(--cyan)",
+                  fontSize: 11,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6
+                }}>
+                  <HelpCircle size={14} style={{ flexShrink: 0 }} />
+                  <span>Dica: Clique nos botões de perfil abaixo do gráfico para analisar detalhadamente cada grupo hidrológico.</span>
+                </div>
               </div>
             )}
           </div>
