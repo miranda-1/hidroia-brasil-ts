@@ -65,7 +65,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
             <React.Fragment key={item.k}>
               {showHeader && <div className="nav-section">{item.group}</div>}
               <button className={`nav-item ${route === item.k ? "active" : ""}`}
-                      onClick={() => go(item.k)}>
+                      onClick={() => go(item.k)}
+                      title={item.label}>
                 <span className="ico">{iconMap[item.iconName]}</span>
                 <span>{item.label}</span>
               </button>
