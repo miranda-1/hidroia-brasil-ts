@@ -9,17 +9,21 @@ import {
   ShieldAlert, 
   Cpu, 
   ArrowRight,
-  AlertTriangle,
-  LayoutGrid
+  AlertTriangle
 } from "lucide-react";
-
-
 
 interface LandingProps {
   go: (k: string) => void;
 }
 
 export const Landing: React.FC<LandingProps> = ({ go }) => {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <div style={{
       minHeight: "100vh",
@@ -41,18 +45,10 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
       }}>
         <div className="row">
           <WaterDropLogo size={30} />
-          <div>
-            <div className="brand-name">Hidro<span>IA</span></div>
-            <div className="brand-sub">Ciência de Dados • v0.2 acadêmico</div>
-          </div>
+          <div className="brand-name" style={{ fontSize: 18 }}>Hidro<span>IA</span></div>
         </div>
         <nav className="row" style={{ gap: 28, fontSize: 13, color: "var(--text-2)" }}>
-          <a style={{ color: "inherit", textDecoration: "none" }} href="#sobre">Sobre</a>
-          <a style={{ color: "inherit", textDecoration: "none" }} href="#limitacoes">Limitações</a>
-          <a style={{ color: "inherit", textDecoration: "none" }} href="#academico">Acadêmico</a>
-          <button className="btn btn-ghost btn-sm" onClick={() => go("dashboard")}>
-            Entrar na plataforma <ArrowRight size={12} />
-          </button>
+          <a style={{ color: "inherit", textDecoration: "none", cursor: "pointer", fontWeight: 500 }} onClick={(e) => handleScroll(e, "sobre")}>Sobre</a>
         </nav>
       </header>
 
@@ -72,21 +68,26 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             </span>
           </div>
           <h1 style={{
-            fontSize: 52, fontWeight: 600, letterSpacing: "-0.03em",
-            margin: 0, lineHeight: 1.1, textWrap: "balance"
+            fontSize: 54, fontWeight: 600, letterSpacing: "-0.03em",
+            margin: 0, lineHeight: 1.12, textWrap: "balance", maxWidth: 640
           }}>
-            Análise hidrometeorológica com{" "}
-            <span style={{
-              background: "linear-gradient(180deg, var(--aqua), var(--cyan))",
-              WebkitBackgroundClip: "text", color: "transparent"
-            }}>dados simulados</span>{" "}
-            e IA conceitual.
+            Análise hidrometeorológica
+            <span style={{ display: "block", marginTop: 4 }}>
+              com{" "}
+              <span style={{
+                background: "linear-gradient(180deg, var(--aqua), var(--cyan))",
+                WebkitBackgroundClip: "text", color: "transparent"
+              }}>dados simulados</span>
+            </span>
+            <span style={{ display: "block", marginTop: 4 }}>e IA conceitual.</span>
           </h1>
           <p style={{
             fontSize: 15, color: "var(--text-2)", lineHeight: 1.6,
             maxWidth: 580, marginTop: 28
           }}>
-            O <strong>HidroIA</strong> é um protótipo acadêmico frontend-only que organiza, visualiza e interpreta dados hidrometeorológicos simulados, com estrutura inspirada na ANA/HIDRO. A plataforma demonstra conceitos de K-Means, PCA e detecção de anomalias para apoiar a análise socioambiental.
+            O <strong>HidroIA</strong> é um protótipo acadêmico frontend-only que organiza, visualiza e interpreta dados hidrometeorológicos simulados com estrutura inspirada na ANA/HIDRO.
+            <br /><br />
+            A plataforma demonstra conceitos de K-Means, PCA e detecção de anomalias para apoiar a análise socioambiental.
           </p>
 
           <div className="row" style={{ gap: 12, marginTop: 36 }}>
@@ -100,7 +101,9 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
                 fontWeight: 600,
                 boxShadow: "0 0 24px oklch(0.78 0.13 210 / 0.35)",
                 transition: "all 0.22s ease-in-out",
-                textShadow: "0 1px 2px rgba(0, 0, 0, 0.15)"
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.15)",
+                padding: "12px 24px",
+                fontSize: "14px"
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "oklch(0.83 0.11 210)";
@@ -115,28 +118,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <LayoutGrid size={14} style={{ marginRight: 4 }} /> Ver Dashboard
-            </button>
-            <button 
-              className="btn btn-ghost" 
-              onClick={() => go("ai")}
-              style={{
-                borderColor: "oklch(0.78 0.13 210 / 0.3)",
-                color: "var(--text-2)",
-                transition: "all 0.22s ease-in-out"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "oklch(0.78 0.13 210 / 0.65)";
-                e.currentTarget.style.color = "var(--text)";
-                e.currentTarget.style.background = "oklch(0.78 0.13 210 / 0.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "oklch(0.78 0.13 210 / 0.3)";
-                e.currentTarget.style.color = "var(--text-2)";
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              Metodologia de IA <ArrowRight size={14} />
+              Entrar na plataforma <ArrowRight size={16} style={{ marginLeft: 6 }} />
             </button>
           </div>
 
@@ -241,7 +223,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
       </section>
 
       {/* Features strip */}
-      <section id="sobre" style={{
+      <section style={{
         padding: "30px 48px 60px",
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
@@ -265,52 +247,68 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         ))}
       </section>
 
-      {/* Limitações do protótipo */}
-      <section id="limitacoes" style={{ padding: "10px 48px 60px" }}>
-        <div className="card" style={{
-          background: "oklch(0.14 0.015 238 / 0.7)",
-          borderColor: "oklch(1 0 0 / 0.08)",
-          padding: "24px 28px",
-          borderRadius: 12
+      {/* Seção Sobre o HidroIA */}
+      <section id="sobre" style={{
+        padding: "60px 48px",
+        borderTop: "1px solid var(--border-soft)",
+        background: "oklch(0.16 0.02 240 / 0.15)"
+      }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1.2fr 1fr",
+          gap: 48,
+          maxWidth: 1100,
+          margin: "0 auto",
+          alignItems: "center"
         }}>
-          <div className="row" style={{ gap: 8, marginBottom: 14, color: "var(--risk-fail)" }}>
-            <AlertTriangle size={18} />
-            <span style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              Limitações do Protótipo Acadêmico
-            </span>
+          {/* Coluna Esquerda - Texto */}
+          <div>
+            <h2 style={{ fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--text)", margin: 0, marginBottom: 20 }}>
+              Sobre o HidroIA
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, fontSize: 14.5, color: "var(--text-2)", lineHeight: 1.6 }}>
+              <p style={{ margin: 0 }}>
+                O <strong>HidroIA</strong> foi desenvolvido como um protótipo acadêmico para o DAC (Desafio de Articulação de Competências) do 5º semestre de Ciência da Computação. A proposta é demonstrar como dados hidrometeorológicos simulados podem ser organizados, visualizados e analisados em uma interface moderna de apoio didático à decisão socioambiental.
+              </p>
+              <p style={{ margin: 0 }}>
+                A base do projeto utiliza 8 estações hidrometeorológicas simuladas, com campos inspirados na estrutura ANA/HIDRO, como bacia, tipo de estação, nível do rio, vazão estimada, chuva acumulada, qualidade do dado, status operacional e score de anomalia.
+              </p>
+              <p style={{ margin: 0, color: "var(--muted)", fontSize: 13.5 }}>
+                O sistema apresenta de forma interativa conceitos de Ciência de Dados e Aprendizado Não Supervisionado, incluindo K-Means, PCA e detecção conceitual de anomalias, sem qualquer integração real com bases oficiais ou operação em tempo real.
+              </p>
+            </div>
           </div>
-          <ul style={{ 
-            margin: 0, 
-            paddingLeft: 20, 
-            lineHeight: 1.6, 
-            color: "var(--text-2)", 
-            fontSize: 13.5, 
-            display: "flex", 
-            flexDirection: "column", 
-            gap: 10 
-          }}>
-            <li>
-              <strong>Dados simulados para fins acadêmicos:</strong> Todas as leituras e séries do sistema são mockadas e inspiradas na estrutura ANA/HIDRO, sem qualquer integração real ou física com servidores federais da ANA, SNIRH ou INMET.
-            </li>
-            <li>
-              <strong>Algoritmos conceituais no frontend:</strong> As técnicas de Aprendizado Não Supervisionado (K-Means, PCA) e detecção de anomalias (Isolation Forest) são representadas de forma didática diretamente no frontend, sem pipelines pesados ou backend ativo.
-            </li>
-            <li>
-              <strong>Sem fins operacionais:</strong> O sistema funciona estritamente como um protótipo educacional de Ciência da Computação (DAC - 5º Semestre) e de apoio didático à decisão socioambiental. Ele não opera em tempo real e não substitui os boletins oficiais da Defesa Civil e órgãos especialistas em hidrologia.
-            </li>
-          </ul>
+
+          {/* Coluna Direita - Mini Cards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {[
+              { t: "8 estações simuladas", s: "Regime hidrológico calibrado e mapeado para representação didática de bacias reais." },
+              { t: "IA conceitual", s: "Demonstração visual do K-Means, PCA e Isolation Forest aplicada de forma local." },
+              { t: "Protótipo acadêmico", s: "Estrutura frontend-only desenvolvida com foco em ciência de dados e usabilidade." }
+            ].map((card, idx) => (
+              <div key={idx} className="card" style={{ 
+                padding: "14px 18px", 
+                background: "oklch(0.20 0.03 235 / 0.6)", 
+                borderRadius: 10,
+                borderLeft: "3px solid var(--cyan)"
+              }}>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>{card.t}</div>
+                <div className="small" style={{ lineHeight: 1.4, color: "var(--text-2)", fontSize: 11.5 }}>{card.s}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer id="academico" style={{
+      <footer style={{
         padding: "26px 48px", borderTop: "1px solid var(--border-soft)",
-        display: "flex", justifyContent: "space-between", alignItems: "center",
+        display: "flex", justifyContent: "center", alignItems: "center",
         fontSize: 12, color: "var(--muted)",
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div>
-          HidroIA • Protótipo acadêmico • DAC 5º semestre • Dados simulados inspirados em ANA/HIDRO
+          HidroIA • Protótipo acadêmico • DAC 5º semestre • Dados simulados
         </div>
       </footer>
     </div>
