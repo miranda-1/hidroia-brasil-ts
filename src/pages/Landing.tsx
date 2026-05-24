@@ -82,19 +82,26 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
               PROTÓTIPO ACADÊMICO • FRONTEND-ONLY • BASE SIMULADA • IA CONCEITUAL
             </span>
           </div>
-          <h1 style={{
-            fontSize: 54, fontWeight: 600, letterSpacing: "-0.03em",
-            margin: 0, lineHeight: 1.12, textWrap: "balance", maxWidth: 640
+          <h1
+            className="landing-hero-title"
+            style={{
+            fontSize: "clamp(2.1rem, 1.45rem + 1.85vw, 3.55rem)",
+            fontWeight: 600,
+            letterSpacing: "-0.025em",
+            margin: 0,
+            lineHeight: 1.04,
+            textWrap: "balance",
+            maxWidth: 820
           }}>
-            Análise e previsão conceitual
-            <span style={{ display: "block", marginTop: 4 }}>
-              de cenários{" "}
-              <span style={{
-                background: "linear-gradient(180deg, var(--aqua), var(--cyan))",
-                WebkitBackgroundClip: "text", color: "transparent"
-              }}>hidrometeorológicos</span>
-            </span>
-            <span style={{ display: "block", marginTop: 4 }}>com IA.</span>
+            <span style={{
+              background: "linear-gradient(180deg, var(--aqua), var(--cyan))",
+              WebkitBackgroundClip: "text",
+              color: "transparent"
+            }}>
+              IA conceitual
+            </span>{" "}
+            para análise{" "}
+            <span className="landing-hero-nowrap">hidrometeorológica simulada</span>
           </h1>
           <p style={{
             fontSize: 15, color: "var(--text-2)", lineHeight: 1.6,

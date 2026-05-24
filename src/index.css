@@ -654,6 +654,20 @@ button { font-family: inherit; cursor: pointer; }
 .landing-app .topbar { display: none; }
 .landing-app .sidebar { display: none; }
 
+.landing-hero-title {
+  text-wrap: balance;
+}
+
+.landing-hero-nowrap {
+  white-space: normal;
+}
+
+@media (min-width: 1100px) {
+  .landing-hero-nowrap {
+    white-space: nowrap;
+  }
+}
+
 /* utility */
 .row { display: flex; align-items: center; gap: 10px; }
 .col { display: flex; flex-direction: column; gap: 10px; }
