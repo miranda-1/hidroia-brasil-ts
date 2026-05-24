@@ -8,7 +8,8 @@ import {
   Cpu, 
   Shield, 
   Database,
-  GraduationCap
+  GraduationCap,
+  TrendingUp
 } from "lucide-react";
 
 export interface NavItem {
@@ -24,6 +25,7 @@ export const NAV_ITEMS: NavItem[] = [
   { k: "dashboard",  label: "Dashboard nacional",     iconName: "BarChart2",     crumb: "DASHBOARD NACIONAL",      group: "PLATAFORMA" },
   { k: "data",       label: "Base de dados",          iconName: "Database",      crumb: "BASE DE DADOS",           group: "PLATAFORMA" },
   { k: "clustering", label: "Clusters K-Means",       iconName: "Layers",        crumb: "AGRUPAMENTO K-MEANS",     group: "INTELIGÊNCIA" },
+  { k: "forecast",   label: "Previsão conceitual",    iconName: "TrendingUp",    crumb: "PREVISÃO CONCEITUAL",     group: "INTELIGÊNCIA" },
   { k: "anomalies",  label: "Anomalias Iso Forest",   iconName: "AlertTriangle", crumb: "DETECÇÃO DE ANOMALIAS",    group: "INTELIGÊNCIA" },
   { k: "ai",         label: "Metodologia de IA",      iconName: "Cpu",           crumb: "METODOLOGIA DE IA",       group: "INTELIGÊNCIA" },
   { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "MITIGAÇÃO",               group: "INTELIGÊNCIA" },
@@ -38,7 +40,8 @@ const iconMap: Record<string, React.ReactNode> = {
   Cpu: <Cpu size={15} />,
   Shield: <Shield size={15} />,
   GraduationCap: <GraduationCap size={15} />,
-  Database: <Database size={15} />
+  Database: <Database size={15} />,
+  TrendingUp: <TrendingUp size={15} />
 };
 
 interface SidebarProps {
