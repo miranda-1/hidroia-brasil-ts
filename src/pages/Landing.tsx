@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { BrazilSensorMap } from "../components/map/BrazilSensorMap";
 import { STATIONS } from "../data/stations";
 import { WaterDropLogo } from "../components/ui/WaterDropLogo";
@@ -17,6 +17,19 @@ interface LandingProps {
 }
 
 export const Landing: React.FC<LandingProps> = ({ go }) => {
+  const [isRaining, setIsRaining] = useState(false);
+
+  const rainDrops = useMemo(
+    () =>
+      Array.from({ length: 24 }, (_, index) => ({
+        left: 4 + ((index * 37) % 92),
+        delay: (index % 8) * 0.11,
+        duration: 0.75 + (index % 5) * 0.08,
+        opacity: 0.22 + (index % 4) * 0.08,
+      })),
+    []
+  );
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
@@ -145,7 +158,51 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
 
         {/* Hero visual — abstract map + floating cards */}
         <div style={{ position: "relative" }}>
-          <BrazilSensorMap height={520} compact={false} stations={STATIONS} showLabels={false} />
+          <div 
+            onClick={() => go("dashboard")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                go("dashboard");
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Abrir dashboard nacional"
+            className="landing-map-interactive"
+          >
+            <BrazilSensorMap 
+              height={520} 
+              compact={false} 
+              stations={STATIONS} 
+              showLabels={false}
+              onMouseEnterStation={() => setIsRaining(true)}
+              onMouseLeaveStation={() => setIsRaining(false)}
+            />
+
+            {/* Premium rain particle animation layer */}
+            {isRaining && (
+              <div className="landing-rain-layer">
+                {rainDrops.map((d, index) => (
+                  <div 
+                    key={index} 
+                    className="landing-rain-drop" 
+                    style={{
+                      left: `${d.left}%`,
+                      animationDelay: `${d.delay}s`,
+                      animationDuration: `${d.duration}s`,
+                      ['--rain-opacity' as 'opacity']: d.opacity,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Subtle premium interaction badge */}
+            <div className="landing-map-badge">
+              <span>ABRIR DASHBOARD</span>
+            </div>
+          </div>
           
           {/* Floating cards */}
           <div className="card" style={{

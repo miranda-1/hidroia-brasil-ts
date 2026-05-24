@@ -9,6 +9,8 @@ interface BrazilSensorMapProps {
   showLabels?: boolean;
   compact?: boolean;
   stations: Station[];
+  onMouseEnterStation?: (s: Station) => void;
+  onMouseLeaveStation?: () => void;
 }
 
 export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
@@ -17,7 +19,9 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
   onSelectStation = () => {},
   showLabels = true,
   compact = false,
-  stations
+  stations,
+  onMouseEnterStation,
+  onMouseLeaveStation
 }) => {
   const riskFill: Record<string, string> = {
     low:  "var(--risk-low)",
@@ -47,14 +51,15 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         <style>{`
           .br-state {
             fill: oklch(0.215 0.030 235 / 0.55);
-            stroke: oklch(0.78 0.13 210 / 0.4);
-            stroke-width: 1.2px;
-            transition: fill .2s ease, stroke .2s ease;
+            stroke: oklch(0.78 0.13 210 / 0.10);
+            stroke-width: 0.6px;
+            transition: fill .2s ease, stroke .2s ease, stroke-width .2s ease;
             cursor: pointer;
           }
           .br-state:hover {
             fill: oklch(0.78 0.13 210 / 0.14);
             stroke: oklch(0.78 0.13 210 / 0.85);
+            stroke-width: 1.2px;
           }
           .state-label {
             fill: var(--text-2);
@@ -68,7 +73,7 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         `}</style>
 
         {/* Dynamic State Contours of Brazil */}
-        <g transform="translate(140, 15) scale(1.15)">
+        <g transform="translate(140, 15) scale(1.15)" style={{ filter: "drop-shadow(0 0 1px oklch(0.78 0.13 210 / 0.38))" }}>
           <g>
             <g>
               <path className="br-state" d="M289.558,235.641 c16.104,0.575,44.973-31.647,44.835-45.259c-0.136-13.612-17.227-58.446-22.349-66.088c-5.122-7.628-37.905,2.506-37.905,2.506 S234.852,233.695,289.558,235.641z" />
@@ -183,23 +188,9 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
 
 
 
-        {/* "BR" watermark */}
-        {!compact && (
-          <text x="430" y="270" fontSize="72" fontWeight="700"
-                fontFamily="Space Grotesk"
-                fill="oklch(1 0 0 / 0.025)"
-                letterSpacing="8">BR</text>
-        )}
+        {/* Watermark removed */}
 
-        {/* Capital pin - Brasília */}
-        <g transform="translate(476, 307)">
-          <circle r="14" fill="oklch(0.78 0.13 210 / 0.18)"/>
-          <circle r="3.5" fill="var(--cyan)"/>
-          {showLabels && (
-            <text x="10" y="-8" fontSize="10" fontFamily="JetBrains Mono"
-                  fill="var(--text-2)">Brasília</text>
-          )}
-        </g>
+        {/* Capital pin removed */}
 
         {/* Stations */}
         {stations.map(s => {
@@ -208,6 +199,8 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
           return (
             <g key={s.id} className="station-dot"
                onClick={() => onSelectStation(s)}
+               onMouseEnter={() => onMouseEnterStation?.(s)}
+               onMouseLeave={() => onMouseLeaveStation?.()}
                transform={`translate(${s.x}, ${s.y})`}>
               {isCrit && <circle r="22" fill="url(#critGlow)">
                 <animate attributeName="r" values="18;26;18" dur="2.4s" repeatCount="indefinite"/>
