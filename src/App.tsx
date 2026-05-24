@@ -8,6 +8,7 @@ import { Recommendations } from "./pages/Recommendations";
 import { Database } from "./pages/Database";
 import { DacArticulation } from "./pages/DacArticulation";
 import { AppShell } from "./components/layout/AppShell";
+import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [route, setRoute] = useState<string>("landing");
@@ -78,7 +79,20 @@ function App() {
     }
   };
 
-  return <>{renderActiveScreen()}</>;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={route === "landing" ? "landing" : "app-platform"}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
+        style={{ width: "100%", minHeight: "100vh" }}
+      >
+        {renderActiveScreen()}
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
 export default App;

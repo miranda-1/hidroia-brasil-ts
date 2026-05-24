@@ -90,10 +90,52 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
           </p>
 
           <div className="row" style={{ gap: 12, marginTop: 36 }}>
-            <button className="btn btn-primary" onClick={() => go("dashboard")}>
+            <button 
+              className="btn" 
+              onClick={() => go("dashboard")}
+              style={{
+                background: "oklch(0.78 0.13 210)",
+                borderColor: "oklch(0.78 0.13 210)",
+                color: "oklch(1 0 0)",
+                fontWeight: 600,
+                boxShadow: "0 0 24px oklch(0.78 0.13 210 / 0.35)",
+                transition: "all 0.22s ease-in-out",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.15)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "oklch(0.83 0.11 210)";
+                e.currentTarget.style.borderColor = "oklch(0.83 0.11 210)";
+                e.currentTarget.style.boxShadow = "0 0 28px oklch(0.78 0.13 210 / 0.55)";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "oklch(0.78 0.13 210)";
+                e.currentTarget.style.borderColor = "oklch(0.78 0.13 210)";
+                e.currentTarget.style.boxShadow = "0 0 24px oklch(0.78 0.13 210 / 0.35)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
               <LayoutGrid size={14} style={{ marginRight: 4 }} /> Ver Dashboard
             </button>
-            <button className="btn btn-ghost" onClick={() => go("ai")}>
+            <button 
+              className="btn btn-ghost" 
+              onClick={() => go("ai")}
+              style={{
+                borderColor: "oklch(0.78 0.13 210 / 0.3)",
+                color: "var(--text-2)",
+                transition: "all 0.22s ease-in-out"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "oklch(0.78 0.13 210 / 0.65)";
+                e.currentTarget.style.color = "var(--text)";
+                e.currentTarget.style.background = "oklch(0.78 0.13 210 / 0.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "oklch(0.78 0.13 210 / 0.3)";
+                e.currentTarget.style.color = "var(--text-2)";
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
               Metodologia de IA <ArrowRight size={14} />
             </button>
           </div>
