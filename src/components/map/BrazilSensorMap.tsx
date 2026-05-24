@@ -31,7 +31,7 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
     <div className="map-wrap" style={{ height }}>
       <div className="map-grid"></div>
       <svg className="map-svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid meet"
-           style={{ height: "100%" }}>
+           style={{ flex: 1, width: "100%", height: "100%", minHeight: 0 }}>
         <defs>
           <linearGradient id="brFill" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%"   stopColor="oklch(0.30 0.05 220)" stopOpacity="0.6"/>

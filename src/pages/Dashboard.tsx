@@ -111,7 +111,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
         marginBottom: 20
       }}>
         {/* Map Panel */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        <div className="card" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column", height: "100%" }}>
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
             padding: "14px 18px", borderBottom: "1px solid var(--border-soft)"
@@ -132,7 +132,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
           </div>
 
           <BrazilSensorMap 
-            height="clamp(440px, 55vh, 620px)" 
+            height="100%" 
             selectedId={selectedId} 
             onSelectStation={(s) => setSelectedId(s.id)} 
             stations={filteredStations}
