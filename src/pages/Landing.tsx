@@ -1,7 +1,6 @@
 import React from "react";
 import { BrazilSensorMap } from "../components/map/BrazilSensorMap";
 import { STATIONS } from "../data/stations";
-import { WarningBox } from "../components/ui/WarningBox";
 import { WaterDropLogo } from "../components/ui/WaterDropLogo";
 import { 
   Database, 
@@ -66,31 +65,31 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         alignItems: "center",
       }}>
         <div>
-          <div className="chip" style={{ marginBottom: 22 }}>
-            <span className="live-dot" style={{ width: 7, height: 7 }}></span>
+          <div className="chip" style={{ marginBottom: 24 }}>
+            <span className="live-dot" style={{ width: 7, height: 7, background: "var(--cyan)" }}></span>
             <span className="mono" style={{ fontSize: 10, letterSpacing: "0.04em" }}>
-              MONITORAMENTO ATIVO • 128 ESTAÇÕES • 2 FALHAS DE SENSOR • 4 CLUSTERS • 37 ANOMALIAS
+              PROTÓTIPO ACADÊMICO • 8 ESTAÇÕES SIMULADAS • 4 PERFIS HIDROLÓGICOS • IA CONCEITUAL
             </span>
           </div>
           <h1 style={{
-            fontSize: 56, fontWeight: 600, letterSpacing: "-0.03em",
-            margin: 0, lineHeight: 1.05, textWrap: "balance"
+            fontSize: 52, fontWeight: 600, letterSpacing: "-0.03em",
+            margin: 0, lineHeight: 1.1, textWrap: "balance"
           }}>
-            Inteligência artificial para{" "}
+            Análise hidrometeorológica com{" "}
             <span style={{
               background: "linear-gradient(180deg, var(--aqua), var(--cyan))",
               WebkitBackgroundClip: "text", color: "transparent"
-            }}>análise de dados hidrometeorológicos</span>{" "}
-            no território nacional.
+            }}>dados simulados</span>{" "}
+            e IA conceitual.
           </h1>
           <p style={{
             fontSize: 15, color: "var(--text-2)", lineHeight: 1.6,
-            maxWidth: 580, marginTop: 24
+            maxWidth: 580, marginTop: 28
           }}>
-            O <strong>HidroIA</strong> é uma plataforma acadêmica de aprendizado não supervisionado que integra dados brutos da ANA e do INMET. Através de K-Means, Isolation Forest e PCA, a plataforma detecta anomalias temporais, aponta falhas de sensores e apoia decisões estratégicas de gestão hídrica, ambiental e socioambiental.
+            O <strong>HidroIA</strong> é um protótipo acadêmico frontend-only que organiza, visualiza e interpreta dados hidrometeorológicos simulados, com estrutura inspirada na ANA/HIDRO. A plataforma demonstra conceitos de K-Means, PCA e detecção de anomalias para apoiar a análise socioambiental.
           </p>
 
-          <div className="row" style={{ gap: 12, marginTop: 32 }}>
+          <div className="row" style={{ gap: 12, marginTop: 36 }}>
             <button className="btn btn-primary" onClick={() => go("dashboard")}>
               <LayoutGrid size={14} style={{ marginRight: 4 }} /> Ver Dashboard
             </button>
@@ -101,13 +100,13 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
 
           <div style={{
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 20, marginTop: 48, paddingTop: 28,
+            gap: 24, marginTop: 52, paddingTop: 28,
             borderTop: "1px solid var(--border-soft)"
           }}>
             {[
-              { k: "128", l: "estações monitoradas" },
-              { k: "4", l: "clusters de comportamento" },
-              { k: "37", l: "anomalias críticas isoladas" },
+              { k: "8", l: "estações simuladas" },
+              { k: "2", l: "tipos de coleta" },
+              { k: "4 + ruído", l: "perfis hidrológicos" },
             ].map((s, i) => (
               <div key={i}>
                 <div style={{
@@ -132,10 +131,10 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             boxShadow: "var(--shadow-card)"
           }}>
             <div className="card-eyebrow" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <Layers size={10} /> K-Means Clustering
+              <Layers size={10} /> K-Means conceitual
             </div>
             <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4 }}>
-              4 Clusters de Comportamento
+              4 perfis simulados
             </div>
             <div className="row" style={{ marginTop: 8, gap: 4, alignItems: "center" }}>
               <span className="risk-pill risk-crit" style={{ fontSize: 8, padding: "2px 6px" }}>Extremo</span>
@@ -151,14 +150,14 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             boxShadow: "var(--shadow-card)"
           }}>
             <div className="card-eyebrow" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <ShieldAlert size={10} /> Isolation Forest
+              <ShieldAlert size={10} /> Eventos simulados
             </div>
             <div style={{ fontSize: 12, fontWeight: 500, marginTop: 4 }}>
-              Anomalia Crítica: TAQ-01
+              Cheia, estiagem e falha
             </div>
             <div className="row" style={{ marginTop: 8, justifyContent: "space-between", alignItems: "center" }}>
-              <span className="risk-pill risk-crit" style={{ fontSize: 8 }}>Score: 0.91</span>
-              <span className="small mono" style={{ fontSize: 9 }}>Severidade Máx</span>
+              <span className="risk-pill risk-crit" style={{ fontSize: 8 }}>Score conceitual</span>
+              <span className="small mono" style={{ fontSize: 9 }}>Isolation Forest</span>
             </div>
           </div>
 
@@ -169,12 +168,12 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             boxShadow: "var(--shadow-card)"
           }}>
             <div className="card-eyebrow" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <Cpu size={10} /> PCA 2D Projection
+              <Cpu size={10} /> Projeção PCA
             </div>
             <div style={{ fontSize: 11, color: "var(--text-2)", marginTop: 6, lineHeight: 1.4 }}>
-              92% da variabilidade explicada em duas dimensões.
+              Similaridade entre estações.
               <div className="mono small" style={{ marginTop: 4, color: "var(--cyan)", fontSize: 9 }}>
-                Redução de dimensionalidade
+                Redução conceitual de dimensionalidade
               </div>
             </div>
           </div>
@@ -186,14 +185,14 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             boxShadow: "var(--shadow-card)"
           }}>
             <div className="card-eyebrow" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <AlertTriangle size={10} /> Falha de Sensor Isolada
+              <AlertTriangle size={10} /> Falha de sensor simulada
             </div>
             <div style={{ fontSize: 12, fontWeight: 500, marginTop: 4 }}>
-              Inconsistência: Estação MAD-02
+              Inconsistência telemétrica
             </div>
             <div className="row" style={{ marginTop: 8, justifyContent: "space-between", alignItems: "center" }}>
-              <span className="risk-pill risk-fail" style={{ fontSize: 8 }}>Leitura Zero</span>
-              <span className="small mono" style={{ color: "var(--muted)", fontSize: 9 }}>Sinal nulo</span>
+              <span className="risk-pill risk-fail" style={{ fontSize: 8 }}>Leitura atípica</span>
+              <span className="small mono" style={{ color: "var(--muted)", fontSize: 9 }}>Dado simulado</span>
             </div>
           </div>
         </div>
@@ -207,10 +206,10 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         gap: 16,
       }}>
         {[
-          { ico: <Database size={16} />, title: "Dados brutos ANA/INMET",  body: "Coleta e ingestão de séries históricas de chuva e vazão diretamente de sensores telemétricos públicos." },
-          { ico: <BrainCircuit size={16} />, title: "ML Não Supervisionado",   body: "Modelagem inteligente com K-Means, Isolation Forest e DBSCAN para agrupar e identificar tendências." },
-          { ico: <ShieldAlert size={16} />, title: "Detecção de Falhas",       body: "Algoritmos que isolam leituras atípicas indicando problemas físicos de hardware e falhas de transmissão." },
-          { ico: <Layers size={16} />, title: "Análise Multidimensional", body: "Redução de dimensionalidade com PCA para mapear relações complexas entre chuva, nível e tempo." },
+          { ico: <Database size={16} />, title: "Dados simulados",  body: "Base mockada inspirada na estrutura ANA/HIDRO, com bacia, nível, vazão, chuva e qualidade do dado." },
+          { ico: <BrainCircuit size={16} />, title: "Aprendizado não supervisionado",   body: "Demonstração conceitual de K-Means, PCA e Isolation Forest aplicada ao monitoramento hídrico." },
+          { ico: <ShieldAlert size={16} />, title: "Detecção de anomalias",       body: "Identificação visual de eventos como cheia, estiagem, chuva extrema e falha de sensor." },
+          { ico: <Layers size={16} />, title: "Análise multidimensional", body: "Visualização de similaridade entre estações por meio de projeção PCA e agrupamentos." },
         ].map((f, i) => (
           <div key={i} className="card">
             <div style={{
@@ -225,8 +224,40 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
       </section>
 
       {/* Limitações do protótipo */}
-      <section id="limitacoes" style={{ padding: "0 48px 40px" }}>
-        <WarningBox />
+      <section id="limitacoes" style={{ padding: "10px 48px 60px" }}>
+        <div className="card" style={{
+          background: "oklch(0.14 0.015 238 / 0.7)",
+          borderColor: "oklch(1 0 0 / 0.08)",
+          padding: "24px 28px",
+          borderRadius: 12
+        }}>
+          <div className="row" style={{ gap: 8, marginBottom: 14, color: "var(--risk-fail)" }}>
+            <AlertTriangle size={18} />
+            <span style={{ fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Limitações do Protótipo Acadêmico
+            </span>
+          </div>
+          <ul style={{ 
+            margin: 0, 
+            paddingLeft: 20, 
+            lineHeight: 1.6, 
+            color: "var(--text-2)", 
+            fontSize: 13.5, 
+            display: "flex", 
+            flexDirection: "column", 
+            gap: 10 
+          }}>
+            <li>
+              <strong>Dados simulados para fins acadêmicos:</strong> Todas as leituras e séries do sistema são mockadas e inspiradas na estrutura ANA/HIDRO, sem qualquer integração real ou física com servidores federais da ANA, SNIRH ou INMET.
+            </li>
+            <li>
+              <strong>Algoritmos conceituais no frontend:</strong> As técnicas de Aprendizado Não Supervisionado (K-Means, PCA) e detecção de anomalias (Isolation Forest) são representadas de forma didática diretamente no frontend, sem pipelines pesados ou backend ativo.
+            </li>
+            <li>
+              <strong>Sem fins operacionais:</strong> O sistema funciona estritamente como um protótipo educacional de Ciência da Computação (DAC - 5º Semestre) e de apoio didático à decisão socioambiental. Ele não opera em tempo real e não substitui os boletins oficiais da Defesa Civil e órgãos especialistas em hidrologia.
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* Footer */}
@@ -237,7 +268,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div>
-          HidroIA · Desafio de Articulação de Competências · Ciência da Computação · ANA • INMET
+          HidroIA • Protótipo acadêmico • DAC 5º semestre • Dados simulados inspirados em ANA/HIDRO
         </div>
       </footer>
     </div>
