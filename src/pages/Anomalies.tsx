@@ -29,14 +29,14 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
       <PageHeader 
         category="INTELIGÊNCIA" 
         title="Detecção de anomalias (Iso Forest)" 
-        subtitle="Detecção automática de comportamentos atípicos e possíveis falhas em sensores telemétricos via florestas de isolamento."
+        subtitle="Análise conceitual de comportamentos atípicos em leituras simuladas, inspirada no algoritmo Isolation Forest."
         rightElement={
           <div className="row" style={{ gap: 10 }}>
             <button className="btn btn-sm" onClick={() => setSeverityFilter("all")}>
               <RefreshCw size={12} /> Limpar filtros
             </button>
             <button className="btn btn-primary btn-sm" onClick={() => go("rec")}>
-              <FileText size={12} /> Gerar Relatório IA
+              <FileText size={12} /> Gerar relatório demo
             </button>
           </div>
         }
@@ -57,11 +57,12 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
       </div>
 
       {/* Main layout */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, marginTop: 18 }}>
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.55fr) minmax(360px, 0.95fr)", gap: 20, marginTop: 18 }}>
+        {/* Left Column - Ranking */}
+        <div className="card" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", borderBottom: "1px solid var(--border-soft)" }}>
             <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <AlertTriangle size={14} style={{ color: "var(--risk-crit)" }} /> Ranking de Anomalias (Isolation Forest)
+              <AlertTriangle size={14} style={{ color: "var(--risk-crit)" }} /> Ranking de anomalias simuladas
             </div>
             <span className="mono small">{filteredRows.length} incidentes</span>
           </div>
@@ -87,39 +88,51 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
             ))}
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th style={{ width: 40 }}>Rank</th>
-                <th>Estação / Estado</th>
-                <th>Variável</th>
-                <th style={{ textAlign: "right" }}>Medição</th>
-                <th style={{ textAlign: "right" }}>Score</th>
-                <th>Status Risco</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredRows.map((r, i) => (
-                <tr key={i}>
-                  <td className="mono small" style={{ color: "var(--muted)" }}>#{r.rank}</td>
-                  <td>
-                    <div style={{ fontWeight: 600 }}>{r.st} ({r.state})</div>
-                    <div className="small" style={{ color: "var(--text-2)" }}>{r.region}</div>
-                  </td>
-                  <td>{r.variable}</td>
-                  <td className="num" style={{ textAlign: "right" }}>{r.val}</td>
-                  <td className="num mono" style={{ textAlign: "right", color: "var(--cyan)", fontWeight: 600 }}>{r.score}</td>
-                  <td>
-                    <StatusBadge level={r.risk} />
-                  </td>
+          <div style={{ overflowX: "auto" }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th style={{ width: 40 }}>Rank</th>
+                  <th>Estação / Estado</th>
+                  <th>Variável</th>
+                  <th style={{ textAlign: "right" }}>Medição</th>
+                  <th style={{ textAlign: "right" }}>Score</th>
+                  <th>Risco</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredRows.map((r, i) => (
+                  <tr key={i}>
+                    <td className="mono small" style={{ color: "var(--muted)" }}>#{r.rank}</td>
+                    <td>
+                      <div style={{ fontWeight: 600 }}>{r.st} ({r.state})</div>
+                      <div className="small" style={{ color: "var(--text-2)" }}>{r.region}</div>
+                    </td>
+                    <td>{r.variable}</td>
+                    <td className="num" style={{ textAlign: "right" }}>{r.val}</td>
+                    <td className="num mono" style={{ textAlign: "right", color: "var(--cyan)", fontWeight: 600 }}>{r.score}</td>
+                    <td>
+                      <StatusBadge level={r.risk} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* Sidebar explaining Validation */}
+        {/* Right Column - Explanations */}
         <div className="col" style={{ gap: 16 }}>
+          {/* Card: Como ler o score */}
+          <div className="card" style={{ padding: 14 }}>
+            <div className="card-eyebrow" style={{ color: "var(--cyan)" }}>Didático</div>
+            <div style={{ fontSize: 13.5, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>Como ler o score</div>
+            <p className="small" style={{ margin: 0, lineHeight: 1.45, color: "var(--text-2)" }}>
+              Scores simulados variam de 0 a 1. Valores mais próximos de 1 indicam maior desvio em relação ao padrão conceitual da base.
+            </p>
+          </div>
+
+          {/* Card: Validação Cruzada Espacial */}
           <div className="card">
             <div className="card-head" style={{ marginBottom: 10 }}>
               <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -128,15 +141,15 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
             </div>
             
             <p className="small" style={{ margin: "0 0 12px 0", lineHeight: 1.5, color: "var(--text-2)" }}>
-              Para evitar falsos alertas de secas extremas decorrentes de problemas de telemetria física, o pipeline executa um <strong>algoritmo de validação cruzada espacial</strong>:
+              Para fins didáticos, o protótipo compara leituras simuladas entre estações próximas e usa regras conceituais para diferenciar eventos atípicos de possíveis falhas de sensor.
             </p>
 
             <div className="col" style={{ gap: 10 }}>
               {[
-                { title: "1. Isolamento Inicial", desc: "O Isolation Forest detecta um desvio drástico (leitura nula ou travada em 0) na estação de referência." },
-                { title: "2. Varredura Espacial (DBSCAN)", desc: "O algoritmo mapeia as estações adjacentes na mesma sub-bacia em um raio espacial pré-definido." },
-                { title: "3. Cruzamento de Chuva", desc: "Se as estações vizinhas registram chuvas acumuladas elevadas e elevação de nível, enquanto a estação alvo mostra fluxo zero." },
-                { title: "4. Diagnóstico de Hardware", desc: "A IA descarta 'Seca Histórica' e classifica o evento como 'Falha de Sensor (Hardware Offline)'." }
+                { title: "1. Isolamento Inicial", desc: "O cenário simulado marca uma leitura muito diferente do padrão esperado da estação." },
+                { title: "2. Comparação espacial conceitual", desc: "A leitura é comparada com estações próximas da mesma sub-bacia em um raio conceitual." },
+                { title: "3. Comparação com chuva acumulada", desc: "O protótipo verifica se leituras vizinhas também indicam chuva elevada ou variação de nível." },
+                { title: "4. Possível falha de sensor", desc: "A regra conceitual reclassifica o caso como possível falha de sensor quando há inconsistência entre vazão, nível e chuva." }
               ].map((step, idx) => (
                 <div key={idx} style={{ padding: 10, borderRadius: 8, background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)" }}>
                   <div className="small" style={{ fontWeight: 600, color: "var(--cyan)", marginBottom: 2 }}>{step.title}</div>
@@ -145,17 +158,42 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
               ))}
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="card" style={{ background: "linear-gradient(180deg, var(--risk-fail-bg), transparent)" }}>
-            <div className="card-eyebrow" style={{ color: "var(--risk-fail)" }}>Aviso técnico de hardware</div>
-            <div style={{ fontSize: 14, fontWeight: 600, marginTop: 4 }}>Inconsistência em Porto Velho (MAD-02)</div>
-            <p className="small" style={{ marginTop: 6, lineHeight: 1.45, color: "var(--text-2)" }}>
-              As estações fluviométricas à montante (Abunã-01) registraram vazão de 495 m³/s com chuvas de 220 mm. A leitura zerada na estação de Porto Velho (MAD-02) é um falso-positivo de seca gerado por entupimento do duto de tomada de pressão ou falha no transdutor de nível.
-            </p>
-            <div className="row" style={{ gap: 8, marginTop: 12 }}>
-              <span className="risk-pill risk-fail">Hardware Suspeito</span>
-              <span className="small mono">Score: 0.88</span>
-            </div>
+      {/* Full-width bottom section - Nota Didática de Sensor */}
+      <div className="card anomalies-bottom-card" style={{
+        background: "linear-gradient(180deg, var(--risk-fail-bg), transparent)",
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 20,
+        padding: 20
+      }}>
+        <div style={{ flex: "1 1 500px" }}>
+          <div className="card-eyebrow" style={{ color: "var(--risk-fail)" }}>NOTA DIDÁTICA DE SENSOR</div>
+          <div style={{ fontSize: 15, fontWeight: 600, marginTop: 4, color: "var(--text)" }}>Inconsistência simulada em Porto Velho</div>
+          <p className="small" style={{ marginTop: 8, margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
+            No cenário simulado, leituras vizinhas apresentam vazão e chuva acumulada coerentes, enquanto Porto Velho registra vazão nula. Essa divergência é interpretada como possível falha de sensor para fins didáticos.
+          </p>
+        </div>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          justifyContent: "center",
+          gap: 8,
+          borderLeft: "1px solid var(--border-soft)",
+          paddingLeft: 20,
+          minWidth: 160
+        }} className="anomalies-bottom-meta">
+          <span className="risk-pill risk-fail" style={{ fontSize: 10, padding: "4px 10px" }}>Falha Simulada</span>
+          <div className="row" style={{ gap: 6 }}>
+            <span className="small text-2" style={{ fontSize: 11 }}>Score de anomalia:</span>
+            <span className="mono" style={{ color: "var(--cyan)", fontWeight: 600, fontSize: 13 }}>0.88</span>
           </div>
         </div>
       </div>

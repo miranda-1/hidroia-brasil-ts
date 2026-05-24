@@ -42,7 +42,7 @@ export const Database: React.FC = () => {
       <PageHeader 
         category="BASE DE DADOS" 
         title="Base de Dados Hidrometeorológicos" 
-        subtitle="Leituras consolidadas das estações monitoradas com a classificação de risco emitida pela IA. Estrutura inspirada no HIDRO/ANA — dados simulados para fins acadêmicos."
+        subtitle="Leituras consolidadas das estações simuladas com classificação conceitual de risco. Estrutura inspirada no padrão ANA/HIDRO, com registros mockados para demonstração acadêmica."
         rightElement={
           <div className="row" style={{ gap: 10 }}>
             <button className="btn btn-sm" onClick={() => { setQ(""); setRisk("all"); }}>
@@ -66,7 +66,7 @@ export const Database: React.FC = () => {
             <AlertTriangle size={16} />
           </span>
           <span style={{ fontSize: 13 }}>
-            <strong>Protótipo Acadêmico • Dados Simulados</strong> · Esta base de dados hidrometeorológicos reflete uma estrutura inspirada no HIDRO/ANA. Todos os registros e scores de IA são mockados para fins de demonstração acadêmica e não devem ser usados operacionalmente.
+            <strong>Protótipo Acadêmico • Dados Simulados</strong> · Esta base mockada segue uma estrutura inspirada no padrão ANA/HIDRO. Os registros, leituras e scores são simulados para demonstração acadêmica e não devem ser usados para decisões operacionais.
           </span>
         </div>
       </div>
@@ -103,7 +103,7 @@ export const Database: React.FC = () => {
           <div className="row" style={{ gap: 10 }}>
             <span className="mono small">{rows.length} linhas</span>
             <span className="toolbar-sep" />
-            <span className="mono small" style={{ color: "var(--muted-2)" }}>FONTE: MOCK INSPIRADO EM ANA/HIDRO · ATUALIZADO 23/05/2026 17:30</span>
+            <span className="mono small" style={{ color: "var(--muted-2)" }}>BASE MOCKADA • INSPIRAÇÃO ANA/HIDRO • CENÁRIO-BASE 23/05/2026 17:30</span>
           </div>
         </div>
       </div>
@@ -113,7 +113,7 @@ export const Database: React.FC = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>Código ANA</th>
+                <th>Código Sim.</th>
                 <th>Estação</th>
                 <th>UF</th>
                 <th>Região</th>
@@ -124,8 +124,8 @@ export const Database: React.FC = () => {
                 <th style={{ textAlign: "right" }}>Chuva 24h (mm)</th>
                 <th style={{ textAlign: "right" }}>Chuva 7d (mm)</th>
                 <th>Qualidade</th>
-                <th style={{ textAlign: "right" }}>Score IA</th>
-                <th>Status Risco</th>
+                <th style={{ textAlign: "right" }}>Score Anom.</th>
+                <th>Risco</th>
               </tr>
             </thead>
             <tbody>
@@ -148,10 +148,10 @@ export const Database: React.FC = () => {
                         {r.type}
                       </span>
                     </td>
-                    <td className="num" style={{ textAlign: "right" }}>{r.levelCm !== undefined ? `${r.levelCm} cm` : "-"}</td>
-                    <td className="num" style={{ textAlign: "right" }}>{r.flowM3s !== undefined ? `${r.flowM3s.toLocaleString()} m³/s` : "-"}</td>
-                    <td className="num" style={{ textAlign: "right" }}>{r.rainfall24hMm} mm</td>
-                    <td className="num" style={{ textAlign: "right" }}>{r.rainfall7dMm} mm</td>
+                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.levelCm !== undefined ? `${r.levelCm} cm` : "-"}</td>
+                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.flowM3s !== undefined ? `${r.flowM3s.toLocaleString()} m³/s` : "-"}</td>
+                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall24hMm} mm</td>
+                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall7dMm} mm</td>
                     <td>
                       <span className="chip" style={{ 
                         fontSize: 10, 
@@ -159,11 +159,11 @@ export const Database: React.FC = () => {
                         background: r.dataQuality === "consistido" ? "oklch(0.62 0.17 150 / 0.1)" : "oklch(0.75 0.14 40 / 0.1)",
                         color: r.dataQuality === "consistido" ? "var(--risk-low)" : "var(--risk-med)",
                         border: `1px solid ${r.dataQuality === "consistido" ? "var(--risk-low-bg)" : "var(--risk-med-bg)"}`
-                      }}>
+                       }}>
                         {r.dataQuality}
                       </span>
                     </td>
-                    <td className="num mono" style={{ textAlign: "right", color: "var(--aqua)", fontWeight: 600 }}>{r.score.toFixed(2)}</td>
+                    <td className="num mono" style={{ textAlign: "right", color: "var(--aqua)", fontWeight: 600, whiteSpace: "nowrap" }}>{r.score.toFixed(2)}</td>
                     <td>
                       <StatusBadge level={r.risk} label={r.status} />
                     </td>

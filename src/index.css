@@ -173,8 +173,12 @@ button { font-family: inherit; cursor: pointer; }
   text-align: left;
   width: 252px;
   position: relative;
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, 
+              color 0.25s ease, 
+              border-color 0.25s ease, 
+              transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   box-sizing: border-box;
+  will-change: transform;
 }
 .nav-item::before {
   content: "";
@@ -192,7 +196,14 @@ button { font-family: inherit; cursor: pointer; }
 .nav-item:hover { 
   background: oklch(1 0 0 / 0.03); 
   color: var(--text);
-  transform: translateX(3px);
+  transform: translateX(3px) translateY(-0.5px);
+}
+.nav-item:active {
+  transform: translateX(2px) scale(0.985);
+}
+.nav-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 3px var(--cyan);
 }
 .nav-item.active {
   background: oklch(0.78 0.13 210 / 0.08);
@@ -344,10 +355,20 @@ button { font-family: inherit; cursor: pointer; }
   border: 1px solid var(--border);
   background: var(--bg-panel);
   color: var(--text);
-  transition: background .15s, border-color .15s, transform .05s;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.22s ease,
+              background 0.22s ease,
+              box-shadow 0.22s ease,
+              color 0.22s ease;
+  will-change: transform;
 }
-.btn:hover { background: var(--bg-hover); border-color: var(--bg-hover); }
-.btn:active { transform: translateY(1px); }
+.btn:hover { 
+  background: var(--bg-hover); 
+  border-color: oklch(0.78 0.13 210 / 0.35); 
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.25);
+}
+.btn:active { transform: translateY(0) scale(0.985); }
 .btn-primary {
   background: linear-gradient(180deg, oklch(0.78 0.13 210), oklch(0.62 0.15 215));
   border-color: oklch(0.62 0.15 215);
@@ -355,11 +376,25 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   box-shadow: 0 8px 20px -10px oklch(0.78 0.13 210 / 0.6);
 }
-.btn-primary:hover { filter: brightness(1.05); background: linear-gradient(180deg, oklch(0.82 0.13 210), oklch(0.66 0.15 215)); }
+.btn-primary:hover { 
+  filter: brightness(1.05); 
+  background: linear-gradient(180deg, oklch(0.82 0.13 210), oklch(0.66 0.15 215)); 
+  box-shadow: 0 12px 24px -8px oklch(0.78 0.13 210 / 0.45), 0 0 8px oklch(0.78 0.13 210 / 0.2);
+}
 .btn-ghost { background: transparent; border-color: var(--border-soft); color: var(--text-2); }
 .btn-ghost:hover { color: var(--text); background: oklch(1 0 0 / 0.03); }
 .btn-sm { padding: 6px 10px; font-size: 12px; gap: 6px; }
 .btn .ico { width: 14px; height: 14px; }
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 4px var(--cyan);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
 
 /* ── Cards ───────────────────────────────────────────── */
 .card {
@@ -459,8 +494,36 @@ button { font-family: inherit; cursor: pointer; }
   background: oklch(1 0 0 / 0.02);
   font-size: 12px;
   color: var(--text-2);
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.22s ease,
+              background 0.22s ease,
+              box-shadow 0.22s ease,
+              color 0.22s ease;
+  will-change: transform;
 }
-.chip-active { background: var(--cyan-soft); color: var(--text); border-color: oklch(0.78 0.13 210 / 0.35); }
+.chip:hover {
+  background: oklch(1 0 0 / 0.05);
+  border-color: oklch(0.78 0.13 210 / 0.25);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.chip:active {
+  transform: translateY(0) scale(0.98);
+}
+.chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 3px var(--cyan);
+}
+.chip-active { 
+  background: var(--cyan-soft); 
+  color: var(--text); 
+  border-color: oklch(0.78 0.13 210 / 0.35); 
+}
+.chip-active:hover {
+  background: oklch(0.78 0.13 210 / 0.18);
+  border-color: var(--cyan);
+}
 
 /* ── Form bits ───────────────────────────────────────── */
 .select, .input {
@@ -698,5 +761,78 @@ button { font-family: inherit; cursor: pointer; }
   border-color: var(--cyan);
   color: oklch(1 0 0);
   box-shadow: 0 0 12px oklch(0.78 0.13 210 / 0.2);
+}
+
+/* ── Global interactive micro-interactions ─────────── */
+
+.interactive-action {
+  cursor: pointer;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
+  will-change: transform;
+}
+
+.interactive-action:hover {
+  transform: translateY(-1.5px);
+}
+
+.interactive-action:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.interactive-action:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg-deep),
+    0 0 0 4px var(--cyan);
+}
+
+.interactive-action:disabled,
+.interactive-action[aria-disabled="true"] {
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 0.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-action,
+  .interactive-action *,
+  .btn,
+  .btn *,
+  .chip,
+  .chip *,
+  .nav-item,
+  .nav-item *,
+  .landing-map-interactive,
+  .landing-map-interactive *,
+  button,
+  a,
+  [role="button"] {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ── Anomalies bottom card responsiveness ─────────── */
+@media (max-width: 768px) {
+  .anomalies-bottom-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .anomalies-bottom-meta {
+    border-left: none !important;
+    padding-left: 0 !important;
+    align-items: flex-start !important;
+    margin-top: 10px;
+  }
 }
 

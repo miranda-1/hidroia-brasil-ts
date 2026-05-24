@@ -170,14 +170,14 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             tabIndex={0}
             aria-label="Abrir dashboard nacional"
             className="landing-map-interactive"
+            onMouseEnter={() => setIsRaining(true)}
+            onMouseLeave={() => setIsRaining(false)}
           >
             <BrazilSensorMap 
               height={520} 
               compact={false} 
               stations={STATIONS} 
               showLabels={false}
-              onMouseEnterStation={() => setIsRaining(true)}
-              onMouseLeaveStation={() => setIsRaining(false)}
               isRaining={isRaining}
               rainDrops={rainDrops}
             />

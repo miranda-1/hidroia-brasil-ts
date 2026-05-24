@@ -13,9 +13,9 @@ export interface AnomalyRecord {
 
 export const ANOMALY_KPIS = [
   { label: "Algoritmo de Anomalia", value: "Isolation Forest", trend: "Desvio Multivariável", ok: true },
-  { label: "Anomalias Críticas", value: "3", trend: "Contaminação: 3.5%", ok: true },
-  { label: "Sensores sob Suspeita", value: "1", trend: "Estação Porto Velho", ok: true },
-  { label: "Alertas de Extremos", value: "2", trend: "Taquari & Recife", ok: true }
+  { label: "Anomalias Críticas", value: "3", trend: "Score alto simulado", ok: true },
+  { label: "Leituras sob análise", value: "1", trend: "Caso simulado: Porto Velho", ok: true },
+  { label: "Cenários extremos", value: "2", trend: "Taquari e Recife", ok: true }
 ];
 
 export const ANOMALY_ROWS: AnomalyRecord[] = [
