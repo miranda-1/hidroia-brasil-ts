@@ -8,7 +8,7 @@ export interface Kpi {
 }
 
 export const KPIS: Kpi[] = [
-  { label: "Estações monitoradas",    value: "8", unit: "nós", trend: "Mock inspirado em ANA", trendUp: false, ok: true },
+  { label: "Estações simuladas",      value: "8", unit: "nós", trend: "Mock inspirado na ANA/HIDRO", trendUp: false, ok: true },
   { label: "Estações fluviométricas", value: "6", unit: "estações", trend: "Nível / Vazão", trendUp: false, ok: true },
   { label: "Estações pluviométricas",  value: "2", unit: "estações", trend: "Precipitação", trendUp: false, ok: true },
   { label: "Anomalias críticas",      value: "3", unit: "alertas", trend: "Isolation Forest", trendUp: true },

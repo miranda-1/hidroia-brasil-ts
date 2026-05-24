@@ -241,6 +241,41 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         )}
       </svg>
 
+      {/* Floating Legend Overlay */}
+      <div style={{
+        position: "absolute",
+        left: 12,
+        bottom: 32,
+        padding: "8px 12px",
+        borderRadius: "8px",
+        background: "oklch(0.215 0.030 235 / 0.78)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        border: "1px solid oklch(0.78 0.13 210 / 0.22)",
+        boxShadow: "0 4px 20px oklch(0 0 0 / 0.35)",
+        display: "flex",
+        gap: 12,
+        alignItems: "center",
+        zIndex: 5
+      }}>
+        {[
+          { k: "low",  label: "Normal" },
+          { k: "med",  label: "Atenção" },
+          { k: "high", label: "Atípico" },
+          { k: "crit", label: "Anomalia" },
+          { k: "fail", label: "Falha" },
+        ].map(it => (
+          <div key={it.k} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{
+              width: 8, height: 8, borderRadius: 999,
+              background: `var(--risk-${it.k})`,
+              boxShadow: `0 0 0 2.5px var(--risk-${it.k}-bg)`
+            }}/>
+            <span className="mono" style={{ fontSize: 9.5, color: "var(--text-2)", fontWeight: 600 }}>{it.label}</span>
+          </div>
+        ))}
+      </div>
+
       {/* Disclaimer */}
       <div style={{
         position: "absolute", bottom: 10, left: 12,

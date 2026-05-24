@@ -3,7 +3,7 @@ import { PageHeader } from "../components/ui/PageHeader";
 import { MetricCard } from "../components/ui/MetricCard";
 import { SectionCard } from "../components/ui/SectionCard";
 import { StatusBadge } from "../components/ui/StatusBadge";
-import { BrazilSensorMap, RiskLegendInline } from "../components/map/BrazilSensorMap";
+import { BrazilSensorMap } from "../components/map/BrazilSensorMap";
 import { STATIONS, REGIONS, SUB_STATIONS } from "../data/stations";
 import { KPIS, ANOMALY_STATS } from "../data/dashboardData";
 import { Brain, MapPin, SlidersHorizontal, AlertTriangle, ArrowRight, Layers } from "lucide-react";
@@ -45,7 +45,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
       <PageHeader 
         category="PLATAFORMA" 
         title="Dashboard Nacional de Monitoramento" 
-        subtitle="Identificação de perfis hidrológicos, telemetria de sensores públicos e detecção de anomalias por Inteligência Artificial."
+        subtitle="Visualização de perfis hidrológicos simulados, leituras mockadas e anomalias conceituais com apoio de IA."
         rightElement={
           <div className="row" style={{ gap: 8 }}>
             <span className="live-dot" style={{ width: 6, height: 6 }} />
@@ -118,7 +118,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
           }}>
             <div className="row" style={{ gap: 10 }}>
               <MapPin size={14} style={{ color: "var(--muted)" }} />
-              <div className="card-title">Mapa de regiões críticas · Brasil</div>
+              <div className="card-title">Mapa de estações simuladas · Brasil</div>
               <span className="chip" style={{ padding: "2px 8px", fontSize: 11 }}>{filteredStations.length} visíveis</span>
             </div>
             <div className="row" style={{ gap: 6 }}>
@@ -132,16 +132,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
           </div>
 
           <BrazilSensorMap 
-            height={460} 
+            height="clamp(440px, 55vh, 620px)" 
             selectedId={selectedId} 
             onSelectStation={(s) => setSelectedId(s.id)} 
             stations={filteredStations}
             showLabels={true}
           />
-
-          <div style={{ padding: "12px 14px", borderTop: "1px solid var(--border-soft)" }}>
-            <RiskLegendInline />
-          </div>
         </div>
 
         {/* AI Classifier Panel (Drawer-like) */}
@@ -164,7 +160,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
 
           <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
             <div>
-              <div className="card-eyebrow">Estação monitorada (ANA)</div>
+              <div className="card-eyebrow">ESTAÇÃO SIMULADA · INSPIRAÇÃO ANA/HIDRO</div>
               <div style={{ fontSize: 19, fontWeight: 600, marginTop: 2 }}>{activeStation.name} ({activeStation.uf})</div>
               <div className="small mono" style={{ color: "var(--text-2)", marginTop: 2 }}>
                 Código: {activeStation.code} • Bacia: {activeStation.basin} • Rio: {activeStation.river}

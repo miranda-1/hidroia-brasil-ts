@@ -26,12 +26,12 @@ export const Topbar: React.FC<TopbarProps> = ({ route }) => {
       
       <span className="row" style={{ gap: 6 }}>
         <span className="live-dot"/>
-        <span className="mono" style={{ fontSize: 11, color: "var(--text-2)" }}>LIVE</span>
+        <span className="mono" style={{ fontSize: 11, color: "var(--text-2)" }}>SIMULADO</span>
       </span>
 
       <div className="topbar-meta">
         <Calendar size={12} />
-        <span>Última atualização: 02/05/2024 · 08:30</span>
+        <span>Cenário-base: 02/05/2024 · 08:30</span>
       </div>
 
       <button className="btn btn-sm" onClick={handleRefresh} disabled={updating}>
