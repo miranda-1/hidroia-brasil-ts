@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { MetricCard } from "../components/ui/MetricCard";
 import { SectionCard } from "../components/ui/SectionCard";
@@ -17,6 +17,18 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
   const [selectedId, setSelectedId] = useState<string>("TAQ-01");
   const [regionFilter, setRegionFilter] = useState<string>("Todas as regiões");
   const [riskFilter, setRiskFilter] = useState<string>("all");
+  const [isRaining, setIsRaining] = useState(false);
+
+  const rainDrops = useMemo(
+    () =>
+      Array.from({ length: 24 }, (_, index) => ({
+        left: 4 + ((index * 37) % 92),
+        delay: (index % 8) * 0.11,
+        duration: 0.75 + (index % 5) * 0.08,
+        opacity: 0.22 + (index % 4) * 0.08,
+      })),
+    []
+  );
 
   const activeStation = STATIONS.find(s => s.id === selectedId) || STATIONS[0];
   const activeStat = ANOMALY_STATS[activeStation.id] || {
@@ -137,6 +149,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ go }) => {
             onSelectStation={(s) => setSelectedId(s.id)} 
             stations={filteredStations}
             showLabels={true}
+            onMouseEnterStation={() => setIsRaining(true)}
+            onMouseLeaveStation={() => setIsRaining(false)}
+            isRaining={isRaining}
+            rainDrops={rainDrops}
           />
         </div>
 

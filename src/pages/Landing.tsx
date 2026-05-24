@@ -178,25 +178,9 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
               showLabels={false}
               onMouseEnterStation={() => setIsRaining(true)}
               onMouseLeaveStation={() => setIsRaining(false)}
+              isRaining={isRaining}
+              rainDrops={rainDrops}
             />
-
-            {/* Premium rain particle animation layer */}
-            {isRaining && (
-              <div className="landing-rain-layer">
-                {rainDrops.map((d, index) => (
-                  <div 
-                    key={index} 
-                    className="landing-rain-drop" 
-                    style={{
-                      left: `${d.left}%`,
-                      animationDelay: `${d.delay}s`,
-                      animationDuration: `${d.duration}s`,
-                      ['--rain-opacity' as 'opacity']: d.opacity,
-                    }}
-                  />
-                ))}
-              </div>
-            )}
 
             {/* Subtle premium interaction badge */}
             <div className="landing-map-badge">

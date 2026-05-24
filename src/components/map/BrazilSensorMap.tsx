@@ -11,6 +11,8 @@ interface BrazilSensorMapProps {
   stations: Station[];
   onMouseEnterStation?: (s: Station) => void;
   onMouseLeaveStation?: () => void;
+  isRaining?: boolean;
+  rainDrops?: Array<{ left: number; delay: number; duration: number; opacity: number }>;
 }
 
 export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
@@ -21,7 +23,9 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
   compact = false,
   stations,
   onMouseEnterStation,
-  onMouseLeaveStation
+  onMouseLeaveStation,
+  isRaining = false,
+  rainDrops
 }) => {
   const riskFill: Record<string, string> = {
     low:  "var(--risk-low)",
@@ -53,13 +57,8 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
             fill: oklch(0.215 0.030 235 / 0.55);
             stroke: oklch(0.78 0.13 210 / 0.10);
             stroke-width: 0.6px;
-            transition: fill .2s ease, stroke .2s ease, stroke-width .2s ease;
-            cursor: pointer;
-          }
-          .br-state:hover {
-            fill: oklch(0.78 0.13 210 / 0.14);
-            stroke: oklch(0.78 0.13 210 / 0.85);
-            stroke-width: 1.2px;
+            pointer-events: none;
+            user-select: none;
           }
           .state-label {
             fill: var(--text-2);
@@ -233,6 +232,24 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
           </g>
         )}
       </svg>
+
+      {/* Premium rain particle animation layer */}
+      {isRaining && rainDrops && (
+        <div className="landing-rain-layer">
+          {rainDrops.map((d, index) => (
+            <div 
+              key={index} 
+              className="landing-rain-drop" 
+              style={{
+                left: `${d.left}%`,
+                animationDelay: `${d.delay}s`,
+                animationDuration: `${d.duration}s`,
+                ['--rain-opacity' as 'opacity']: d.opacity,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Floating Legend Overlay */}
       <div style={{
