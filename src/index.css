@@ -836,3 +836,21 @@ button { font-family: inherit; cursor: pointer; }
   }
 }
 
+/* ── Methodology page responsiveness ──────────────── */
+@media (max-width: 1024px) {
+  .methodology-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 1200px) {
+  .methodology-models-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 768px) {
+  .methodology-models-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+

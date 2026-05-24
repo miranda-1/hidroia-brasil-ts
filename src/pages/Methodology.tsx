@@ -7,19 +7,54 @@ import {
   AlertTriangle, 
   Shield, 
   TrendingUp, 
-  Zap, 
-  Download 
+  Zap 
 } from "lucide-react";
 
 export const Methodology: React.FC = () => {
   const steps = [
-    { num: "01", title: "Ingestão Telemétrica",          ico: <Database size={16} />,    body: "Coleta em tempo real de dados fluviométricos e pluviométricos das estações ANA e INMET." },
-    { num: "02", title: "Tratamento e Normalização",    ico: <RefreshCw size={16} />, body: "Imputação de gaps temporais e padronização das escalas com Z-Score Standard Scaling." },
-    { num: "03", title: "Redução PCA",                  ico: <Cpu size={16} />,       body: "Redução das múltiplas variáveis temporais (precipitação de 1d, 3d, 7d, deltas de 24h, 48h) em 2 componentes principais." },
-    { num: "04", title: "Agrupamento K-Means",          ico: <TrendingUp size={16} />,   ai: true, body: "Classificação em K=4 clusters para definição automática do perfil comportamental da estação." },
-    { num: "05", title: "Cálculo de Anomalia",          ico: <AlertTriangle size={16} />,   body: "Passagem das séries temporais pelo Isolation Forest para estimar o score de isolamento (0.0 a 1.0)." },
-    { num: "06", title: "Filtro de Densidade",          ico: <Zap size={16} />,     body: "Algoritmo DBSCAN isola ruídos geográficos de baixíssima densidade para capturar falhas telemétricas." },
-    { num: "07", title: "Apoio à Decisão",              ico: <Shield size={16} />,  body: "Mapeamento dos status com regras e protocolos técnicos para órgãos reguladores e Defesa Civil." },
+    { 
+      num: "01", 
+      title: "Ingestão Simulada", 
+      ico: <Database size={16} />, 
+      body: "Leitura de uma base mockada com registros fluviométricos e pluviométricos inspirados em estruturas ANA/HIDRO." 
+    },
+    { 
+      num: "02", 
+      title: "Tratamento e Normalização", 
+      ico: <RefreshCw size={16} />, 
+      body: "Imputação de gaps temporais e padronização das escalas com Z-Score Standard Scaling." 
+    },
+    { 
+      num: "03", 
+      title: "Redução PCA", 
+      ico: <Cpu size={16} />, 
+      body: "Redução das múltiplas variáveis temporais (precipitação de 1d, 3d, 7d, deltas de 24h, 48h) in 2 componentes principais." 
+    },
+    { 
+      num: "04", 
+      title: "Agrupamento K-Means", 
+      ico: <TrendingUp size={16} />, 
+      ai: true, 
+      body: "Classificação em K=4 clusters para definição automática do perfil comportamental da estação." 
+    },
+    { 
+      num: "05", 
+      title: "Cálculo de Anomalia", 
+      ico: <AlertTriangle size={16} />, 
+      body: "Passagem das séries temporais pelo Isolation Forest para estimar o score de isolamento (0.0 a 1.0)." 
+    },
+    { 
+      num: "06", 
+      title: "Filtro Conceitual de Ruído", 
+      ico: <Zap size={16} />, 
+      body: "Referência conceitual a métodos de densidade para separar ruídos e possíveis falhas simuladas." 
+    },
+    { 
+      num: "07", 
+      title: "Apoio Didático à Análise", 
+      ico: <Shield size={16} />, 
+      body: "Mapeamento dos status simulados em recomendações conceituais para interpretação acadêmica." 
+    },
   ];
 
   const features = [
@@ -40,12 +75,7 @@ export const Methodology: React.FC = () => {
       <PageHeader 
         category="METODOLOGIA DE CIÊNCIA DE DADOS" 
         title="Metodologia e Arquitetura de IA" 
-        subtitle="Como o HidroIA analisa séries temporais de dados públicos hidrometeorológicos usando Machine Learning Não Supervisionado."
-        rightElement={
-          <button className="btn btn-sm">
-            <Download size={12} /> Artigo acadêmico (PDF)
-          </button>
-        }
+        subtitle="Como o HidroIA organiza leituras hidrometeorológicas simuladas e demonstra conceitos de Aprendizado Não Supervisionado."
       />
 
       {/* Flow diagram */}
@@ -70,9 +100,10 @@ export const Methodology: React.FC = () => {
         </div>
       </div>
 
-      {/* Features + math cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 16, marginTop: 16 }}>
-        <div className="card">
+      {/* Grid: Features on left, concepts on right */}
+      <div className="methodology-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.3fr) minmax(320px, 1fr)", gap: 16, marginTop: 16 }}>
+        {/* Left Column - Features */}
+        <div className="card" style={{ height: "fit-content" }}>
           <div className="card-head">
             <div className="card-title">
               <Database size={14} className="ico" style={{ marginRight: 6 }} /> Vetor de Atributos Hidrológicos (Features)
@@ -96,6 +127,7 @@ export const Methodology: React.FC = () => {
           </table>
         </div>
 
+        {/* Right Column - Academic Rationale */}
         <div className="col" style={{ gap: 16 }}>
           <div className="card">
             <div className="card-eyebrow">Justificativa Acadêmica</div>
@@ -103,7 +135,7 @@ export const Methodology: React.FC = () => {
               Por que Aprendizado Não Supervisionado?
             </div>
             <p className="small" style={{ lineHeight: 1.5, marginTop: 8, color: "var(--text-2)" }}>
-              Os dados telemétricos brutos são coletados por sensores em campo e disponibilizados sem anotações prévias (labels). O uso de algoritmos não supervisionados permite identificar dinamicamente padrões anômalos de chuva e comportamento dos rios sem a necessidade de rotulação manual dispendiosa.
+              No cenário simulado, as leituras são tratadas como registros sem rótulos prévios. Isso permite demonstrar como algoritmos não supervisionados podem agrupar padrões e destacar comportamentos atípicos sem classificação manual.
             </p>
           </div>
 
@@ -113,26 +145,63 @@ export const Methodology: React.FC = () => {
               Estrutura inspirada no HIDRO/ANA
             </div>
             <p className="small" style={{ lineHeight: 1.5, marginTop: 8, color: "var(--text-2)" }}>
-              Cada estação de monitoramento simulada no **HidroIA** possui atributos estruturais fiéis ao modelo real de dados hidrometeorológicos da ANA: código de estação de 8 dígitos, UF, bacia hidrológica, tipo (fluviométrica ou pluviométrica), nível do rio, vazão, precipitação acumulada (24h/7d) e indicador de qualidade de dado (bruto vs consistido). Esses campos simulados são consolidados e processados para alimentar os indicadores, clusters e anomalias da plataforma.
+              Cada estação simulada no HidroIA possui atributos estruturais inspirados em bases hidrometeorológicas, como código simulado de 8 dígitos, UF, bacia hidrográfica, tipo de estação, nível do rio, vazão estimada, precipitação acumulada e indicador de qualidade do dado. Esses campos simulados são consolidados para alimentar indicadores, clusters e anomalias conceituais da plataforma.
             </p>
           </div>
 
           <div className="card">
-            <div className="card-eyebrow">Modelos e Funções Matemáticas</div>
-            <div className="col" style={{ gap: 12, marginTop: 8 }}>
-              {[
-                { name: "PCA (Redução Dimensional)", desc: "Projeta o espaço de alta dimensão em componentes principais maximizando a variância explicada: Y = X * W." },
-                { name: "K-Means (Agrupamento)", desc: "Minimiza a inércia intracluster: argmin ∑ ||x_i - μ_j||^2 para definir as 4 tipologias." },
-                { name: "Isolation Forest (Isolamento)", desc: "Calcula score de anomalia s(x, n) = 2^(- E(h(x)) / c(n)). Caminhos curtos de árvore indicam anomalias." },
-                { name: "DBSCAN (Densidade de Ruídos)", desc: "Usa métricas de densidade (Eps e MinPts) para separar pontos de ruído (Cluster -1), indicando falhas físicas." }
-              ].map((model, idx) => (
-                <div key={idx} style={{ padding: 10, borderRadius: 8, border: "1px solid var(--border-soft)", background: "oklch(1 0 0 / 0.015)" }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "var(--aqua)" }}>{model.name}</div>
-                  <div className="small" style={{ marginTop: 2, color: "var(--text-2)", lineHeight: 1.35 }}>{model.desc}</div>
-                </div>
-              ))}
+            <div className="card-eyebrow">LIMITAÇÕES DO MODELO</div>
+            <div style={{ fontSize: 18, fontWeight: 600, marginTop: 4, color: "var(--cyan)" }}>
+              Escopo acadêmico e simulado
+            </div>
+            <p className="small" style={{ lineHeight: 1.5, marginTop: 8, color: "var(--text-2)" }}>
+              Os algoritmos apresentados representam uma aplicação conceitual de Aprendizado Não Supervisionado. A base usada é mockada, sem coleta em tempo real, sem integração oficial com órgãos externos e sem validação operacional em campo.
+            </p>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 12 }}>
+              <span className="chip" style={{ padding: "3px 8px", fontSize: 10.5, borderColor: "var(--border-soft)", background: "rgba(255, 255, 255, 0.02)", color: "var(--text-2)" }}>
+                Base simulada
+              </span>
+              <span className="chip" style={{ padding: "3px 8px", fontSize: 10.5, borderColor: "var(--border-soft)", background: "rgba(255, 255, 255, 0.02)", color: "var(--text-2)" }}>
+                Sem integração oficial
+              </span>
+              <span className="chip" style={{ padding: "3px 8px", fontSize: 10.5, borderColor: "var(--border-soft)", background: "rgba(255, 255, 255, 0.02)", color: "var(--text-2)" }}>
+                Sem uso operacional
+              </span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Area: Full-width Mathematical Models Grid */}
+      <div className="card" style={{ marginTop: 16 }}>
+        <div className="card-eyebrow">Modelos e Funções Matemáticas</div>
+        <div style={{ fontSize: 18, fontWeight: 600, marginTop: 4, marginBottom: 16, color: "var(--cyan)" }}>
+          Formulações Teóricas e Algoritmos Conceituais
+        </div>
+        <div className="methodology-models-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
+          {[
+            { 
+              name: "PCA (Redução Dimensional)", 
+              desc: "Projeta o espaço de alta dimensão em componentes principais maximizando a variância explicada: Y = X * W." 
+            },
+            { 
+              name: "K-Means (Agrupamento)", 
+              desc: "Minimiza a inércia intracluster: argmin ∑ ||x_i - μ_j||^2 para definir as 4 tipologias." 
+            },
+            { 
+              name: "Isolation Forest (Isolamento)", 
+              desc: "Calcula score de anomalia s(x, n) = 2^(- E(h(x)) / c(n)). Caminhos curtos de árvore indicam anomalias." 
+            },
+            { 
+              name: "DBSCAN (Densidade de Ruídos)", 
+              desc: "Referência conceitual a métodos de densidade para interpretar pontos de ruído e possíveis falhas simuladas." 
+            }
+          ].map((model, idx) => (
+            <div key={idx} style={{ padding: 12, borderRadius: 8, border: "1px solid var(--border-soft)", background: "oklch(1 0 0 / 0.015)" }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--aqua)", marginBottom: 4 }}>{model.name}</div>
+              <div className="small" style={{ color: "var(--text-2)", lineHeight: 1.4 }}>{model.desc}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
