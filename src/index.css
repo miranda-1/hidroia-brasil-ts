@@ -69,8 +69,9 @@ button { font-family: inherit; cursor: pointer; }
 /* ── Sidebar ─────────────────────────────────────────── */
 .sidebar {
   border-right: 1px solid var(--border-soft);
-  background: oklch(0.155 0.025 240 / 0.85);
+  background: oklch(0.155 0.025 240 / 0.94);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
   padding: 22px 14px;
@@ -81,14 +82,18 @@ button { font-family: inherit; cursor: pointer; }
   width: 84px;
   height: 100vh;
   z-index: 50;
-  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.22s, box-shadow 0.22s;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.45s ease, backdrop-filter 0.45s ease, -webkit-backdrop-filter 0.45s ease, box-shadow 0.45s ease;
   overflow: hidden;
   box-sizing: border-box;
 }
 .sidebar:hover {
   width: 280px;
-  background: oklch(0.155 0.025 240 / 0.96);
-  box-shadow: 12px 0 32px -8px oklch(0 0 0 / 0.7);
+  background: oklch(0.155 0.025 240 / 0.45);
+  backdrop-filter: blur(7px) saturate(125%);
+  -webkit-backdrop-filter: blur(7px) saturate(125%);
+  box-shadow:
+    16px 0 48px oklch(0 0 0 / 0.22),
+    inset -1px 0 0 oklch(0.78 0.13 210 / 0.18);
 }
 .brand {
   display: flex;
@@ -168,7 +173,7 @@ button { font-family: inherit; cursor: pointer; }
   text-align: left;
   width: 252px;
   position: relative;
-  transition: background .15s, color .15s, border-color .15s;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   box-sizing: border-box;
 }
 .nav-item::before {
@@ -184,12 +189,18 @@ button { font-family: inherit; cursor: pointer; }
   opacity: 0;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.nav-item:hover { background: oklch(1 0 0 / 0.03); color: var(--text); }
+.nav-item:hover { 
+  background: oklch(1 0 0 / 0.03); 
+  color: var(--text);
+  transform: translateX(3px);
+}
 .nav-item.active {
   background: oklch(0.78 0.13 210 / 0.08);
   color: var(--text);
   border-color: oklch(0.78 0.13 210 / 0.25);
-  box-shadow: 0 2px 10px -4px oklch(0.78 0.13 210 / 0.15);
+  box-shadow: 
+    0 0 12px oklch(0.78 0.13 210 / 0.10),
+    0 2px 8px -4px oklch(0.78 0.13 210 / 0.20);
 }
 .nav-item.active::before {
   transform: translateY(-50%) scaleY(1);
@@ -228,7 +239,14 @@ button { font-family: inherit; cursor: pointer; }
   opacity: 0;
   visibility: hidden;
   white-space: nowrap;
-  transition: opacity 0.1s ease, visibility 0.1s ease;
+  transform: translateX(-8px);
+  filter: blur(4px);
+  pointer-events: none;
+  transition: 
+    opacity 0.25s ease, 
+    transform 0.25s ease, 
+    filter 0.25s ease, 
+    visibility 0.25s ease;
 }
 
 .sidebar:hover .brand-name, 
@@ -238,7 +256,10 @@ button { font-family: inherit; cursor: pointer; }
 .sidebar:hover .nav-item span:not(.ico) {
   opacity: 1;
   visibility: visible;
-  transition-delay: 0.08s;
+  transform: translateX(0);
+  filter: blur(0);
+  pointer-events: auto;
+  transition-delay: 0.12s;
 }
 
 /* ── Main area ───────────────────────────────────────── */
