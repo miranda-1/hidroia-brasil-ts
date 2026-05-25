@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { Spark } from "../components/ui/Spark";
 import { CLUSTER_PROFILES } from "../data/clusters";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { 
   RefreshCw, 
@@ -46,6 +47,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
   // Didactic slider states (conceptual only, does not execute training)
   const [dbscanEps, setDbscanEps] = useState<number>(0.5);
   const [dbscanMinPts, setDbscanMinPts] = useState<number>(4);
+  const modeTransition = { duration: 0.24, ease: "easeOut" as const };
 
   // Generate 128 points of synthetic readings for PCA Projection
   // Seedable/predictable coordinates to look beautiful and clustered
@@ -257,7 +259,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
               padding: "8px 14px",
               display: "flex",
               alignItems: "center",
-              gap: 6
+              gap: 6,
+              transition: "all 0.22s ease",
+              boxShadow: activeMode === mode.id ? "0 8px 24px oklch(0 0 0 / 0.18)" : "none"
             }}
           >
             {mode.ico}
@@ -267,68 +271,84 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
       </div>
 
       {/* KPI dynamic grid depending on activeMode */}
-      <div className="kpis">
-        {activeMode === "kmeans" && [
-          { label: "Algoritmo", value: "K-Means", trend: "Agrupamento não supervisionado" },
-          { label: "Clusters", value: "4 + ruído", trend: "Perfis hidrológicos simulados" },
-          { label: "Silhouette", value: "0.71", trend: "Boa separação entre grupos" },
-          { label: "Base analisada", value: "8 estações", trend: "Leituras hidrometeorológicas" },
-          { label: "PCA", value: "92%", trend: "Variabilidade explicada" }
-        ].map((k, i) => (
-          <div key={i} className="kpi">
-            <div className="kpi-label">{k.label}</div>
-            <div className="kpi-value">{k.value}</div>
-            <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 10 }}>● {k.trend}</div>
-            <div className="kpi-spark">
-              <Spark data={[15, 22, 25, 32, 45, 41, 38]} color="var(--cyan)" />
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`kpis-${activeMode}`}
+          className="kpis"
+          initial={{ opacity: 0, y: 8, filter: "blur(2px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -6, filter: "blur(2px)" }}
+          transition={modeTransition}
+        >
+          {activeMode === "kmeans" && [
+            { label: "Algoritmo", value: "K-Means", trend: "Agrupamento não supervisionado" },
+            { label: "Clusters", value: "4 + ruído", trend: "Perfis hidrológicos simulados" },
+            { label: "Silhouette", value: "0.71", trend: "Boa separação entre grupos" },
+            { label: "Base analisada", value: "8 estações", trend: "Leituras hidrometeorológicas" },
+            { label: "PCA", value: "92%", trend: "Variabilidade explicada" }
+          ].map((k, i) => (
+            <div key={i} className="kpi">
+              <div className="kpi-label">{k.label}</div>
+              <div className="kpi-value">{k.value}</div>
+              <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 10 }}>● {k.trend}</div>
+              <div className="kpi-spark">
+                <Spark data={[15, 22, 25, 32, 45, 41, 38]} color="var(--cyan)" />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        {activeMode === "dbscan" && [
-          { label: "Algoritmo", value: "DBSCAN", trend: "Por densidade (Conceitual)" },
-          { label: "Eps (Vizinhança)", value: String(dbscanEps), trend: "Raio de vizinhança didático" },
-          { label: "MinPts (Mínimo)", value: String(dbscanMinPts), trend: "Mínimo de pontos por cluster" },
-          { label: "Ruídos", value: "4 pontos", trend: "Pontos isolados na simulação" },
-          { label: "Modo", value: "Simulado", trend: "Visualização didática" }
-        ].map((k, i) => (
-          <div key={i} className="kpi" style={{ padding: "8px 12px", minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div className="kpi-label">{k.label}</div>
-            <div className="kpi-value" style={{ fontSize: "18px", lineHeight: "1.2" }}>{k.value}</div>
-            <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 9, marginTop: 2 }}>● {k.trend}</div>
-            <div className="kpi-spark" style={{ height: "16px", marginTop: 4 }}>
-              <Spark data={[10, 18, 30, 24, 18, 12, 10]} color="var(--aqua)" />
+          {activeMode === "dbscan" && [
+            { label: "Algoritmo", value: "DBSCAN", trend: "Por densidade (Conceitual)" },
+            { label: "Eps (Vizinhança)", value: String(dbscanEps), trend: "Raio de vizinhança didático" },
+            { label: "MinPts (Mínimo)", value: String(dbscanMinPts), trend: "Mínimo de pontos por cluster" },
+            { label: "Ruídos", value: "4 pontos", trend: "Pontos isolados na simulação" },
+            { label: "Modo", value: "Simulado", trend: "Visualização didática" }
+          ].map((k, i) => (
+            <div key={i} className="kpi" style={{ padding: "8px 12px", minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div className="kpi-label">{k.label}</div>
+              <div className="kpi-value" style={{ fontSize: "18px", lineHeight: "1.2" }}>{k.value}</div>
+              <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 9, marginTop: 2 }}>● {k.trend}</div>
+              <div className="kpi-spark" style={{ height: "16px", marginTop: 4 }}>
+                <Spark data={[10, 18, 30, 24, 18, 12, 10]} color="var(--aqua)" />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        {activeMode === "hierarchical" && [
-          { label: "Algoritmo", value: "Aglomerativo", trend: "Agrupamento hierárquico conceitual" },
-          { label: "Métrica", value: "Euclidiana", trend: "Distância geométrica didática" },
-          { label: "Dendrograma", value: "Árvore única", trend: "Relações de similaridade" },
-          { label: "Corte conceitual", value: "Didático", trend: "Separa grupos simulados" },
-          { label: "Escopo", value: "Simulado", trend: "Cenário-base didático" }
-        ].map((k, i) => (
-          <div key={i} className="kpi" style={{ padding: "8px 12px", minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div className="kpi-label">{k.label}</div>
-            <div className="kpi-value" style={{ fontSize: "18px", lineHeight: "1.2" }}>{k.value}</div>
-            <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 9, marginTop: 2 }}>● {k.trend}</div>
-            <div className="kpi-spark" style={{ height: "16px", marginTop: 4 }}>
-              <Spark data={[30, 25, 20, 15, 10, 8, 5]} color="var(--aqua)" />
+          {activeMode === "hierarchical" && [
+            { label: "Algoritmo", value: "Aglomerativo", trend: "Agrupamento hierárquico conceitual" },
+            { label: "Métrica", value: "Euclidiana", trend: "Distância geométrica didática" },
+            { label: "Dendrograma", value: "Árvore única", trend: "Relações de similaridade" },
+            { label: "Corte conceitual", value: "Didático", trend: "Separa grupos simulados" },
+            { label: "Escopo", value: "Simulado", trend: "Cenário-base didático" }
+          ].map((k, i) => (
+            <div key={i} className="kpi" style={{ padding: "8px 12px", minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div className="kpi-label">{k.label}</div>
+              <div className="kpi-value" style={{ fontSize: "18px", lineHeight: "1.2" }}>{k.value}</div>
+              <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 9, marginTop: 2 }}>● {k.trend}</div>
+              <div className="kpi-spark" style={{ height: "16px", marginTop: 4 }}>
+                <Spark data={[30, 25, 20, 15, 10, 8, 5]} color="var(--aqua)" />
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
 
       {/* Main interactive area */}
       <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, marginTop: 18 }} className="methodology-grid">
         
         {/* Main Card (Chart Area) */}
         <div className="card" style={{ padding: 20 }}>
+          <AnimatePresence mode="wait" initial={false}>
           
           {/* Mode 1: K-Means (Demonstrado) */}
           {activeMode === "kmeans" && (
-            <div>
+            <motion.div
+              key="main-kmeans"
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
                   <Layers size={16} className="ico" style={{ marginRight: 8, color: "var(--cyan)" }} /> Mapa de similaridade das estações
@@ -506,12 +526,18 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Mode 2: DBSCAN (Conceitual) */}
           {activeMode === "dbscan" && (
-            <div>
+            <motion.div
+              key="main-dbscan"
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
                   <Radar size={16} className="ico" style={{ marginRight: 8, color: "var(--aqua)" }} /> Agrupamento por densidade (DBSCAN)
@@ -646,12 +672,18 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Mode 3: Hierárquico (Conceitual) */}
           {activeMode === "hierarchical" && (
-            <div>
+            <motion.div
+              key="main-hierarchical"
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
                   <Network size={16} className="ico" style={{ marginRight: 8, color: "var(--aqua)" }} /> Agrupamento Hierárquico (Dendrograma)
@@ -754,8 +786,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   <span><span style={{ color: "var(--risk-fail)", marginRight: 5 }}>●</span>Cinza: falha/ruído</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
+          </AnimatePresence>
 
           {/* Footer warning */}
           <div style={{ 
@@ -774,9 +807,17 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
 
         {/* Dynamic Sidebar */}
         <div className="col" style={{ gap: 16 }}>
+          <AnimatePresence mode="wait" initial={false}>
           
           {activeMode === "kmeans" && (
-            <>
+            <motion.div
+              key="sidebar-kmeans"
+              style={{ display: "flex", flexDirection: "column" }}
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div className="card">
                 <div className="card-head" style={{ marginBottom: 12 }}>
                   <div className="card-title">
@@ -867,11 +908,18 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   })}
                 </div>
               </div>
-            </>
+            </motion.div>
           )}
 
           {activeMode === "dbscan" && (
-            <>
+            <motion.div
+              key="sidebar-dbscan"
+              style={{ display: "flex", flexDirection: "column" }}
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div className="card">
                 <div className="card-head" style={{ marginBottom: 12 }}>
                   <div className="card-title" style={{ color: "var(--aqua)" }}>
@@ -918,11 +966,18 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   </div>
                 </div>
               </div>
-            </>
+            </motion.div>
           )}
 
           {activeMode === "hierarchical" && (
-            <>
+            <motion.div
+              key="sidebar-hierarchical"
+              style={{ display: "flex", flexDirection: "column" }}
+              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              transition={modeTransition}
+            >
               <div className="card">
                 <div className="card-head" style={{ marginBottom: 12 }}>
                   <div className="card-title" style={{ color: "var(--aqua)" }}>
@@ -964,10 +1019,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
                   </div>
                 </div>
               </div>
-            </>
+            </motion.div>
           )}
-
-
+          </AnimatePresence>
 
         </div>
       </div>

@@ -8,10 +8,21 @@ interface TopbarProps {
 
 export const Topbar: React.FC<TopbarProps> = ({ route }) => {
   const [updating, setUpdating] = useState(false);
+  const [scenarioBaseAt, setScenarioBaseAt] = useState<Date>(new Date(2024, 4, 2, 8, 30));
   const item = NAV_ITEMS.find(n => n.k === route) || NAV_ITEMS[1];
+
+  const formattedScenarioBase = new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).format(scenarioBaseAt).replace(",", " ·");
 
   const handleRefresh = () => {
     setUpdating(true);
+    setScenarioBaseAt(new Date());
     setTimeout(() => {
       setUpdating(false);
     }, 800);
@@ -31,7 +42,7 @@ export const Topbar: React.FC<TopbarProps> = ({ route }) => {
 
       <div className="topbar-meta">
         <Calendar size={12} />
-        <span>Cenário-base: 02/05/2024 · 08:30</span>
+        <span>Cenário-base: {formattedScenarioBase}</span>
       </div>
 
       <button className="btn btn-sm" onClick={handleRefresh} disabled={updating}>
