@@ -358,7 +358,7 @@ export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go
                   transition={{ duration: 0.31, ease: smoothEase }}
                   style={{ willChange: "opacity, transform" }}
                 >
-                  <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16 }} className="forecast-hero-grid">
+                  <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16 }} className="two-col-responsive-grid">
                     <div
                       className="card"
                       style={{

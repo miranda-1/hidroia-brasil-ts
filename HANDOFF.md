@@ -130,31 +130,17 @@ O dataset é constituído por **8 estações hidrometeorológicas simuladas** di
 - **Ações Seguras**: Mantidos botões `Exportar simulação` e `Registrar interpretação`.
 
 ### 6.7 Metodologia de IA (Aprovado)
-- **Pipeline Completo (8 Etapas)**: `Base simulada` → `Tratamento e normalização` → `Detecção conceitual de anomalias` → `Redução de dimensionalidade` → `Agrupamento de padrões` → `Previsão conceitual` → `Métricas de avaliação` → `Limitações acadêmicas`.
+- **Pipeline Completo (7 Etapas)**: `Base simulada` → `Tratamento e normalização` → `Detecção conceitual de anomalias` → `Redução de dimensionalidade` → `Agrupamento de padrões` → `Métricas de avaliação` → `Limitações acadêmicas`.
 - **Separação Didática de Técnicas**:
-  - **Demonstradas no protótipo**: K-Means, Isolation Forest, PCA.
-  - **Arquitetura conceitual/futura**: DBSCAN, Hierarchical Clustering, Autoencoders, t-SNE/UMAP, XGBoost Regressor, SVR.
+  - **Demonstradas no protótipo**: K-Means, DBSCAN, Hierarchical Clustering, Isolation Forest e Autoencoders.
+  - **Apoio metodológico/futuro**: PCA e t-SNE/UMAP.
 - **Métricas Conceituais**: F1-Score, Silhouette Score, erro de magnitude do pico, erro de tempo do pico.
 - **Nota Técnica Importante**: Autoencoders descritos corretamente como técnica não supervisionada/auto-supervisionada via erro de reconstrução.
 - **Layout Atual**: aviso acadêmico no topo + pipeline em grid + bloco de técnicas demonstradas + bloco de arquitetura futura + bloco de métricas.
 - **Ajuste Final**: removido o card repetido de escopo no fim, mantendo encerramento limpo após métricas.
 
-### 6.8 Previsão Conceitual (Aprovado)
-- **Nova Direção**: A tela virou uma **arquitetura conceitual de previsão** para apresentação metodológica no DAC.
-- **Fluxo Visual (8 Etapas)**:
-  - Entrada simulada
-  - Pré-processamento
-  - Filtro de qualidade/anomalias
-  - Redução/visualização
-  - Agrupamento
-  - Previsão conceitual
-  - Avaliação metodológica
-  - Saída didática
-- **Técnicas explicitamente mapeadas no pipeline**:
-  Isolation Forest, Autoencoders, PCA, t-SNE, UMAP, K-Means, DBSCAN, Hierarchical Clustering, XGBoost Regressor, SVR.
-- **Modelos de Previsão em Arquitetura Futura**: seção dedicada para XGBoost Regressor e SVR, com nota de que não há treino real nem validação operacional no protótipo atual.
-- **Métricas na Página**: F1-Score, Silhouette Score, erro de magnitude do pico e erro de tempo do pico como referência metodológica.
-- **Fechamento Didático**: card final "Do dado simulado à interpretação acadêmica" + CTA seguros (`Ver metodologia`, `Explorar clusters`, `Consultar base simulada`, `Ver recomendações conceituais`, `Voltar ao Dashboard`).
+### 6.8 Ajuste de Escopo
+- A tela dedicada de previsão foi removida do protótipo para manter foco em dashboard, anomalias, clusters, metodologia e recomendações conceituais.
 
 ---
 
@@ -208,21 +194,33 @@ git push
 
 ## 10. Últimos Testes Conhecidos
 
-- **TypeScript e Linter (`npm run lint`)**: 100% de sucesso (0 erros, 0 avisos) após os ajustes recentes de Landing, Recomendações, Metodologia e Previsão Conceitual.
+- **TypeScript e Linter (`npm run lint`)**: 100% de sucesso (0 erros, 0 avisos) após os ajustes recentes de Landing, Recomendações e Metodologia.
 - **Geração de Build Estático (`npm run build`)**: builds recentes concluídas com sucesso total (faixa ~137ms a ~152ms), com pacote de produção otimizado.
 
 ---
 
-## 11. Próximos Passos Recomendados para a Apresentação
+## 11. Atualizações de Hoje
+
+- **Mapa (estabilidade visual)**: em `src/components/map/BrazilSensorMap.tsx`, estados e pinos passaram a usar o mesmo sistema de transformação (`mapTransform` + `toMapSpace`), removendo desalinhamentos entre monitores.
+- **Mapa (acabamento visual)**: removido `drop-shadow` global dos estados; `fill` e `stroke` dos estados foram suavizados para eliminar efeito de "dupla demarcação".
+- **Pinos recalibrados**: em `src/data/stations.ts`, todas as 8 estações foram reposicionadas para centralização visual por estado; destaque para MT (`PAN-04` em `370,266`).
+- **Landing corrigida para monitores menores**: em `src/pages/Landing.tsx`, `overflow` foi ajustado para `overflowX: hidden`, reduzindo cortes verticais do conteúdo.
+- **Tela de previsão removida do produto**: rota removida em `src/App.tsx`, item removido em `src/components/layout/Sidebar.tsx`, arquivo removido `src/pages/ConceptualForecast.tsx`.
+- **Metodologia alinhada ao novo escopo**: em `src/pages/Methodology.tsx`, pipeline atualizado para 7 etapas e técnicas visuais ajustadas para 5, sem CTA/navegação para tela removida.
+- **Texto e navegação sem resquícios**: menções à antiga tela removidas da Landing; grids responsivos de `Recommendations` e `DacArticulation` migrados para `.two-col-responsive-grid` em `src/index.css`.
+
+---
+
+## 12. Próximos Passos Recomendados para a Apresentação
 
 1. **Revisar Clustering (K-Means/PCA)**: foco em fluidez visual e narrativa oral do gráfico de similaridade.
 2. **Checagem Final de Coerência Terminológica**: garantir que todas as páginas mantenham o padrão "simulado/conceitual/sem uso operacional".
-3. **Simulação Oral Integrada**: treinar a sequência Landing → Dashboard → Anomalias → Clustering → Metodologia → Previsão Conceitual → Recomendações.
+3. **Simulação Oral Integrada**: treinar a sequência Landing → Dashboard → Anomalias → Clustering → Metodologia → Recomendações.
 4. **Deploy e Checklist de Banca**: validar build final e disponibilidade da versão de apresentação.
 
 ---
 
-## 12. Regras de Linguagem Segura (Aviso de Conformidade)
+## 13. Regras de Linguagem Segura (Aviso de Conformidade)
 
 > [!CAUTION]
 > **COMPROMISSO DIDÁTICO E CONCEITUAL ACADÊMICO**:

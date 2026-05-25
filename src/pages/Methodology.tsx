@@ -8,15 +8,12 @@ import {
   CheckCircle,
   Cpu,
   Database,
-  Gauge,
   GitBranch,
   Layers,
-  LineChart,
   Network,
   Radar,
   RefreshCw,
   Shield,
-  TrendingUp,
   Zap,
 } from "lucide-react";
 
@@ -24,7 +21,7 @@ interface MethodologyProps {
   go: (k: string) => void;
 }
 
-type TechniqueRoute = "clustering" | "anomalies" | "forecast";
+type TechniqueRoute = "clustering" | "anomalies";
 
 export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
   const pipelineSteps = [
@@ -65,20 +62,13 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
     },
     {
       num: "06",
-      title: "Previsão conceitual",
-      icon: <TrendingUp size={15} />,
-      status: "arquitetura futura",
-      body: "Explora tendências hidrológicas didáticas com modelos de regressão em arquitetura futura.",
-    },
-    {
-      num: "07",
       title: "Métricas de avaliação",
       icon: <Activity size={15} />,
       status: "conceitual",
-      body: "Usa referências de qualidade analítica para explicar interpretação de classificação, clusterização e previsão.",
+      body: "Usa referências de qualidade analítica para explicar interpretação de classificação e clusterização.",
     },
     {
-      num: "08",
+      num: "07",
       title: "Limitações do escopo",
       icon: <Shield size={15} />,
       status: "conceitual",
@@ -128,20 +118,6 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
       route: "anomalies",
       cta: "Ver em Anomalias",
     },
-    {
-      name: "XGBoost Regressor",
-      icon: <Gauge size={14} />,
-      body: "Representa regressão baseada em árvores para leitura didática de tendência hidrológica.",
-      route: "forecast",
-      cta: "Ver em Previsão",
-    },
-    {
-      name: "SVR",
-      icon: <LineChart size={14} />,
-      body: "Explora regressão por vetores de suporte como abordagem conceitual de previsão em cenário-base.",
-      route: "forecast",
-      cta: "Ver em Previsão",
-    },
   ];
 
   const supportTechniques = [
@@ -177,7 +153,7 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
     },
     {
       name: "Erro de tempo do pico",
-      icon: <TrendingUp size={14} />,
+      icon: <Activity size={14} />,
       body: "Referência para avaliar diferença entre momento estimado e momento observado de um pico.",
     },
   ];
@@ -198,19 +174,13 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
       border: "var(--risk-crit)",
       chip: "Anomalias",
     },
-    forecast: {
-      color: "var(--aqua)",
-      bg: "var(--aqua-soft)",
-      border: "oklch(0.82 0.12 185 / 0.30)",
-      chip: "Previsão",
-    },
   };
 
   return (
     <div className="page">
       <PageHeader
         category="METODOLOGIA DE IA"
-        title="Pipeline conceitual para previsão didática de cenários de cheia"
+        title="Pipeline conceitual de análise hidrometeorológica"
         subtitle="Guia metodológico com fluxo visual, técnicas conceituais e referências de interpretação para o cenário-base simulado."
       />
 
@@ -244,7 +214,7 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
           <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <GitBranch size={14} /> Pipeline metodológico conceitual
           </div>
-          <span className="mono small">8 ETAPAS</span>
+          <span className="mono small">7 ETAPAS</span>
         </div>
 
         <p className="small" style={{ margin: "0 0 12px 0", color: "var(--muted)", lineHeight: 1.45 }}>
@@ -314,7 +284,7 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
           <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <Brain size={14} /> Técnicas com protótipo visual
           </div>
-          <span className="mono small">7 TÉCNICAS</span>
+          <span className="mono small">5 TÉCNICAS</span>
         </div>
 
         <div

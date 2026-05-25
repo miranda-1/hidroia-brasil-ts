@@ -456,7 +456,7 @@ export const Recommendations: React.FC = () => {
                 >
                   <div
                     style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16, alignItems: "stretch" }}
-                    className="forecast-hero-grid"
+                    className="two-col-responsive-grid"
                   >
                     <div
                       className="card"

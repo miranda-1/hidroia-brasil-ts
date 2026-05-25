@@ -1,15 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from "react";
-import { 
-  Home, 
-  BarChart2, 
-  Layers, 
-  AlertTriangle, 
-  Cpu, 
-  Shield, 
+import {
+  Home,
+  BarChart2,
+  Layers,
+  AlertTriangle,
+  Cpu,
+  Shield,
   Database,
-  GraduationCap,
-  TrendingUp
+  GraduationCap
 } from "lucide-react";
 
 export interface NavItem {
@@ -26,7 +25,6 @@ export const NAV_ITEMS: NavItem[] = [
   { k: "data",       label: "Base de dados",          iconName: "Database",      crumb: "BASE DE DADOS",           group: "PLATAFORMA" },
   { k: "clustering", label: "Clusters e padrões",     iconName: "Layers",        crumb: "CLUSTERS E PADRÕES",      group: "ANÁLISES DE IA" },
   { k: "anomalies",  label: "Anomalias",              iconName: "AlertTriangle", crumb: "DETECÇÃO DE ANOMALIAS",    group: "ANÁLISES DE IA" },
-  { k: "forecast",   label: "Previsão conceitual",    iconName: "TrendingUp",    crumb: "PREVISÃO CONCEITUAL",     group: "ANÁLISES DE IA" },
   { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "RECOMENDAÇÕES",           group: "ANÁLISES DE IA" },
   { k: "ai",         label: "Metodologia de IA",      iconName: "Cpu",           crumb: "METODOLOGIA DE IA",       group: "DOCUMENTAÇÃO" },
   { k: "dac",        label: "Articulação DAC",        iconName: "GraduationCap", crumb: "ARTICULAÇÃO DAC",         group: "DOCUMENTAÇÃO" }
@@ -40,8 +38,7 @@ const iconMap: Record<string, React.ReactNode> = {
   Cpu: <Cpu size={15} />,
   Shield: <Shield size={15} />,
   GraduationCap: <GraduationCap size={15} />,
-  Database: <Database size={15} />,
-  TrendingUp: <TrendingUp size={15} />
+  Database: <Database size={15} />
 };
 
 interface SidebarProps {

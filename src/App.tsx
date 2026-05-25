@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Landing } from "./pages/Landing";
 import { Dashboard } from "./pages/Dashboard";
 import { Clustering } from "./pages/Clustering";
-import { ConceptualForecast } from "./pages/ConceptualForecast";
 import { Anomalies } from "./pages/Anomalies";
 import { Methodology } from "./pages/Methodology";
 import { Recommendations } from "./pages/Recommendations";
@@ -20,7 +19,6 @@ function App() {
       case "landing": return "Página Inicial";
       case "dashboard": return "Dashboard";
       case "clustering": return "Clustering";
-      case "forecast": return "Previsão Conceitual";
       case "anomalies": return "Anomalias";
       case "ai": return "Metodologia de IA";
       case "rec": return "Recomendações";
@@ -44,12 +42,6 @@ function App() {
         return (
           <AppShell route={route} go={setRoute} screenLabel={getScreenLabel(route)}>
             <Clustering go={setRoute} />
-          </AppShell>
-        );
-      case "forecast":
-        return (
-          <AppShell route={route} go={setRoute} screenLabel={getScreenLabel(route)}>
-            <ConceptualForecast go={setRoute} />
           </AppShell>
         );
       case "anomalies":

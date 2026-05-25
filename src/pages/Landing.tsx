@@ -252,7 +252,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             boxShadow: "var(--shadow-card)"
           }}>
             <div className="card-eyebrow" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <Cpu size={10} /> Previsão conceitual
+              <Cpu size={10} /> Modelagem didática
             </div>
             <div style={{ fontSize: 11, color: "var(--text-2)", marginTop: 6, lineHeight: 1.4 }}>
               Tendências hidrológicas em cenário-base.
@@ -336,7 +336,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
                 A base do projeto utiliza 8 estações hidrometeorológicas simuladas, com campos inspirados em estruturas ANA/HIDRO, como bacia, tipo de estação, nível do rio, vazão estimada, chuva acumulada, qualidade do dado, marcador de cenário e score de anomalia.
               </p>
               <p style={{ margin: 0, color: "var(--muted)", fontSize: 13.5 }}>
-                O sistema apresenta de forma interativa conceitos de Ciência de Dados e Aprendizado Não Supervisionado, incluindo K-Means, PCA, detecção conceitual de anomalias e previsão conceitual de tendências hidrológicas, sempre em contexto acadêmico.
+                O sistema apresenta de forma interativa conceitos de Ciência de Dados e Aprendizado Não Supervisionado, incluindo K-Means, PCA, detecção conceitual de anomalias e leitura didática de tendências hidrológicas, sempre em contexto acadêmico.
               </p>
             </div>
           </div>
@@ -345,7 +345,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {[
               { t: "Dados 100% simulados", s: "Base simulada com scores e cenários estruturados para análise didática." },
-              { t: "Previsão conceitual", s: "Arquitetura didática para representar tendências hidrológicas em um cenário-base." },
+              { t: "Modelagem didática", s: "Estrutura conceitual para interpretar tendências hidrológicas em um cenário-base." },
               { t: "Sem uso operacional", s: "Plataforma conceitual sem coleta externa em tempo real ou integração operacional." }
             ].map((card, idx) => (
               <div key={idx} className="card" style={{ 
@@ -370,7 +370,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div>
-          HidroIA • Plataforma Conceitual • DAC 5º semestre • Dados simulados • Previsão conceitual
+          HidroIA • Plataforma Conceitual • DAC 5º semestre • Dados simulados
         </div>
       </footer>
     </div>
