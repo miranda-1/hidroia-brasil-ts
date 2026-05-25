@@ -17,19 +17,19 @@ export interface NavItem {
   label: string;
   iconName: string;
   crumb: string;
-  group: "PLATAFORMA" | "INTELIGÊNCIA" | "DAC";
+  group: "PLATAFORMA" | "ANÁLISES DE IA" | "DOCUMENTAÇÃO";
 }
 
 export const NAV_ITEMS: NavItem[] = [
   { k: "landing",    label: "Página inicial",         iconName: "Home",          crumb: "INÍCIO",                  group: "PLATAFORMA" },
   { k: "dashboard",  label: "Dashboard nacional",     iconName: "BarChart2",     crumb: "DASHBOARD NACIONAL",      group: "PLATAFORMA" },
   { k: "data",       label: "Base de dados",          iconName: "Database",      crumb: "BASE DE DADOS",           group: "PLATAFORMA" },
-  { k: "clustering", label: "Clusters K-Means",       iconName: "Layers",        crumb: "AGRUPAMENTO K-MEANS",     group: "INTELIGÊNCIA" },
-  { k: "forecast",   label: "Previsão conceitual",    iconName: "TrendingUp",    crumb: "PREVISÃO CONCEITUAL",     group: "INTELIGÊNCIA" },
-  { k: "anomalies",  label: "Anomalias Iso Forest",   iconName: "AlertTriangle", crumb: "DETECÇÃO DE ANOMALIAS",    group: "INTELIGÊNCIA" },
-  { k: "ai",         label: "Metodologia de IA",      iconName: "Cpu",           crumb: "METODOLOGIA DE IA",       group: "INTELIGÊNCIA" },
-  { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "MITIGAÇÃO",               group: "INTELIGÊNCIA" },
-  { k: "dac",        label: "Articulação acadêmica",  iconName: "GraduationCap", crumb: "DAC • ARTICULAÇÃO",       group: "DAC" }
+  { k: "clustering", label: "Clusters e padrões",     iconName: "Layers",        crumb: "CLUSTERS E PADRÕES",      group: "ANÁLISES DE IA" },
+  { k: "anomalies",  label: "Anomalias",              iconName: "AlertTriangle", crumb: "DETECÇÃO DE ANOMALIAS",    group: "ANÁLISES DE IA" },
+  { k: "forecast",   label: "Previsão conceitual",    iconName: "TrendingUp",    crumb: "PREVISÃO CONCEITUAL",     group: "ANÁLISES DE IA" },
+  { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "MITIGAÇÃO",               group: "ANÁLISES DE IA" },
+  { k: "ai",         label: "Metodologia de IA",      iconName: "Cpu",           crumb: "METODOLOGIA DE IA",       group: "DOCUMENTAÇÃO" },
+  { k: "dac",        label: "Articulação DAC",        iconName: "GraduationCap", crumb: "ARTICULAÇÃO DAC",         group: "DOCUMENTAÇÃO" }
 ];
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -52,8 +52,14 @@ interface SidebarProps {
 import { WaterDropLogo } from "../ui/WaterDropLogo";
 
 export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
   return (
-    <aside className="sidebar">
+    <aside 
+      className="sidebar"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="brand">
         <WaterDropLogo size={28} />
         <div>
@@ -66,10 +72,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
           const showHeader = idx === 0 || item.group !== NAV_ITEMS[idx - 1].group;
           return (
             <React.Fragment key={item.k}>
-              {showHeader && <div className="nav-section">{item.group}</div>}
-              <button className={`nav-item ${route === item.k ? "active" : ""}`}
-                      onClick={() => go(item.k)}
-                      title={item.label}>
+              {showHeader && (
+                <div 
+                  className="nav-section"
+                  style={{
+                    marginTop: idx > 0 ? "14px" : "4px",
+                    borderTop: idx > 0 ? "1px solid oklch(0.78 0.13 210 / 0.1)" : "none",
+                    paddingTop: idx > 0 ? "14px" : "4px"
+                  }}
+                >
+                  {item.group}
+                </div>
+              )}
+              <button 
+                className={`nav-item ${route === item.k ? "active" : ""}`}
+                onClick={() => go(item.k)}
+                title={isHovered ? "" : item.label}
+              >
                 <span className="ico">{iconMap[item.iconName]}</span>
                 <span>{item.label}</span>
               </button>
@@ -83,8 +102,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
         <div className="mono" style={{ marginTop: 6, fontSize: "8.5px", color: "var(--cyan)", fontWeight: 600, letterSpacing: "0.02em" }}>
           DADOS SIMULADOS
         </div>
-        <div className="mono" style={{ marginTop: 3, fontSize: "8px", color: "var(--risk-high)", fontWeight: 600, letterSpacing: "0.02em" }}>
-          SEM INTEGRAÇÃO REAL
+        <div className="mono" style={{ marginTop: 3, fontSize: "8px", color: "var(--risk-med)", fontWeight: 600, letterSpacing: "0.02em" }}>
+          CENÁRIO CONCEITUAL
         </div>
       </div>
     </aside>

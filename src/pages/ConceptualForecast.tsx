@@ -53,8 +53,8 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
       title: "Redução e visualização",
       zone: "EXPLORAÇÃO",
       icon: <Cpu size={16} />,
-      desc: "PCA, t-SNE e UMAP aparecem como técnicas de compactação e visualização 2D/3D conceitual para leitura exploratória de padrões.",
-      chips: ["PCA", "t-SNE", "UMAP"],
+      desc: "Técnicas de redução e visualização podem apoiar leituras exploratórias em arquiteturas futuras, condensando múltiplas variáveis em representações mais interpretáveis.",
+      chips: ["Redução dimensional", "Visualização", "Exploração"],
     },
     {
       num: "05",
@@ -93,23 +93,23 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
   const metrics = [
     {
       title: "F1-Score",
-      desc: "Referência para equilíbrio entre precisão e revocação na detecção de anomalias em uma base validada.",
-      icon: <CheckCircle size={14} />,
+      desc: "Referência conceitual para equilíbrio entre precisão e revocação na sinalização didática de anomalias.",
+      icon: <CheckCircle size={13} />,
     },
     {
       title: "Silhouette Score",
-      desc: "Referência para coerência de clusters; valores próximos de 1 indicam grupos mais separados e consistentes.",
-      icon: <Layers size={14} />,
+      desc: "Métrica de referência para consistência de clusters didáticos em bases de dados conceituais.",
+      icon: <Layers size={13} />,
     },
     {
       title: "Erro de magnitude do pico",
-      desc: "Referência para diferença entre pico previsto e pico observado em cenários de avaliação metodológica.",
-      icon: <TrendingUp size={14} />,
+      desc: "Erro relativo de pico em projeções de regressão didática sob cenários experimentais.",
+      icon: <TrendingUp size={13} />,
     },
     {
       title: "Erro de tempo do pico",
-      desc: "Referência para diferença entre o momento previsto e o observado de um pico hidrológico.",
-      icon: <Activity size={14} />,
+      desc: "Desvio temporal estimado para ocorrência de picos em modelagens conceituais futuras.",
+      icon: <Activity size={13} />,
     },
   ];
 
@@ -140,254 +140,336 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
         ))}
       </div>
 
-      <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-eyebrow">AVISO ACADÊMICO</div>
-        <p className="small" style={{ margin: "8px 0 0", lineHeight: 1.55, color: "var(--text-2)" }}>
-          Esta página apresenta uma arquitetura conceitual de IA para fins acadêmicos. Os modelos citados não executam estimativas aplicadas no protótipo atual; eles representam possibilidades metodológicas para uma versão futura validada.
+      {/* Escopo da Simulação Alert */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 16px",
+        borderRadius: 8,
+        background: "oklch(0.74 0.18 52 / 0.05)",
+        border: "1px solid oklch(0.74 0.18 52 / 0.15)",
+        marginBottom: 24,
+        flexWrap: "wrap"
+      }}>
+        <div className="row" style={{ gap: 6, color: "var(--risk-med)", flexShrink: 0 }}>
+          <Shield size={14} />
+          <span className="mono" style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            Escopo da simulação
+          </span>
+        </div>
+        <div style={{ width: 1, height: 14, background: "var(--border-soft)", display: "none" }} className="toolbar-sep" />
+        <p className="small" style={{ margin: 0, color: "var(--text-2)", fontSize: 11.5, lineHeight: 1.45 }}>
+          Visualização didática com dados simulados. As curvas e métricas não representam previsão operacional nem validação com dados oficiais.
         </p>
       </div>
 
-      <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-head">
-          <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <GitBranch size={15} style={{ color: "var(--cyan)" }} />
-            <span>Pipeline Conceitual de IA</span>
-          </div>
-          <span className="mono small">8 ETAPAS · ENTRADA → SAÍDA</span>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(235px, 1fr))",
-            gap: 12,
-            marginTop: 14,
-          }}
-        >
-          {pipelineSteps.map((step) => (
-            <div
-              key={step.num}
-              className="pipeline-card"
-              style={{
-                padding: 12,
-                background: "oklch(0.24 0.032 232 / 0.62)",
-                borderColor: "oklch(0.78 0.13 210 / 0.14)",
-              }}
-            >
-              <div className="row" style={{ justifyContent: "space-between", marginBottom: 8 }}>
-                <span className="mono" style={{ fontSize: 10, color: "var(--muted)" }}>
-                  ETAPA {step.num}
-                </span>
-                <span className="chip" style={{ padding: "2px 7px", fontSize: 10, cursor: "default" }}>
-                  {step.zone}
-                </span>
-              </div>
-              <div className="row" style={{ gap: 8, color: "var(--cyan)", marginBottom: 7 }}>
-                {step.icon}
-                <strong style={{ fontSize: 12.5, color: "var(--text)" }}>{step.title}</strong>
-              </div>
-              <p className="small" style={{ margin: 0, lineHeight: 1.42, color: "var(--text-2)", fontSize: 11.2 }}>
-                {step.desc}
-              </p>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 9 }}>
-                {step.chips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="chip"
-                    style={{ padding: "2px 6px", fontSize: 9.8, cursor: "default", opacity: 0.9 }}
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="forecast-layout">
-        <div>
-          <div className="card" style={{ padding: 20 }}>
-            <div className="row" style={{ gap: 8, marginBottom: 12, justifyContent: "space-between", flexWrap: "wrap" }}>
-              <div className="row" style={{ gap: 8, color: "var(--cyan)" }}>
-                <LineChart size={18} />
-                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Comparação conceitual de regressão</h3>
-              </div>
-              <span className="mono small" style={{ color: "var(--cyan)", opacity: 0.8 }}>ARQUITETURA FUTURA</span>
+        {/* Comparação Conceitual de Regressão */}
+        <div className="card" style={{ padding: 20 }}>
+          <div className="row" style={{ gap: 8, marginBottom: 12, justifyContent: "space-between", flexWrap: "wrap" }}>
+            <div className="row" style={{ gap: 8, color: "var(--cyan)" }}>
+              <LineChart size={18} />
+              <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Comparação conceitual de regressão</h3>
             </div>
+            <span className="mono small" style={{ color: "var(--cyan)", opacity: 0.8 }}>ARQUITETURA FUTURA</span>
+          </div>
 
-            <p className="small" style={{ color: "var(--text-2)", lineHeight: 1.5, marginBottom: 16 }}>
-              Esta visualização representa uma simulação didática de como modelos de regressão supervisionados poderiam estimar tendências futuras a partir de dados históricos tabulares simulados em uma arquitetura futura de IA.
-            </p>
+          <p className="small" style={{ color: "var(--text-2)", lineHeight: 1.5, marginBottom: 16 }}>
+            Esta visualização representa uma simulação didática de como modelos de regressão supervisionados poderiam estimar tendências futuras a partir de dados históricos tabulares simulados em uma arquitetura futura de IA.
+          </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 20, alignItems: "stretch" }} className="forecast-hero-grid">
-              {/* Gráfico SVG de Tendência */}
-              <div style={{
-                background: "oklch(0.12 0.015 240)",
-                border: "1px solid var(--border-soft)",
-                borderRadius: 10,
-                padding: 16,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between"
-              }}>
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 6 }}>
-                    <span className="mono small" style={{ fontSize: 9.5 }}>Simulação temporal do nível do rio</span>
-                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--text-2)" }}>
-                        <span style={{ width: 8, height: 2, background: "var(--muted)", display: "inline-block" }} /> Série observada simulada
-                      </span>
-                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--cyan)" }}>
-                        <span style={{ width: 8, height: 2, background: "var(--cyan)", display: "inline-block", borderBottom: "1px dashed var(--cyan)" }} /> XGBoost
-                      </span>
-                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--aqua)" }}>
-                        <span style={{ width: 8, height: 2, background: "var(--aqua)", display: "inline-block", borderBottom: "1px dotted var(--aqua)" }} /> SVR
-                      </span>
-                    </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 20, alignItems: "stretch" }} className="forecast-hero-grid">
+            {/* Gráfico SVG de Tendência */}
+            <div style={{
+              background: "oklch(0.14 0.022 225 / 0.95)",
+              border: "1px solid oklch(0.78 0.13 210 / 0.1)",
+              borderRadius: 10,
+              padding: 16,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}>
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
+                  <div className="row" style={{ gap: 6 }}>
+                    <Activity size={14} style={{ color: "var(--cyan)", opacity: 0.8 }} />
+                    <span className="mono" style={{ fontSize: 10.5, fontWeight: 600, color: "var(--text-2)" }}>Simulação temporal do nível do rio</span>
                   </div>
                   
-                  {/* SVG do Gráfico */}
-                  <svg viewBox="0 0 400 180" width="100%" height="220" style={{ display: "block" }}>
-                    {/* Grid lines */}
-                    <line x1="20" x2="390" y1="30" y2="30" stroke="oklch(1 0 0 / 0.04)" />
-                    <line x1="20" x2="390" y1="80" y2="80" stroke="oklch(1 0 0 / 0.04)" />
-                    <line x1="20" x2="390" y1="130" y2="130" stroke="oklch(1 0 0 / 0.04)" />
-                    <line x1="20" x2="20" y1="10" y2="160" stroke="oklch(1 0 0 / 0.08)" />
-                    <line x1="20" x2="390" y1="160" y2="160" stroke="oklch(1 0 0 / 0.08)" />
-
-                    {/* Curva Observada Simulada */}
-                    <path
-                      d="M 20 150 C 90 145, 120 40, 180 40 C 240 40, 280 120, 350 125 C 370 126, 380 135, 390 140"
-                      fill="none"
-                      stroke="var(--muted)"
-                      strokeWidth="2"
-                      opacity="0.7"
-                    />
-                    
-                    {/* Curva Projeção XGBoost (Dashed, com delay) */}
-                    <path
-                      d="M 20 150 C 92 147, 122 45, 210 45 C 260 45, 290 118, 350 123 C 370 124, 380 134, 390 138"
-                      fill="none"
-                      stroke="var(--cyan)"
-                      strokeWidth="2"
-                      strokeDasharray="4 4"
-                    />
-
-                    {/* Curva Projeção SVR (Dotted, mais suave) */}
-                    <path
-                      d="M 20 150 C 85 138, 115 50, 160 50 C 220 50, 270 125, 350 128 C 370 129, 380 137, 390 140"
-                      fill="none"
-                      stroke="var(--aqua)"
-                      strokeWidth="2"
-                      strokeDasharray="1.5 2.5"
-                    />
-
-                    {/* Destaque do Pico */}
-                    <circle cx="180" cy="40" r="3.5" fill="var(--risk-crit)" />
-                    <text x="180" y="32" fill="var(--text)" fontSize="8" textAnchor="middle" fontFamily="var(--font-mono)">Pico máximo</text>
-
-                    {/* Rótulos de tempo */}
-                    <text x="20" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)">t=0h</text>
-                    <text x="180" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="middle">t=12h (Pico)</text>
-                    <text x="390" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">t=24h</text>
-                    
-                    {/* Rótulos de nível */}
-                    <text x="14" y="33" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">6.0m</text>
-                    <text x="14" y="83" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">3.0m</text>
-                    <text x="14" y="133" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">1.0m</text>
-                  </svg>
+                  {/* Pico Máximo Badge */}
+                  <div className="row" style={{
+                    gap: 6,
+                    background: "oklch(0.62 0.17 15 / 0.08)",
+                    border: "1px solid oklch(0.62 0.17 15 / 0.2)",
+                    borderRadius: 6,
+                    padding: "3px 8px"
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--risk-crit)" }} />
+                    <span className="mono" style={{ fontSize: 9.5, color: "var(--text)", fontWeight: 600 }}>
+                      Pico Máximo: 6.0m (Simulado)
+                    </span>
+                  </div>
                 </div>
 
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 12, justifyContent: "flex-end" }}>
+                  <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--text-2)" }}>
+                    <span style={{ width: 8, height: 2, background: "var(--muted)", display: "inline-block" }} /> Série observada simulada
+                  </span>
+                  <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--cyan)" }}>
+                    <span style={{ width: 8, height: 2, background: "var(--cyan)", display: "inline-block", borderBottom: "1px dashed var(--cyan)" }} /> XGBoost
+                  </span>
+                  <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--aqua)" }}>
+                    <span style={{ width: 8, height: 2, background: "var(--aqua)", display: "inline-block", borderBottom: "1px dotted var(--aqua)" }} /> SVR
+                  </span>
+                </div>
+                
+                {/* SVG do Gráfico com Altura Ampliada */}
+                <svg viewBox="0 0 400 200" width="100%" height="280" style={{ display: "block" }}>
+                  {/* Grid lines */}
+                  <line x1="20" x2="390" y1="30" y2="30" stroke="oklch(1 0 0 / 0.04)" />
+                  <line x1="20" x2="390" y1="80" y2="80" stroke="oklch(1 0 0 / 0.04)" />
+                  <line x1="20" x2="390" y1="130" y2="130" stroke="oklch(1 0 0 / 0.04)" />
+                  <line x1="20" x2="390" y1="180" y2="180" stroke="oklch(1 0 0 / 0.04)" />
+                  <line x1="20" x2="20" y1="10" y2="180" stroke="oklch(1 0 0 / 0.08)" />
+                  <line x1="20" x2="390" y1="180" y2="180" stroke="oklch(1 0 0 / 0.08)" />
+
+                  {/* Zona de Incerteza Conceitual */}
+                  <path
+                    d="M 20 160 C 80 150, 110 50, 170 50 C 230 50, 270 130, 350 135 C 370 136, 380 145, 390 150 L 390 170 C 380 165, 370 157, 350 156 C 275 156, 235 80, 175 80 C 120 80, 90 175, 20 175 Z"
+                    fill="var(--cyan)"
+                    opacity="0.05"
+                  />
+
+                  {/* Curva Observada Simulada */}
+                  <path
+                    d="M 20 170 C 90 165, 120 60, 180 60 C 240 60, 280 140, 350 145 C 370 146, 380 155, 390 160"
+                    fill="none"
+                    stroke="var(--muted)"
+                    strokeWidth="2.5"
+                    opacity="0.7"
+                  />
+                  
+                  {/* Curva Projeção XGBoost (Dashed, com delay) */}
+                  <path
+                    d="M 20 170 C 92 167, 122 65, 210 65 C 260 65, 290 138, 350 143 C 370 144, 380 154, 390 158"
+                    fill="none"
+                    stroke="var(--cyan)"
+                    strokeWidth="2.5"
+                    strokeDasharray="4 4"
+                  />
+
+                  {/* Curva Projeção SVR (Dotted, mais suave) */}
+                  <path
+                    d="M 20 170 C 85 158, 115 70, 160 70 C 220 70, 270 145, 350 148 C 370 149, 380 157, 390 160"
+                    fill="none"
+                    stroke="var(--aqua)"
+                    strokeWidth="2.5"
+                    strokeDasharray="1.5 2.5"
+                  />
+
+                  {/* Destaque do Pico */}
+                  <circle cx="180" cy="60" r="4" fill="var(--risk-crit)" />
+                  <circle cx="180" cy="60" r="8" fill="var(--risk-crit)" opacity="0.25" />
+                  <text x="180" y="48" fill="var(--text)" fontSize="8.5" fontWeight="600" textAnchor="middle" fontFamily="var(--font-mono)">Pico Máximo (6.0m)</text>
+
+                  {/* Rótulos de tempo */}
+                  <text x="20" y="192" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)">t=0h</text>
+                  <text x="180" y="192" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="middle">t=12h (Pico)</text>
+                  <text x="390" y="192" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="end">t=24h</text>
+                  
+                  {/* Rótulos de nível */}
+                  <text x="14" y="33" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="end">6.0m</text>
+                  <text x="14" y="83" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="end">3.5m</text>
+                  <text x="14" y="133" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="end">1.5m</text>
+                  <text x="14" y="183" fill="var(--text-3)" fontSize="8.5" fontFamily="var(--font-mono)" textAnchor="end">0.0m</text>
+                </svg>
+              </div>
+
+              <div style={{
+                marginTop: 10,
+                padding: "8px 12px",
+                borderRadius: 6,
+                background: "oklch(0.74 0.18 52 / 0.04)",
+                border: "1px solid oklch(0.74 0.18 52 / 0.10)"
+              }}>
+                <p className="small" style={{ margin: 0, fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", lineHeight: 1.45 }}>
+                  As curvas representam uma projeção didática de como modelos de regressão poderiam estimar tendências em uma arquitetura futura.
+                </p>
+              </div>
+            </div>
+
+            {/* Informações e Métricas dos Modelos com Hierarquia Aprimorada */}
+            <div className="col" style={{ gap: 12, justifyContent: "space-between" }}>
+              <div className="col" style={{ gap: 10 }}>
+                {/* XGBoost Card */}
                 <div style={{
-                  marginTop: 10,
-                  padding: "8px 12px",
-                  borderRadius: 6,
-                  background: "oklch(0.74 0.18 52 / 0.04)",
-                  border: "1px solid oklch(0.74 0.18 52 / 0.10)"
+                  padding: 14,
+                  borderRadius: 10,
+                  border: "1px solid var(--border-soft)",
+                  background: "oklch(1 0 0 / 0.015)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8
                 }}>
-                  <p className="small" style={{ margin: 0, fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", lineHeight: 1.45 }}>
-                    As curvas representam uma projeção didática de como modelos de regressão poderiam estimar tendências em uma arquitetura futura.
+                  <div className="row" style={{ gap: 6, color: "var(--cyan)" }}>
+                    <Gauge size={14} />
+                    <strong style={{ fontSize: 13, color: "var(--text)" }}>XGBoost Regressor</strong>
+                  </div>
+                  <p className="small" style={{ margin: 0, fontSize: 11.2, lineHeight: 1.45, color: "var(--text-2)" }}>
+                    Modelo supervisionado baseado em árvores de decisão em conjunto (ensemble). Estima a tendência de elevação a partir de cenários tabulares simulados de chuva e vazão.
                   </p>
+                  
+                  {/* Mini cards internos para métricas */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 4 }}>
+                    <div style={{ background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)", borderRadius: 6, padding: "6px 8px" }}>
+                      <div style={{ fontSize: 9, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>Mag. Pico</div>
+                      <div className="mono" style={{ fontSize: 12, color: "var(--risk-low)", fontWeight: 600 }}>-5.2%</div>
+                    </div>
+                    <div style={{ background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)", borderRadius: 6, padding: "6px 8px" }}>
+                      <div style={{ fontSize: 9, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>Tempo Pico</div>
+                      <div className="mono" style={{ fontSize: 12, color: "var(--cyan)", fontWeight: 600 }}>+2h</div>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    padding: "6px 10px",
+                    background: "oklch(0.78 0.13 210 / 0.05)",
+                    border: "1px solid oklch(0.78 0.13 210 / 0.1)",
+                    borderRadius: 6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2
+                  }}>
+                    <span style={{ fontSize: 8.5, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>Perfil do Modelo</span>
+                    <span style={{ fontSize: 10.5, color: "var(--text-2)", fontWeight: 500 }}>Sensível a variáveis tabulares</span>
+                  </div>
+                </div>
+
+                {/* SVR Card */}
+                <div style={{
+                  padding: 14,
+                  borderRadius: 10,
+                  border: "1px solid var(--border-soft)",
+                  background: "oklch(1 0 0 / 0.015)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8
+                }}>
+                  <div className="row" style={{ gap: 6, color: "var(--aqua)" }}>
+                    <LineChart size={14} />
+                    <strong style={{ fontSize: 13, color: "var(--text)" }}>SVR (Support Vector Regressor)</strong>
+                  </div>
+                  <p className="small" style={{ margin: 0, fontSize: 11.2, lineHeight: 1.45, color: "var(--text-2)" }}>
+                    Regressão por vetores de suporte robusta a ruídos. Busca estabelecer uma tendência contínua e suave, minimizando desvios com margens de erro toleradas.
+                  </p>
+                  
+                  {/* Mini cards internos para métricas */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 4 }}>
+                    <div style={{ background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)", borderRadius: 6, padding: "6px 8px" }}>
+                      <div style={{ fontSize: 9, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>Mag. Pico</div>
+                      <div className="mono" style={{ fontSize: 12, color: "var(--risk-med)", fontWeight: 600 }}>+8.4%</div>
+                    </div>
+                    <div style={{ background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)", borderRadius: 6, padding: "6px 8px" }}>
+                      <div style={{ fontSize: 9, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.02em" }}>Tempo Pico</div>
+                      <div className="mono" style={{ fontSize: 12, color: "var(--aqua)", fontWeight: 600 }}>+4h</div>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    padding: "6px 10px",
+                    background: "oklch(0.78 0.13 210 / 0.05)",
+                    border: "1px solid oklch(0.78 0.13 210 / 0.1)",
+                    borderRadius: 6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2
+                  }}>
+                    <span style={{ fontSize: 8.5, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>Perfil do Modelo</span>
+                    <span style={{ fontSize: 10.5, color: "var(--text-2)", fontWeight: 500 }}>Suaviza ruídos tratados</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Informações e Métricas dos Modelos */}
-              <div className="col" style={{ gap: 12, justifyContent: "space-between" }}>
-                <div className="col" style={{ gap: 10 }}>
-                  {/* XGBoost Card */}
-                  <div style={{
-                    padding: 12,
-                    borderRadius: 10,
-                    border: "1px solid var(--border-soft)",
-                    background: "oklch(1 0 0 / 0.015)"
-                  }}>
-                    <div className="row" style={{ gap: 6, color: "var(--cyan)", marginBottom: 4 }}>
-                      <Gauge size={14} />
-                      <strong style={{ fontSize: 13, color: "var(--text)" }}>XGBoost Regressor</strong>
-                    </div>
-                    <p className="small" style={{ margin: 0, fontSize: 11.5, lineHeight: 1.4, color: "var(--text-2)" }}>
-                      Modelo supervisionado baseado em árvores de decisão em conjunto (ensemble). Estima a tendência de elevação a partir de cenários tabulares simulados de chuva e vazão.
-                    </p>
-                    <div style={{ display: "flex", gap: 14, marginTop: 8, borderTop: "1px dashed var(--border-soft)", paddingTop: 6 }}>
-                      <div>
-                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de magnitude do pico:</span>
-                        <div className="mono" style={{ fontSize: 11.5, color: "var(--risk-low)", fontWeight: 600 }}>-5.2%</div>
-                      </div>
-                      <div>
-                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de tempo do pico:</span>
-                        <div className="mono" style={{ fontSize: 11.5, color: "var(--cyan)", fontWeight: 600 }}>+2h</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* SVR Card */}
-                  <div style={{
-                    padding: 12,
-                    borderRadius: 10,
-                    border: "1px solid var(--border-soft)",
-                    background: "oklch(1 0 0 / 0.015)"
-                  }}>
-                    <div className="row" style={{ gap: 6, color: "var(--aqua)", marginBottom: 4 }}>
-                      <LineChart size={14} />
-                      <strong style={{ fontSize: 13, color: "var(--text)" }}>SVR (Support Vector Regressor)</strong>
-                    </div>
-                    <p className="small" style={{ margin: 0, fontSize: 11.5, lineHeight: 1.4, color: "var(--text-2)" }}>
-                      Regressão por vetores de suporte robusta a ruídos. Busca estabelecer uma tendência contínua e suave, minimizando desvios com margens de erro toleradas.
-                    </p>
-                    <div style={{ display: "flex", gap: 14, marginTop: 8, borderTop: "1px dashed var(--border-soft)", paddingTop: 6 }}>
-                      <div>
-                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de magnitude do pico:</span>
-                        <div className="mono" style={{ fontSize: 11.5, color: "var(--risk-med)", fontWeight: 600 }}>+8.4%</div>
-                      </div>
-                      <div>
-                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de tempo do pico:</span>
-                        <div className="mono" style={{ fontSize: 11.5, color: "var(--aqua)", fontWeight: 600 }}>+4h</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Notas didáticas */}
-                <div style={{
-                  padding: 10,
-                  borderRadius: 8,
-                  background: "oklch(1 0 0 / 0.01)",
-                  border: "1px dashed var(--border-soft)"
-                }}>
-                  <div className="small" style={{ fontWeight: 600, color: "var(--text-2)", marginBottom: 4 }}>Métricas de avaliação na regressão:</div>
-                  <ul className="small" style={{ margin: 0, paddingLeft: 16, color: "var(--muted)", lineHeight: 1.4, fontSize: 11 }}>
-                    <li><strong>Erro de magnitude do pico:</strong> Diferença percentual na estimativa da altura máxima do rio.</li>
-                    <li><strong>Erro de tempo do pico:</strong> Diferença em horas no momento de ocorrência do pico máximo.</li>
-                  </ul>
-                </div>
+              {/* Notas didáticas */}
+              <div style={{
+                padding: 10,
+                borderRadius: 8,
+                background: "oklch(1 0 0 / 0.01)",
+                border: "1px dashed var(--border-soft)"
+              }}>
+                <div className="small" style={{ fontWeight: 600, color: "var(--text-2)", marginBottom: 4 }}>Métricas de avaliação na regressão:</div>
+                <ul className="small" style={{ margin: 0, paddingLeft: 16, color: "var(--muted)", lineHeight: 1.4, fontSize: 11 }}>
+                  <li><strong>Erro de magnitude do pico:</strong> Diferença percentual na estimativa da altura máxima do rio.</li>
+                  <li><strong>Erro de tempo do pico:</strong> Diferença em horas no momento de ocorrência do pico máximo.</li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="card">
+        {/* Pipeline Conceitual de IA */}
+        <div className="card" style={{ marginBottom: 0 }}>
           <div className="card-head">
+            <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <GitBranch size={15} style={{ color: "var(--cyan)" }} />
+              <span>Pipeline Conceitual de IA</span>
+            </div>
+            <span className="mono small">8 ETAPAS · ENTRADA → SAÍDA</span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(235px, 1fr))",
+              gap: 12,
+              marginTop: 14,
+            }}
+          >
+            {pipelineSteps.map((step) => (
+              <div
+                key={step.num}
+                className="pipeline-card"
+                style={{
+                  padding: 12,
+                  background: "oklch(0.24 0.032 232 / 0.62)",
+                  borderColor: "oklch(0.78 0.13 210 / 0.14)",
+                }}
+              >
+                <div className="row" style={{ justifyContent: "space-between", marginBottom: 8 }}>
+                  <span className="mono" style={{ fontSize: 10, color: "var(--muted)" }}>
+                    ETAPA {step.num}
+                  </span>
+                  <span className="chip" style={{ padding: "2px 7px", fontSize: 10, cursor: "default" }}>
+                    {step.zone}
+                  </span>
+                </div>
+                <div className="row" style={{ gap: 8, color: "var(--cyan)", marginBottom: 7 }}>
+                  {step.icon}
+                  <strong style={{ fontSize: 12.5, color: "var(--text)" }}>{step.title}</strong>
+                </div>
+                <p className="small" style={{ margin: 0, lineHeight: 1.42, color: "var(--text-2)", fontSize: 11.2 }}>
+                  {step.desc}
+                </p>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 9 }}>
+                  {step.chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className="chip"
+                      style={{ padding: "2px 6px", fontSize: 9.8, cursor: "default", opacity: 0.9 }}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Métricas Conceituais de Avaliação (Seção Mais Compacta) */}
+        <div className="card">
+          <div className="card-head" style={{ marginBottom: 8 }}>
             <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <Activity size={15} style={{ color: "var(--cyan)" }} />
               <span>Métricas conceituais de avaliação</span>
@@ -395,23 +477,24 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
             <span className="mono small">REFERÊNCIA METODOLÓGICA</span>
           </div>
 
-          <p className="small" style={{ margin: "0 0 14px", color: "var(--muted)", lineHeight: 1.45 }}>
+          <p className="small" style={{ margin: "0 0 12px", color: "var(--muted)", lineHeight: 1.4 }}>
             Essas métricas são apresentadas como referências metodológicas. No protótipo atual, não representam validação operacional ou avaliação com dados oficiais.
           </p>
 
           <div className="metrics-grid">
             {metrics.map((metric) => (
-              <div key={metric.title} className="metric-card">
-                <div className="row" style={{ gap: 6, marginBottom: 6, color: "var(--cyan)" }}>
+              <div key={metric.title} className="metric-card" style={{ padding: 10 }}>
+                <div className="row" style={{ gap: 5, marginBottom: 4, color: "var(--cyan)" }}>
                   {metric.icon}
-                  <h4 style={{ margin: 0, fontSize: 12.5, fontWeight: 600 }}>{metric.title}</h4>
+                  <h4 style={{ margin: 0, fontSize: 11.8, fontWeight: 600 }}>{metric.title}</h4>
                 </div>
-                <p className="small" style={{ margin: 0, lineHeight: 1.4, fontSize: 11.2 }}>{metric.desc}</p>
+                <p className="small" style={{ margin: 0, lineHeight: 1.35, fontSize: 10.8, color: "var(--text-2)" }}>{metric.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Do Dado Simulado à Interpretação Acadêmica */}
         <div className="card">
           <div className="card-head" style={{ marginBottom: 10 }}>
             <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -430,6 +513,7 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
           </div>
         </div>
 
+        {/* Barra de Ações */}
         <div className="forecast-action-bar" style={{ gap: 8, flexWrap: "wrap", justifyContent: "space-between" }}>
           <div className="row" style={{ gap: 8, flexWrap: "wrap" }}>
             <button className="btn btn-sm interactive-action" onClick={() => go("ai")} style={{ fontSize: 11, padding: "8px 14px" }}>

@@ -11,10 +11,8 @@ import {
   List, 
   HelpCircle,
   Network,
-  GitBranch,
   Radar,
-  Sliders,
-  Cpu
+  Sliders
 } from "lucide-react";
 
 interface ClusteringProps {
@@ -43,12 +41,11 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
   const [selectedCluster, setSelectedCluster] = useState<string>("all");
   const [hoveredStation, setHoveredStation] = useState<PcaPoint | null>(null);
   const [selectedStation, setSelectedStation] = useState<PcaPoint | null>(null);
-  const [activeMode, setActiveMode] = useState<"kmeans" | "dbscan" | "hierarchical" | "pca" | "tsne_umap">("kmeans");
+  const [activeMode, setActiveMode] = useState<"kmeans" | "dbscan" | "hierarchical">("kmeans");
   
   // Didactic slider states (conceptual only, does not execute training)
   const [dbscanEps, setDbscanEps] = useState<number>(0.5);
   const [dbscanMinPts, setDbscanMinPts] = useState<number>(4);
-  const [tsnePerplexity, setTsnePerplexity] = useState<number>(30);
 
   // Generate 128 points of synthetic readings for PCA Projection
   // Seedable/predictable coordinates to look beautiful and clustered
@@ -214,10 +211,10 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
       <PageHeader 
         category="INTELIGÊNCIA" 
         title="Mapeamento e redução de clusters" 
-        subtitle="Mapeamento multidimensional de perfis hidrológicos brasileiros através de K-Means, PCA e modos conceituais avançados."
+        subtitle="Mapeamento multidimensional de perfis hidrológicos brasileiros através de K-Means, DBSCAN e agrupamento hierárquico."
         rightElement={
           <div className="row" style={{ gap: 10 }}>
-            <button className="btn btn-sm" onClick={() => { setSelectedCluster("all"); setSelectedStation(null); setDbscanEps(0.5); setDbscanMinPts(4); setTsnePerplexity(30); }}>
+            <button className="btn btn-sm" onClick={() => { setSelectedCluster("all"); setSelectedStation(null); setDbscanEps(0.5); setDbscanMinPts(4); }}>
               <RefreshCw size={12} /> Resetar parâmetros
             </button>
             <button className="btn btn-primary btn-sm" onClick={() => go("anomalies")}>
@@ -241,9 +238,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
         {([
           { id: "kmeans", label: "K-Means (Demonstrado)", color: "var(--cyan)", ico: <Layers size={13} /> },
           { id: "dbscan", label: "DBSCAN (Conceitual)", color: "var(--aqua)", ico: <Radar size={13} /> },
-          { id: "hierarchical", label: "Hierárquico (Conceitual)", color: "var(--aqua)", ico: <Network size={13} /> },
-          { id: "pca", label: "PCA (Demonstrado)", color: "var(--cyan)", ico: <Cpu size={13} /> },
-          { id: "tsne_umap", label: "t-SNE / UMAP (Projeção Futura)", color: "var(--risk-med)", ico: <GitBranch size={13} /> }
+          { id: "hierarchical", label: "Hierárquico (Conceitual)", color: "var(--aqua)", ico: <Network size={13} /> }
         ] as const).map((mode) => (
           <button
             key={mode.id}
@@ -320,40 +315,6 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 9, marginTop: 2 }}>● {k.trend}</div>
             <div className="kpi-spark" style={{ height: "16px", marginTop: 4 }}>
               <Spark data={[30, 25, 20, 15, 10, 8, 5]} color="var(--aqua)" />
-            </div>
-          </div>
-        ))}
-
-        {activeMode === "pca" && [
-          { label: "Algoritmo", value: "PCA", trend: "Redução de dimensionalidade" },
-          { label: "Componentes", value: "2 Principais", trend: "Compactação de variáveis" },
-          { label: "Variância Acum.", value: "92.4%", trend: "Retenção da informação" },
-          { label: "CP1 Explicada", value: "58.1%", trend: "Maior direção de dispersão" },
-          { label: "CP2 Explicada", value: "34.3%", trend: "Segunda maior direção" }
-        ].map((k, i) => (
-          <div key={i} className="kpi">
-            <div className="kpi-label">{k.label}</div>
-            <div className="kpi-value">{k.value}</div>
-            <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 10 }}>● {k.trend}</div>
-            <div className="kpi-spark">
-              <Spark data={[45, 42, 38, 30, 25, 15, 8]} color="var(--cyan)" />
-            </div>
-          </div>
-        ))}
-
-        {activeMode === "tsne_umap" && [
-          { label: "Algoritmos", value: "t-SNE / UMAP", trend: "Redução não-linear (Futura)" },
-          { label: "Perplexidade", value: String(tsnePerplexity), trend: "Ajuste didático de densidade" },
-          { label: "Agrupamento", value: "Ilhas", trend: "Separação visual compacta" },
-          { label: "Visualização", value: "2D Projetada", trend: "Visualização de manifold" },
-          { label: "Status", value: "Arquitetura", trend: "Projeção didática futura" }
-        ].map((k, i) => (
-          <div key={i} className="kpi">
-            <div className="kpi-label">{k.label}</div>
-            <div className="kpi-value">{k.value}</div>
-            <div className="kpi-trend down" style={{ color: "var(--text-3)", fontSize: 10 }}>● {k.trend}</div>
-            <div className="kpi-spark">
-              <Spark data={[5, 15, 25, 45, 30, 15, 5]} color="var(--risk-med)" />
             </div>
           </div>
         ))}
@@ -796,189 +757,6 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             </div>
           )}
 
-          {/* Mode 4: PCA (Demonstrado) */}
-          {activeMode === "pca" && (
-            <div>
-              <div style={{ marginBottom: 14 }}>
-                <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
-                  <Cpu size={16} className="ico" style={{ marginRight: 8, color: "var(--cyan)" }} /> Análise de Componentes Principais (PCA)
-                </div>
-                <div className="card-eyebrow" style={{ marginTop: 4, textTransform: "none", fontSize: 11, color: "var(--text-3)", letterSpacing: "normal" }}>
-                  Redução bidimensional linear de dados multidimensionais simulados
-                </div>
-                <p className="small" style={{ margin: "6px 0 16px 0", color: "var(--text-2)", lineHeight: 1.4 }}>
-                  O PCA simplifica a complexidade estrutural combinando múltiplos sensores (chuva, vazão, nível e score de anomalia) em dois eixos ortogonais principais (CP1 e CP2), cobrindo ~92.4% da variabilidade original.
-                </p>
-              </div>
-
-              {/* Variância Explicada */}
-              <div style={{ 
-                padding: 16, 
-                background: "oklch(0.12 0.015 240)", 
-                border: "1px solid var(--border-soft)", 
-                borderRadius: 10,
-                marginBottom: 16
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                  <span className="mono small" style={{ fontSize: 10.5, fontWeight: 600 }}>Variância Explicada Acumulada</span>
-                  <span className="mono small" style={{ color: "var(--cyan)", fontWeight: 600 }}>92.4%</span>
-                </div>
-                <div style={{ height: 16, display: "flex", borderRadius: 4, overflow: "hidden", background: "oklch(1 0 0 / 0.03)", border: "1px solid var(--border-soft)" }}>
-                  <div style={{ width: "58.1%", background: "var(--cyan)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontSize: 9, fontWeight: 600, color: "var(--bg-deep)" }}>CP1: 58%</span>
-                  </div>
-                  <div style={{ width: "34.3%", background: "var(--aqua)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontSize: 9, fontWeight: 600, color: "var(--bg-deep)" }}>CP2: 34%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Tabela de Pesos */}
-              <div style={{ overflowX: "auto" }}>
-                <table className="table" style={{ fontSize: 12 }}>
-                  <thead>
-                    <tr>
-                      <th>Variável do Sensor</th>
-                      <th style={{ textAlign: "right" }}>Peso CP1 (Intensidade)</th>
-                      <th style={{ textAlign: "right" }}>Peso CP2 (Variação)</th>
-                      <th>Direção do Efeito</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { v: "Chuva Acumulada 24h", cp1: "+0.82", cp2: "-0.15", eff: "Contribui para extremos de cheia" },
-                      { v: "Chuva Acumulada 7d", cp1: "+0.88", cp2: "-0.10", eff: "Forte impacto no volume total" },
-                      { v: "Nível Sazonal do Rio", cp1: "+0.79", cp2: "+0.42", eff: "Altera comportamento de transição" },
-                      { v: "Vazão Histórica", cp1: "+0.76", cp2: "+0.48", eff: "Indica magnitude do fluxo" },
-                      { v: "Score Conceitual IA", cp1: "+0.91", cp2: "-0.12", eff: "Separa anomalias e extremos" }
-                    ].map((row, idx) => (
-                      <tr key={idx}>
-                        <td style={{ fontWeight: 500 }}>{row.v}</td>
-                        <td className="num mono" style={{ textAlign: "right", color: "var(--cyan)", fontWeight: 600 }}>{row.cp1}</td>
-                        <td className="num mono" style={{ textAlign: "right", color: "var(--aqua)", fontWeight: 600 }}>{row.cp2}</td>
-                        <td className="small" style={{ color: "var(--text-3)" }}>{row.eff}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* Mode 5: t-SNE / UMAP (Projeção Futura) */}
-          {activeMode === "tsne_umap" && (
-            <div>
-              <div style={{ marginBottom: 14 }}>
-                <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
-                  <GitBranch size={16} className="ico" style={{ marginRight: 8, color: "var(--risk-med)" }} /> Projeções Não Lineares (t-SNE / UMAP)
-                </div>
-                <div className="card-eyebrow" style={{ marginTop: 4, textTransform: "none", fontSize: 11, color: "var(--text-3)", letterSpacing: "normal" }}>
-                  Mapeamento de alta dimensão em estruturas de ilhas de similaridade (Arquitetura Futura)
-                </div>
-                <p className="small" style={{ margin: "6px 0 12px 0", color: "var(--text-2)", lineHeight: 1.4 }}>
-                  Técnicas avançadas de redução não linear como t-SNE e UMAP são excelentes para mapear manifolds complexos, separando clusters hidrológicos em "ilhas" super compactas e visualmente limpas.
-                </p>
-              </div>
-
-              {/* Slider Didático */}
-              <div style={{ 
-                padding: 12, 
-                background: "oklch(1 0 0 / 0.015)", 
-                border: "1px dashed var(--border-soft)", 
-                borderRadius: 8,
-                marginBottom: 14
-              }}>
-                <div className="row" style={{ justifyContent: "space-between", marginBottom: 4 }}>
-                  <span className="small text-2" style={{ fontWeight: 500 }}>Perplexidade do t-SNE (Didático)</span>
-                  <span className="mono small" style={{ color: "var(--risk-med)", fontWeight: 600 }}>{tsnePerplexity}</span>
-                </div>
-                <input 
-                  type="range" 
-                  min="10" 
-                  max="50" 
-                  step="5" 
-                  value={tsnePerplexity} 
-                  onChange={(e) => setTsnePerplexity(parseInt(e.target.value))}
-                  style={{ width: "100%", accentColor: "var(--risk-med)" }}
-                />
-                <div style={{ fontSize: 9.5, color: "var(--text-3)", fontStyle: "italic", marginTop: 6 }}>
-                  Controles didáticos: alteram apenas a visualização simulada, sem execução real do modelo.
-                </div>
-              </div>
-
-              <div style={{ 
-                position: "relative", 
-                background: "oklch(0.12 0.015 240)", 
-                borderRadius: 10, 
-                padding: "14px 14px 10px 14px", 
-                border: "1px solid var(--border-soft)"
-              }}>
-                <svg viewBox="0 0 500 300" width="100%" height="320" style={{ display: "block" }}>
-                  <circle cx="130" cy="210" r="30" fill="var(--risk-med-bg)" opacity={0.15} stroke="var(--risk-med)" strokeWidth={1} strokeDasharray="2 2" />
-                  <text x="130" y="213" fill="var(--risk-med)" fontSize="8.5" fontWeight="600" textAnchor="middle" opacity="0.65" style={{ fontFamily: "var(--font-mono)" }}>ESTIAGEM</text>
-
-                  <circle cx="280" cy="110" r="35" fill="var(--risk-low-bg)" opacity={0.12} stroke="var(--risk-low)" strokeWidth={1} strokeDasharray="2 2" />
-                  <text x="280" y="113" fill="var(--risk-low)" fontSize="8.5" fontWeight="600" textAnchor="middle" opacity="0.65" style={{ fontFamily: "var(--font-mono)" }}>NORMAL</text>
-
-                  <circle cx="360" cy="210" r="30" fill="var(--risk-high-bg)" opacity={0.15} stroke="var(--risk-high)" strokeWidth={1} strokeDasharray="2 2" />
-                  <text x="360" y="213" fill="var(--risk-high)" fontSize="8.5" fontWeight="600" textAnchor="middle" opacity="0.65" style={{ fontFamily: "var(--font-mono)" }}>TRANSIÇÃO</text>
-
-                  <circle cx="410" cy="80" r="28" fill="var(--risk-crit-bg)" opacity={0.15} stroke="var(--risk-crit)" strokeWidth={1} strokeDasharray="2 2" />
-                  <text x="410" y="83" fill="var(--risk-crit)" fontSize="8.5" fontWeight="600" textAnchor="middle" opacity="0.65" style={{ fontFamily: "var(--font-mono)" }}>CHEIAS</text>
-
-                  <circle cx="100" cy="70" r="22" fill="var(--risk-fail-bg)" opacity={0.15} stroke="var(--risk-fail)" strokeWidth={1} strokeDasharray="2 2" />
-                  <text x="100" y="73" fill="var(--risk-fail)" fontSize="8.5" fontWeight="600" textAnchor="middle" opacity="0.65" style={{ fontFamily: "var(--font-mono)" }}>RUÍDO</text>
-
-                  {pcaPoints.map((p) => {
-                    let cx = 250, cy = 150;
-                    const rSeed = p.id.startsWith("EST") ? parseInt(p.id.split("-")[1]) || 5 : 10;
-                    const randX = (Math.sin(rSeed) - 0.5) * (tsnePerplexity / 3);
-                    const randY = (Math.cos(rSeed) - 0.5) * (tsnePerplexity / 3);
-
-                    if (p.cluster === 0) { cx = 130; cy = 210; }
-                    else if (p.cluster === 1) { cx = 280; cy = 110; }
-                    else if (p.cluster === 2) { cx = 360; cy = 210; }
-                    else if (p.cluster === 3) { cx = 410; cy = 80; }
-                    else if (p.cluster === -1) { cx = 100; cy = 70; }
-
-                    const colors: Record<number, string> = {
-                      0: "var(--risk-med)",
-                      1: "var(--risk-low)",
-                      2: "var(--risk-high)",
-                      3: "var(--risk-crit)",
-                      [-1]: "var(--risk-fail)"
-                    };
-
-                    return (
-                      <circle 
-                        key={p.id}
-                        cx={cx + randX * 10} 
-                        cy={cy + randY * 10} 
-                        r={p.id.startsWith("EST") ? 3.5 : 4} 
-                        fill={colors[p.cluster]} 
-                        stroke="oklch(0 0 0 / 0.2)" 
-                        strokeWidth={0.8}
-                        opacity={0.8}
-                      />
-                    );
-                  })}
-                </svg>
-
-                <div style={{
-                  marginTop: 8,
-                  padding: "8px 12px",
-                  borderRadius: 6,
-                  background: "oklch(0.74 0.18 52 / 0.04)",
-                  border: "1px solid oklch(0.74 0.18 52 / 0.10)"
-                }}>
-                  <p className="small" style={{ margin: 0, fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", lineHeight: 1.45 }}>
-                    Esta visualização representa uma projeção didática de como t-SNE ou UMAP separariam as estações em ilhas de similaridade em uma arquitetura futura.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Footer warning */}
           <div style={{ 
             marginTop: 14, 
@@ -990,7 +768,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             color: "var(--text-3)",
             lineHeight: 1.4
           }}>
-            <strong>Aviso de escopo:</strong> visualização simulada para fins didáticos. Os pontos e agrupamentos não representam medições oficiais ou execução operacional de modelo.
+            <span><strong>Aviso de escopo:</strong> visualização simulada para fins didáticos. Os pontos e agrupamentos não representam medições oficiais ou execução operacional de modelo.</span>
           </div>
         </div>
 
@@ -1189,49 +967,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             </>
           )}
 
-          {activeMode === "pca" && (
-            <div className="card">
-              <div className="card-head" style={{ marginBottom: 12 }}>
-                <div className="card-title">
-                  <Sliders size={14} className="ico" style={{ marginRight: 6 }} /> Eixos do PCA
-                </div>
-              </div>
-              
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }} className="small">
-                <div style={{ padding: 10, borderRadius: 8, background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)" }}>
-                  <strong style={{ color: "var(--cyan)", display: "block", marginBottom: 2 }}>Componente Principal 1 (CP1)</strong>
-                  <span style={{ color: "var(--text-2)" }}>Representa a **magnitude e intensidade hidrológica** (chuva acumulada recente, vazão total e nível atual). Explica 58% dos dados simulados.</span>
-                </div>
-                
-                <div style={{ padding: 10, borderRadius: 8, background: "oklch(1 0 0 / 0.02)", border: "1px solid var(--border-soft)" }}>
-                  <strong style={{ color: "var(--aqua)", display: "block", marginBottom: 2 }}>Componente Principal 2 (CP2)</strong>
-                  <span style={{ color: "var(--text-2)" }}>Representa o **desvio sazonal ou estabilidade** (se a leitura é de transição rápida ou comportamento estável). Explica 34% da informação.</span>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {activeMode === "tsne_umap" && (
-            <div className="card">
-              <div className="card-head" style={{ marginBottom: 12 }}>
-                <div className="card-title" style={{ color: "var(--risk-med)" }}>
-                  <Sliders size={14} className="ico" style={{ marginRight: 6 }} /> t-SNE vs UMAP
-                </div>
-              </div>
-              
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }} className="small">
-                <p style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
-                  Enquanto o PCA é uma redução linear simples, o t-SNE e o UMAP usam abordagens probabilísticas não lineares.
-                </p>
-                <p style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
-                  <strong>t-SNE:</strong> Foca em manter pontos muito parecidos juntos, ideal para isolar sub-perfis específicos em séries históricas.
-                </p>
-                <p style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)" }}>
-                  <strong>UMAP:</strong> Além de agrupar vizinhos, tenta preservar a estrutura global, mostrando a real distância entre secas severas e cheias críticas.
-                </p>
-              </div>
-            </div>
-          )}
 
         </div>
       </div>

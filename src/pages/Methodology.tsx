@@ -113,10 +113,9 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
     {
       name: "PCA",
       icon: <Cpu size={14} />,
-      desc: "Reduz variáveis para componentes principais, facilitando visualização e interpretação de agrupamentos. Protótipo disponível na página de Clusters.",
+      desc: "Reduz variáveis para componentes principais de forma didática, facilitando a interpretação das correlações multidimensionais no cenário-base.",
       limitation: "Pode reduzir a interpretação direta das variáveis originais.",
-      chips: ["Demonstrado", "Redução dimensional", "Visualização"],
-      route: "clustering"
+      chips: ["Apoio metodológico", "Redução dimensional", "Componentes"]
     }
   ];
 
@@ -148,10 +147,9 @@ export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
     {
       name: "t-SNE / UMAP",
       icon: <GitBranch size={14} />,
-      desc: "Reduzem dados de alta dimensão para visualizações 2D/3D no espaço de ilhas. Protótipo conceitual disponível como modo de agrupamento na página de Clusters.",
+      desc: "Reduzem dados de alta dimensão para visualizações 2D/3D no espaço de ilhas de forma teórica como possibilidade de expansão visual.",
       limitation: "Demandam processamento e ajuste cuidadoso de hiperparâmetros.",
-      chips: ["Arquitetura futura", "2D/3D", "Exploração visual"],
-      route: "clustering"
+      chips: ["Arquitetura futura", "Redução não-linear", "Exploração visual"]
     },
     {
       name: "XGBoost Regressor",
