@@ -599,9 +599,11 @@ button { font-family: inherit; cursor: pointer; }
   flex: 1;
 }
 .br-state {
-  fill: oklch(0.215 0.030 235 / 0.65);
-  stroke: rgba(135, 190, 200, 0.32);
-  stroke-width: 1.1px;
+  fill: oklch(0.215 0.030 235 / 0.42);
+  stroke: rgba(135, 190, 200, 0.22);
+  stroke-width: 0.9px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   user-select: none;

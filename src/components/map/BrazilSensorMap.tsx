@@ -29,6 +29,11 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
   rainDrops
 }) => {
   const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+  const mapTransform = { x: 140, y: 15, scale: 1.15 };
+  const toMapSpace = (value: number, axis: "x" | "y") =>
+    axis === "x"
+      ? (value - mapTransform.x) / mapTransform.scale
+      : (value - mapTransform.y) / mapTransform.scale;
   const riskFill: Record<string, string> = {
     low:  "var(--risk-low)",
     med:  "var(--risk-med)",
@@ -56,9 +61,11 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
 
         <style>{`
           .br-state {
-            fill: oklch(0.215 0.030 235 / 0.65);
-            stroke: rgba(135, 190, 200, 0.32);
-            stroke-width: 1.1px;
+            fill: oklch(0.215 0.030 235 / 0.42);
+            stroke: rgba(135, 190, 200, 0.22);
+            stroke-width: 0.9px;
+            stroke-linejoin: round;
+            stroke-linecap: round;
             vector-effect: non-scaling-stroke;
             pointer-events: none;
             user-select: none;
@@ -76,7 +83,7 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         `}</style>
 
         {/* Dynamic State Contours of Brazil */}
-        <g transform="translate(140, 15) scale(1.15)" style={{ filter: "drop-shadow(0 0 2px oklch(0.78 0.13 210 / 0.55))" }}>
+        <g transform={`translate(${mapTransform.x}, ${mapTransform.y}) scale(${mapTransform.scale})`}>
           <g>
             <g>
               <path className="br-state" d="M289.558,235.641 c16.104,0.575,44.973-31.647,44.835-45.259c-0.136-13.612-17.227-58.446-22.349-66.088c-5.122-7.628-37.905,2.506-37.905,2.506 S234.852,233.695,289.558,235.641z" />
@@ -196,41 +203,43 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         {/* Capital pin removed */}
 
         {/* Stations */}
-        <AnimatePresence initial={false}>
-          {stations.map(s => {
-            const selected = s.id === selectedId;
-            const isCrit = s.risk === "crit";
-            return (
-              <motion.g
-                key={s.id}
-                className="station-dot"
-                onClick={() => onSelectStation(s)}
-                onMouseEnter={() => onMouseEnterStation?.(s)}
-                onMouseLeave={() => onMouseLeaveStation?.()}
-                transform={`translate(${s.x}, ${s.y})`}
-                initial={{ opacity: 0, filter: "blur(2px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, filter: "blur(1.5px)" }}
-                transition={{ duration: 0.24, ease: smoothEase }}
-                style={{ cursor: "pointer" }}
-              >
-                {isCrit && <circle r="22" fill="url(#critGlow)">
-                  <animate attributeName="r" values="18;26;18" dur="2.4s" repeatCount="indefinite"/>
-                </circle>}
-                <circle r={selected ? 9 : 7}
-                        fill="oklch(0.15 0.025 240)"
-                        stroke={riskFill[s.risk]}
-                        strokeWidth="2"/>
-                <circle r={selected ? 4 : 3} fill={riskFill[s.risk]}/>
-                {selected && (
-                  <circle r="14" fill="none" stroke="var(--cyan)" strokeWidth="1.5" strokeDasharray="3 3">
-                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
-                  </circle>
-                )}
-              </motion.g>
-            );
-          })}
-        </AnimatePresence>
+        <g transform={`translate(${mapTransform.x}, ${mapTransform.y}) scale(${mapTransform.scale})`}>
+          <AnimatePresence initial={false}>
+            {stations.map(s => {
+              const selected = s.id === selectedId;
+              const isCrit = s.risk === "crit";
+              return (
+                <motion.g
+                  key={s.id}
+                  className="station-dot"
+                  onClick={() => onSelectStation(s)}
+                  onMouseEnter={() => onMouseEnterStation?.(s)}
+                  onMouseLeave={() => onMouseLeaveStation?.()}
+                  transform={`translate(${toMapSpace(s.x, "x")}, ${toMapSpace(s.y, "y")})`}
+                  initial={{ opacity: 0, filter: "blur(2px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, filter: "blur(1.5px)" }}
+                  transition={{ duration: 0.24, ease: smoothEase }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {isCrit && <circle r="22" fill="url(#critGlow)">
+                    <animate attributeName="r" values="18;26;18" dur="2.4s" repeatCount="indefinite"/>
+                  </circle>}
+                  <circle r={selected ? 9 : 7}
+                          fill="oklch(0.15 0.025 240)"
+                          stroke={riskFill[s.risk]}
+                          strokeWidth="2"/>
+                  <circle r={selected ? 4 : 3} fill={riskFill[s.risk]}/>
+                  {selected && (
+                    <circle r="14" fill="none" stroke="var(--cyan)" strokeWidth="1.5" strokeDasharray="3 3">
+                      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
+                    </circle>
+                  )}
+                </motion.g>
+              );
+            })}
+          </AnimatePresence>
+        </g>
 
         {/* compass / scale */}
         {!compact && (

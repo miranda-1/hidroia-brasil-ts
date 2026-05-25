@@ -46,7 +46,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
       radial-gradient(900px 600px at 0% 100%, oklch(0.30 0.10 195 / 0.35), transparent 60%),
       var(--bg-deep)`,
       color: "var(--text)",
-      overflow: "hidden",
+      overflowX: "hidden",
       position: "relative",
     }}>
       {/* Top mini-bar */}
