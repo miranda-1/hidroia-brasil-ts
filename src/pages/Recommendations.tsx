@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { StatusBadge } from "../components/ui/StatusBadge";
 import { REGIONS, STATIONS } from "../data/stations";
@@ -6,14 +6,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
   Brain,
+  ChevronLeft,
+  ChevronRight,
   Cpu,
   Database,
-  Download,
   FileText,
-  List,
   Map,
   Shield,
-  TrendingUp
+  TrendingUp,
+  X
 } from "lucide-react";
 
 type RiskLevel = "low" | "med" | "high" | "crit" | "fail";
@@ -119,368 +120,457 @@ const INTERPRETATION_STEPS = [
 
 export const Recommendations: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>("Rio Taquari-Antas");
-
-  const scenario = RECOMMENDATIONS[selectedRegion] || RECOMMENDATIONS["Rio Taquari-Antas"];
-  const activeStation = STATIONS.find((station) => station.region === selectedRegion) || STATIONS[0];
-  const scenarioRegions = REGIONS.filter((region) => region !== "Todas as regiões" && region in RECOMMENDATIONS);
-
-  const stationMetrics = [
-    { label: "Estação simulada", value: `${activeStation.name} (${activeStation.uf})` },
-    { label: "Tipo de estação", value: activeStation.type },
-    { label: "Score simulado", value: activeStation.anomalyScore.toFixed(2), accent: "var(--cyan)" },
-    { label: "Qualidade do dado", value: activeStation.dataQuality },
-    { label: "Chuva 24h", value: `${activeStation.rainfall24hMm} mm`, accent: "var(--aqua)" },
-    { label: "Chuva 7d", value: `${activeStation.rainfall7dMm} mm`, accent: "var(--aqua)" },
-    activeStation.type === "Fluviométrica" && activeStation.levelCm !== undefined
-      ? { label: "Nível simulado", value: `${activeStation.levelCm} cm` }
-      : null,
-    activeStation.type === "Fluviométrica" && activeStation.flowM3s !== undefined
-      ? { label: "Vazão simulada", value: `${activeStation.flowM3s.toLocaleString()} m³/s` }
-      : null
-  ].filter((item): item is { label: string; value: string; accent?: string } => Boolean(item));
-
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [navDirection, setNavDirection] = useState<1 | -1>(1);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
-  const panelTransition = { duration: 0.28, ease: smoothEase };
-  const criteriaContainerVariants = {
-    initial: { opacity: 0, y: 8 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ...panelTransition,
-        when: "beforeChildren",
-        staggerChildren: 0.045,
-        delayChildren: 0.03
-      }
-    },
-    exit: { opacity: 0, y: -4, transition: { duration: 0.18, ease: smoothEase } }
-  };
-  const criteriaItemVariants = {
-    initial: { opacity: 0, y: 6 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.22, ease: smoothEase } }
-  };
 
-  const handleScenarioKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, region: string) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      setSelectedRegion(region);
-    }
-  };
+  const scenarioRegions = useMemo(
+    () => REGIONS.filter((region) => region !== "Todas as regiões" && region in RECOMMENDATIONS),
+    []
+  );
+
+  const scenarioEntries = useMemo(() => {
+    return scenarioRegions.map((region) => {
+      const scenario = RECOMMENDATIONS[region];
+      const station = STATIONS.find((item) => item.region === region) || STATIONS[0];
+      const metrics = [
+        { label: "Estação simulada", value: `${station.name} (${station.uf})` },
+        { label: "Tipo de estação", value: station.type },
+        { label: "Score simulado", value: station.anomalyScore.toFixed(2), accent: "var(--cyan)" },
+        { label: "Qualidade do dado", value: station.dataQuality },
+        { label: "Chuva 24h", value: `${station.rainfall24hMm} mm`, accent: "var(--aqua)" },
+        { label: "Chuva 7d", value: `${station.rainfall7dMm} mm`, accent: "var(--aqua)" },
+        station.type === "Fluviométrica" && station.levelCm !== undefined
+          ? { label: "Nível simulado", value: `${station.levelCm} cm` }
+          : null,
+        station.type === "Fluviométrica" && station.flowM3s !== undefined
+          ? { label: "Vazão simulada", value: `${station.flowM3s.toLocaleString()} m³/s` }
+          : null
+      ].filter((item): item is { label: string; value: string; accent?: string } => Boolean(item));
+
+      return { region, scenario, station, metrics };
+    });
+  }, [scenarioRegions]);
+
+  const totalScenarios = scenarioEntries.length;
+  const selectedIndexRaw = scenarioEntries.findIndex((entry) => entry.region === selectedRegion);
+  const selectedIndex = selectedIndexRaw === -1 ? 0 : selectedIndexRaw;
+  const activeEntry = scenarioEntries[selectedIndex];
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const openModalForRegion = useCallback((region: string) => {
+    setSelectedRegion(region);
+    setNavDirection(1);
+    setIsModalOpen(true);
+  }, []);
+
+  const goToPreviousScenario = useCallback(() => {
+    setNavDirection(-1);
+    setSelectedRegion((current) => {
+      if (scenarioEntries.length === 0) return current;
+      const currentIndex = scenarioEntries.findIndex((entry) => entry.region === current);
+      const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+      const nextIndex = (safeIndex - 1 + scenarioEntries.length) % scenarioEntries.length;
+      return scenarioEntries[nextIndex].region;
+    });
+  }, [scenarioEntries]);
+
+  const goToNextScenario = useCallback(() => {
+    setNavDirection(1);
+    setSelectedRegion((current) => {
+      if (scenarioEntries.length === 0) return current;
+      const currentIndex = scenarioEntries.findIndex((entry) => entry.region === current);
+      const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+      const nextIndex = (safeIndex + 1) % scenarioEntries.length;
+      return scenarioEntries[nextIndex].region;
+    });
+  }, [scenarioEntries]);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    closeButtonRef.current?.focus();
+  }, [isModalOpen, selectedRegion]);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goToPreviousScenario();
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goToNextScenario();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isModalOpen, closeModal, goToPreviousScenario, goToNextScenario]);
 
   return (
     <div className="page">
-      <PageHeader
-        category="RECOMENDAÇÕES CONCEITUAIS"
-        title="Recomendações Conceituais"
-        subtitle="Sugestões didáticas baseadas em scores simulados para interpretar cenários hidrometeorológicos em contexto acadêmico."
-        rightElement={
-          <div className="row" style={{ gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
-            <span className="chip" style={{ cursor: "default", color: "var(--cyan)", borderColor: "var(--cyan-soft)" }}>
-              Dados simulados
-            </span>
-            <span className="chip" style={{ cursor: "default" }}>
-              Cenário-base
-            </span>
-            <span className="chip" style={{ cursor: "default", color: "var(--risk-med)", borderColor: "oklch(0.74 0.18 52 / 0.25)" }}>
-              Sem uso operacional
-            </span>
-          </div>
-        }
-      />
-
-      {/* Escopo da Simulação Alert */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        padding: "10px 16px",
-        borderRadius: 8,
-        background: "oklch(0.74 0.18 52 / 0.05)",
-        border: "1px solid oklch(0.74 0.18 52 / 0.15)",
-        marginBottom: 24,
-        flexWrap: "wrap"
-      }}>
-        <div className="row" style={{ gap: 6, color: "var(--risk-med)", flexShrink: 0 }}>
-          <Shield size={14} />
-          <span className="mono" style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Escopo da simulação
-          </span>
-        </div>
-        <div style={{ width: 1, height: 14, background: "var(--border-soft)", display: "none" }} className="toolbar-sep" />
-        <p className="small" style={{ margin: 0, color: "var(--text-2)", fontSize: 11.5, lineHeight: 1.45 }}>
-          As recomendações abaixo são interpretações conceituais geradas a partir de cenários simulados. Elas não emitem alertas oficiais, não acionam órgãos públicos e não substituem análise técnica especializada.
-        </p>
-      </div>
-
-      {/* Etapas do Plano Demonstrativo */}
-      <div style={{ marginBottom: 24 }}>
-        <div className="row" style={{ gap: 8, marginBottom: 12 }}>
-          <Cpu size={16} style={{ color: "var(--cyan)" }} />
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Etapas do plano demonstrativo</h3>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 12 }}>
-          {INTERPRETATION_STEPS.map((step, index) => (
-            <div key={step.title} className="card" style={{ padding: 12, display: "flex", flexDirection: "column", height: "100%" }}>
-              <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: "var(--border)", marginBottom: 6 }}>
-                {String(index + 1).padStart(2, "0")}
-              </div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>
-                {step.title.substring(3)}
-              </div>
-              <p className="small" style={{ margin: 0, lineHeight: 1.4, fontSize: 11, color: "var(--text-2)" }}>
-                {step.desc}
-              </p>
+      <div aria-hidden={isModalOpen}>
+        <PageHeader
+          category="RECOMENDAÇÕES CONCEITUAIS"
+          title="Recomendações Conceituais"
+          subtitle="Sugestões didáticas baseadas em scores simulados para interpretar cenários hidrometeorológicos em contexto acadêmico."
+          rightElement={
+            <div className="row" style={{ gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
+              <span className="chip" style={{ cursor: "default", color: "var(--cyan)", borderColor: "var(--cyan-soft)" }}>
+                Dados simulados
+              </span>
+              <span className="chip" style={{ cursor: "default" }}>
+                Cenário-base
+              </span>
+              <span className="chip" style={{ cursor: "default", color: "var(--risk-med)", borderColor: "oklch(0.74 0.18 52 / 0.25)" }}>
+                Sem uso operacional
+              </span>
             </div>
-          ))}
-        </div>
-      </div>
+          }
+        />
 
-      {/* Cenários de Resposta Simulados */}
-      <div style={{ marginBottom: 24 }}>
-        <div className="row" style={{ gap: 8, marginBottom: 12 }}>
-          <TrendingUp size={16} style={{ color: "var(--cyan)" }} />
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Cenários de resposta simulados</h3>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
-          {scenarioRegions.map((region) => {
-            const item = RECOMMENDATIONS[region];
-            const active = region === selectedRegion;
-
-            return (
-              <motion.button
-                key={region}
-                type="button"
-                onClick={() => setSelectedRegion(region)}
-                onKeyDown={(event) => handleScenarioKeyDown(event, region)}
-                aria-pressed={active}
-                aria-label={`Selecionar cenário de ${region}`}
-                className="card interactive-action"
-                style={{
-                  padding: "12px 14px",
-                  textAlign: "left",
-                  background: active 
-                    ? `linear-gradient(180deg, var(--risk-${item.risk}-bg), oklch(0.215 0.030 235 / 0.8))` 
-                    : "oklch(0.215 0.030 235 / 0.65)",
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 8,
-                  width: "100%",
-                  borderColor: active ? `var(--risk-${item.risk})` : "var(--border-soft)",
-                  boxShadow: active
-                    ? `0 0 0 1px var(--risk-${item.risk}), 0 0 18px var(--risk-${item.risk}-bg), 0 10px 24px oklch(0 0 0 / 0.30)`
-                    : "0 1px 0 oklch(1 0 0 / 0.03) inset"
-                }}
-                initial={false}
-                animate={{
-                  borderColor: active ? `var(--risk-${item.risk})` : "var(--border-soft)",
-                  boxShadow: active
-                    ? `0 0 0 1px var(--risk-${item.risk}), 0 0 18px var(--risk-${item.risk}-bg), 0 10px 24px oklch(0 0 0 / 0.30)`
-                    : "0 1px 0 oklch(1 0 0 / 0.03) inset",
-                  scale: active ? [1, 1.012, 1] : 1
-                }}
-                whileHover={{
-                  y: -2.5,
-                  scale: 1.01,
-                  borderColor: `var(--risk-${item.risk})`,
-                  boxShadow: `0 0 20px var(--risk-${item.risk}-bg), 0 14px 26px oklch(0 0 0 / 0.34)`
-                }}
-                whileTap={{ scale: 0.992, y: 0 }}
-                transition={{
-                  duration: 0.24,
-                  ease: smoothEase,
-                  scale: active ? { duration: 0.34, times: [0, 0.55, 1], ease: smoothEase } : { duration: 0.18 }
-                }}
-              >
-                <div className="row" style={{ justifyContent: "space-between", gap: 10, width: "100%" }}>
-                  <span style={{
-                    width: 26,
-                    height: 26,
-                    borderRadius: 6,
-                    background: `var(--risk-${item.risk}-bg)`,
-                    color: `var(--risk-${item.risk})`,
-                    display: "grid",
-                    placeItems: "center",
-                    flexShrink: 0
-                  }}>
-                    {item.risk === "fail" ? <Shield size={13} /> : item.risk === "crit" ? <Map size={13} /> : <Brain size={13} />}
-                  </span>
-                  <StatusBadge level={item.risk} label={item.title} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>
-                    {region}
-                  </div>
-                  <div className="small" style={{ fontSize: 10.5, color: "var(--text-2)", marginTop: 2, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
-                    {item.event}
-                  </div>
-                </div>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Área Dinâmica de Inspeção */}
-      <div>
-        <div className="row" style={{ gap: 8, marginBottom: 12 }}>
-          <Brain size={16} style={{ color: "var(--cyan)" }} />
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Interpretação do cenário selecionado</h3>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 20, alignItems: "stretch" }} className="forecast-hero-grid">
-          {/* Coluna Esquerda: Plano conceitual de leitura */}
-          <div style={{ minHeight: 470 }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`interpretation-${selectedRegion}`}
-                className="card"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={panelTransition}
-                style={{
-                  minHeight: 470,
-                  borderColor: `var(--risk-${scenario.risk})`,
-                  background: `linear-gradient(180deg, var(--risk-${scenario.risk}-bg), oklch(0.215 0.030 235 / 0.72))`,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between"
-                }}
-              >
-                <div>
-                  <div className="row" style={{ justifyContent: "space-between", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
-                    <span className="mono small" style={{ color: `var(--risk-${scenario.risk})`, fontWeight: 600 }}>
-                      BACIA DO {selectedRegion.toUpperCase()}
-                    </span>
-                    <StatusBadge level={scenario.risk} label={scenario.title} />
-                  </div>
-
-                  <h2 style={{ margin: "4px 0 10px", fontSize: 20, fontWeight: 600, color: "var(--text)" }}>
-                    {scenario.event}
-                  </h2>
-                  <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: "var(--text-2)" }}>
-                    {scenario.interpretation}
-                  </p>
-
-                  <div style={{
-                    marginTop: 16,
-                    padding: 12,
-                    borderRadius: 8,
-                    border: "1px solid var(--border-soft)",
-                    background: "oklch(1 0 0 / 0.018)"
-                  }}>
-                    <div className="row" style={{ gap: 8, color: "var(--cyan)", marginBottom: 4 }}>
-                      <FileText size={14} />
-                      <strong style={{ fontSize: 12.5, color: "var(--text)" }}>Recomendação conceitual</strong>
-                    </div>
-                    <p className="small" style={{ margin: 0, lineHeight: 1.45, color: "var(--text-2)", fontSize: 11.5 }}>
-                      {scenario.recommendation}
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="row" style={{ gap: 6, marginTop: 14, flexWrap: "wrap" }}>
-                    <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10, borderColor: `var(--risk-${scenario.risk})`, color: `var(--risk-${scenario.risk})` }}>
-                      Foco: {scenario.focus}
-                    </span>
-                    <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10 }}>Versão: {scenario.model}</span>
-                    <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10 }}>Fonte: base mockada</span>
-                  </div>
-
-                  <div className="row" style={{ gap: 10, marginTop: 18, flexWrap: "wrap" }}>
-                    <button className="btn btn-sm interactive-action" type="button" style={{ fontSize: 11 }}>
-                      <Download size={12} /> Exportar simulação
-                    </button>
-                    <button className="btn btn-sm btn-ghost interactive-action" type="button" style={{ fontSize: 11 }}>
-                      <List size={12} /> Registrar interpretação
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "10px 16px",
+          borderRadius: 8,
+          background: "oklch(0.74 0.18 52 / 0.05)",
+          border: "1px solid oklch(0.74 0.18 52 / 0.15)",
+          marginBottom: 24,
+          flexWrap: "wrap"
+        }}>
+          <div className="row" style={{ gap: 6, color: "var(--risk-med)", flexShrink: 0 }}>
+            <Shield size={14} />
+            <span className="mono" style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Escopo da simulação
+            </span>
           </div>
+          <div style={{ width: 1, height: 14, background: "var(--border-soft)", display: "none" }} className="toolbar-sep" />
+          <p className="small" style={{ margin: 0, color: "var(--text-2)", fontSize: 11.5, lineHeight: 1.45 }}>
+            As recomendações abaixo são interpretações conceituais geradas a partir de cenários simulados. Elas não emitem alertas oficiais, não acionam órgãos públicos e não substituem análise técnica especializada.
+          </p>
+        </div>
 
-          {/* Coluna Direita: Critérios considerados */}
-          <div style={{ minHeight: 470 }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`criteria-${selectedRegion}`}
-                className="card"
-                variants={criteriaContainerVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                style={{
-                  minHeight: 470,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 12,
-                  justifyContent: "space-between"
-                }}
-              >
-                <div>
-                  <div className="card-head" style={{ marginBottom: 12 }}>
-                    <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Database size={14} /> Critérios considerados
-                    </div>
-                    <span className="mono small">SIMULADO</span>
-                  </div>
-
-                  <motion.div
-                    style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8 }}
-                    initial="initial"
-                    animate="animate"
-                    variants={{
-                      initial: {},
-                      animate: { transition: { staggerChildren: 0.045, delayChildren: 0.02 } }
-                    }}
-                  >
-                    {stationMetrics.map((metric) => (
-                      <motion.div
-                        key={`${selectedRegion}-${metric.label}`}
-                        variants={criteriaItemVariants}
-                        style={{
-                          padding: "8px 10px",
-                          borderRadius: 6,
-                          border: "1px solid var(--border-soft)",
-                          background: "oklch(1 0 0 / 0.015)"
-                        }}
-                      >
-                        <div className="mono" style={{ fontSize: 8.5, color: "var(--muted-2)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                          {metric.label}
-                        </div>
-                        <div style={{ marginTop: 2, fontSize: 12, fontWeight: 600, color: metric.accent || "var(--text)" }}>
-                          {metric.value}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
+        <div style={{ marginBottom: 24 }}>
+          <div className="row" style={{ gap: 8, marginBottom: 12 }}>
+            <Cpu size={16} style={{ color: "var(--cyan)" }} />
+            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Etapas do plano demonstrativo</h3>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 12 }}>
+            {INTERPRETATION_STEPS.map((step, index) => (
+              <div key={step.title} className="card" style={{ padding: 12, display: "flex", flexDirection: "column", height: "100%" }}>
+                <div className="mono" style={{ fontSize: 16, fontWeight: 700, color: "var(--border)", marginBottom: 6 }}>
+                  {String(index + 1).padStart(2, "0")}
                 </div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>
+                  {step.title.substring(3)}
+                </div>
+                <p className="small" style={{ margin: 0, lineHeight: 1.4, fontSize: 11, color: "var(--text-2)" }}>
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                <motion.div
-                  variants={criteriaItemVariants}
+        <div style={{ marginBottom: 24 }}>
+          <div className="row" style={{ gap: 8, marginBottom: 12 }}>
+            <TrendingUp size={16} style={{ color: "var(--cyan)" }} />
+            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Cenários de resposta simulados</h3>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            {scenarioEntries.map((entry) => {
+              const active = entry.region === selectedRegion;
+
+              return (
+                <motion.button
+                  key={entry.region}
+                  type="button"
+                  onClick={() => openModalForRegion(entry.region)}
+                  aria-label={`Abrir cenário de ${entry.region}`}
+                  className="card interactive-action"
                   style={{
-                    padding: 10,
-                    borderRadius: 8,
-                    border: "1px dashed var(--border-soft)",
-                    background: "oklch(1 0 0 / 0.01)"
+                    padding: "12px 14px",
+                    textAlign: "left",
+                    background: active
+                      ? `linear-gradient(180deg, var(--risk-${entry.scenario.risk}-bg), oklch(0.215 0.030 235 / 0.8))`
+                      : "oklch(0.215 0.030 235 / 0.65)",
+                    cursor: "pointer",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                    width: "100%",
+                    borderColor: active ? `var(--risk-${entry.scenario.risk})` : "var(--border-soft)",
+                    boxShadow: active
+                      ? `0 0 0 1px var(--risk-${entry.scenario.risk}), 0 0 16px var(--risk-${entry.scenario.risk}-bg), 0 8px 20px oklch(0 0 0 / 0.28)`
+                      : "0 1px 0 oklch(1 0 0 / 0.03) inset"
                   }}
+                  whileHover={{
+                    y: -2.5,
+                    scale: 1.01,
+                    borderColor: `var(--risk-${entry.scenario.risk})`,
+                    boxShadow: `0 0 20px var(--risk-${entry.scenario.risk}-bg), 0 14px 26px oklch(0 0 0 / 0.34)`
+                  }}
+                  whileTap={{ scale: 0.992, y: 0 }}
+                  transition={{ duration: 0.22, ease: smoothEase }}
                 >
-                  <div className="row" style={{ gap: 6, color: "var(--risk-high)", marginBottom: 4 }}>
-                    <AlertTriangle size={13} />
-                    <strong style={{ fontSize: 11.5, color: "var(--text)" }}>Leitura por tipo de estação</strong>
+                  <div className="row" style={{ justifyContent: "space-between", gap: 10, width: "100%" }}>
+                    <span style={{
+                      width: 26,
+                      height: 26,
+                      borderRadius: 6,
+                      background: `var(--risk-${entry.scenario.risk}-bg)`,
+                      color: `var(--risk-${entry.scenario.risk})`,
+                      display: "grid",
+                      placeItems: "center",
+                      flexShrink: 0
+                    }}>
+                      {entry.scenario.risk === "fail" ? <Shield size={13} /> : entry.scenario.risk === "crit" ? <Map size={13} /> : <Brain size={13} />}
+                    </span>
+                    <StatusBadge level={entry.scenario.risk} label={entry.scenario.title} />
                   </div>
-                  <p className="small" style={{ margin: 0, lineHeight: 1.4, fontSize: 10.8, color: "var(--text-2)" }}>
-                    Estações pluviométricas priorizam chuva e score simulado. Estações fluviométricas também podem exibir nível e vazão quando esses campos existem na base.
-                  </p>
-                </motion.div>
-              </motion.div>
-            </AnimatePresence>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>
+                      {entry.region}
+                    </div>
+                    <div className="small" style={{ fontSize: 10.5, color: "var(--text-2)", marginTop: 2, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                      {entry.scenario.event}
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isModalOpen && activeEntry && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: smoothEase }}
+            onClick={closeModal}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 200,
+              background: "oklch(0 0 0 / 0.62)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              display: "grid",
+              placeItems: "center",
+              padding: 24,
+            }}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="scenario-modal-title"
+              aria-describedby="scenario-modal-description"
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.28, ease: smoothEase }}
+              onClick={(event) => event.stopPropagation()}
+              style={{
+                width: "min(1040px, 100%)",
+                maxHeight: "calc(100vh - 48px)",
+                overflow: "auto",
+                borderRadius: 16,
+                border: `1px solid var(--risk-${activeEntry.scenario.risk})`,
+                boxShadow: `0 0 0 1px var(--risk-${activeEntry.scenario.risk}), 0 24px 60px oklch(0 0 0 / 0.60), 0 0 26px var(--risk-${activeEntry.scenario.risk}-bg)`,
+                background: "linear-gradient(180deg, oklch(0.215 0.030 235 / 0.98), oklch(0.16 0.02 240 / 0.98))",
+                padding: 18
+              }}
+            >
+              <div className="row" style={{ justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
+                <div className="row" style={{ gap: 8, flexWrap: "wrap" }}>
+                  <span className="mono small" style={{ color: "var(--cyan)" }}>
+                    {selectedIndex + 1} de {totalScenarios}
+                  </span>
+                  <StatusBadge level={activeEntry.scenario.risk} label={activeEntry.scenario.title} />
+                </div>
+                <div className="row" style={{ gap: 8 }}>
+                  <button
+                    className="btn btn-sm btn-ghost interactive-action"
+                    type="button"
+                    onClick={goToPreviousScenario}
+                    aria-label="Cenário anterior"
+                  >
+                    <ChevronLeft size={14} />
+                    Anterior
+                  </button>
+                  <button
+                    className="btn btn-sm btn-ghost interactive-action"
+                    type="button"
+                    onClick={goToNextScenario}
+                    aria-label="Próximo cenário"
+                  >
+                    Próximo
+                    <ChevronRight size={14} />
+                  </button>
+                  <button
+                    ref={closeButtonRef}
+                    className="btn btn-sm btn-ghost interactive-action"
+                    type="button"
+                    onClick={closeModal}
+                    aria-label="Fechar popup de cenário"
+                  >
+                    <X size={14} />
+                    Fechar
+                  </button>
+                </div>
+              </div>
+
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeEntry.region}
+                  initial={{ opacity: 0, x: navDirection > 0 ? 14 : -14 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: navDirection > 0 ? -10 : 10 }}
+                  transition={{ duration: 0.24, ease: smoothEase }}
+                >
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 16, alignItems: "stretch" }}
+                    className="forecast-hero-grid"
+                  >
+                    <div
+                      className="card"
+                      style={{
+                        minHeight: 430,
+                        borderColor: `var(--risk-${activeEntry.scenario.risk})`,
+                        background: `linear-gradient(180deg, var(--risk-${activeEntry.scenario.risk}-bg), oklch(0.215 0.030 235 / 0.72))`,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between"
+                      }}
+                    >
+                      <div>
+                        <div className="row" style={{ justifyContent: "space-between", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+                          <span className="mono small" style={{ color: `var(--risk-${activeEntry.scenario.risk})`, fontWeight: 600 }}>
+                            BACIA DO {activeEntry.region.toUpperCase()}
+                          </span>
+                          <StatusBadge level={activeEntry.scenario.risk} label={activeEntry.scenario.title} />
+                        </div>
+
+                        <h2
+                          id="scenario-modal-title"
+                          style={{ margin: "4px 0 10px", fontSize: 20, fontWeight: 600, color: "var(--text)" }}
+                        >
+                          {activeEntry.scenario.event}
+                        </h2>
+                        <p
+                          id="scenario-modal-description"
+                          style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: "var(--text-2)" }}
+                        >
+                          {activeEntry.scenario.interpretation}
+                        </p>
+
+                        <div style={{
+                          marginTop: 16,
+                          padding: 12,
+                          borderRadius: 8,
+                          border: "1px solid var(--border-soft)",
+                          background: "oklch(1 0 0 / 0.018)"
+                        }}>
+                          <div className="row" style={{ gap: 8, color: "var(--cyan)", marginBottom: 4 }}>
+                            <FileText size={14} />
+                            <strong style={{ fontSize: 12.5, color: "var(--text)" }}>Recomendação conceitual</strong>
+                          </div>
+                          <p className="small" style={{ margin: 0, lineHeight: 1.45, color: "var(--text-2)", fontSize: 11.5 }}>
+                            {activeEntry.scenario.recommendation}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="row" style={{ gap: 6, marginTop: 14, flexWrap: "wrap" }}>
+                          <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10, borderColor: `var(--risk-${activeEntry.scenario.risk})`, color: `var(--risk-${activeEntry.scenario.risk})` }}>
+                            Foco: {activeEntry.scenario.focus}
+                          </span>
+                          <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10 }}>Versão: {activeEntry.scenario.model}</span>
+                          <span className="chip" style={{ cursor: "default", padding: "2px 8px", fontSize: 10 }}>Fonte: base mockada</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card" style={{ minHeight: 430, display: "flex", flexDirection: "column", gap: 12, justifyContent: "space-between" }}>
+                      <div>
+                        <div className="card-head" style={{ marginBottom: 12 }}>
+                          <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <Database size={14} /> Critérios considerados
+                          </div>
+                          <span className="mono small">SIMULADO</span>
+                        </div>
+
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8 }}>
+                          {activeEntry.metrics.map((metric) => (
+                            <div
+                              key={`${activeEntry.region}-${metric.label}`}
+                              style={{
+                                padding: "8px 10px",
+                                borderRadius: 6,
+                                border: "1px solid var(--border-soft)",
+                                background: "oklch(1 0 0 / 0.015)"
+                              }}
+                            >
+                              <div className="mono" style={{ fontSize: 8.5, color: "var(--muted-2)", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                                {metric.label}
+                              </div>
+                              <div style={{ marginTop: 2, fontSize: 12, fontWeight: 600, color: metric.accent || "var(--text)" }}>
+                                {metric.value}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div style={{
+                        padding: 10,
+                        borderRadius: 8,
+                        border: "1px dashed var(--border-soft)",
+                        background: "oklch(1 0 0 / 0.01)"
+                      }}>
+                        <div className="row" style={{ gap: 6, color: "var(--risk-high)", marginBottom: 4 }}>
+                          <AlertTriangle size={13} />
+                          <strong style={{ fontSize: 11.5, color: "var(--text)" }}>Leitura por tipo de estação</strong>
+                        </div>
+                        <p className="small" style={{ margin: 0, lineHeight: 1.4, fontSize: 10.8, color: "var(--text-2)" }}>
+                          Estações pluviométricas priorizam chuva e score simulado. Estações fluviométricas também podem exibir nível e vazão quando esses campos existem na base.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
