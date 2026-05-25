@@ -7,7 +7,8 @@ import {
   RefreshCw, 
   Shield, 
   AlertTriangle,
-  FileText
+  FileText,
+  Brain
 } from "lucide-react";
 
 
@@ -156,6 +157,66 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
                   <div className="small" style={{ color: "var(--text-2)", lineHeight: 1.4 }}>{step.desc}</div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Card: Erro de reconstrução conceitual (Autoencoders) */}
+          <div className="card">
+            <div className="card-head" style={{ marginBottom: 10 }}>
+              <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <Brain size={14} style={{ color: "var(--cyan)" }} /> Erro de reconstrução conceitual
+              </div>
+            </div>
+
+            <p className="small" style={{ margin: "0 0 12px 0", lineHeight: 1.45, color: "var(--text-2)" }}>
+              Autoencoders (redes neurais de compressão) podem aprender a reconstruir padrões hidrológicos normais. Desvios elevados entre a leitura simulada e a reconstrução indicam anomalias didáticas.
+            </p>
+
+            {/* Barras de Erro de Reconstrução */}
+            <div className="col" style={{ gap: 10, marginBottom: 12 }}>
+              {[
+                { station: "Porto Velho (Falha)", pct: 88, color: "var(--risk-fail)" },
+                { station: "Taquari (Inundação)", pct: 78, color: "var(--risk-crit)" },
+                { station: "Humaitá (Normal)", pct: 12, color: "var(--risk-low)" }
+              ].map((item, idx) => (
+                <div key={idx}>
+                  <div className="row" style={{ justifyContent: "space-between", marginBottom: 3 }}>
+                    <span className="small text-2" style={{ fontWeight: 500 }}>{item.station}</span>
+                    <span className="mono small" style={{ color: item.color, fontWeight: 600 }}>{item.pct}% Erro</span>
+                  </div>
+                  <div style={{ height: 6, background: "oklch(1 0 0 / 0.05)", borderRadius: 99, overflow: "hidden" }}>
+                    <div style={{ width: `${item.pct}%`, height: "100%", background: item.color, borderRadius: 99 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Comparação didática */}
+            <div style={{
+              padding: 10,
+              borderRadius: 8,
+              background: "oklch(1 0 0 / 0.02)",
+              border: "1px solid var(--border-soft)",
+              marginBottom: 10
+            }}>
+              <div className="small" style={{ fontWeight: 600, color: "var(--cyan)", marginBottom: 4 }}>Comparação de abordagens:</div>
+              <p className="small" style={{ margin: "0 0 6px 0", color: "var(--text-2)", lineHeight: 1.35 }}>
+                • <strong>Isolation Forest:</strong> Isola leituras atípicas dividindo o espaço multidimensional de variáveis simuladas.
+              </p>
+              <p className="small" style={{ margin: 0, color: "var(--text-2)", lineHeight: 1.35 }}>
+                • <strong>Autoencoders:</strong> Mede o erro de reconstrução simulado em relação à representação ideal aprendida.
+              </p>
+            </div>
+
+            <div style={{
+              padding: 8,
+              borderRadius: 6,
+              background: "oklch(0.74 0.18 52 / 0.04)",
+              border: "1px solid oklch(0.74 0.18 52 / 0.10)"
+            }}>
+              <p className="small" style={{ margin: 0, fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", lineHeight: 1.4 }}>
+                Esta visualização representa uma simulação didática de erro de reconstrução, sem treinamento real de rede neural no protótipo atual.
+              </p>
             </div>
           </div>
         </div>

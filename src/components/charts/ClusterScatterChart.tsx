@@ -34,7 +34,7 @@ export const ClusterScatterChart: React.FC<ClusterScatterChartProps> = ({
   selectedStation,
   setSelectedStation
 }) => {
-  // Generate 128 stations for PCA Projection
+  // Generate 128 points of synthetic readings for PCA Projection
   // Seedable/predictable coordinates to look beautiful and clustered
   const pcaPoints = useMemo<PcaPoint[]>(() => {
     const points: PcaPoint[] = [];

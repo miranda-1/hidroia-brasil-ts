@@ -63,7 +63,7 @@ export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go
           <div className="card-title" style={{ fontSize: 18, fontWeight: 600 }}>Integração Geral do Projeto</div>
         </div>
         <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.6, margin: 0 }}>
-          O HidroIA foi desenvolvido como um artefato prático que materializa e consolida as competências exigidas no Desafio de Articulação de Competências (DAC) da Ciência da Computação. O projeto vai além do código bruto: ele conecta sensores eletrônicos simulados, engenharia de algoritmos de alta eficiência, paralelização em grande escala, rigoroso controle de projeto e autonomia intelectual para criar um painel dinâmico que atende a diretrizes reais de sustentabilidade e defesa civil no Brasil.
+          O HidroIA foi desenvolvido como um artefato prático que materializa e consolida as competências exigidas no Desafio de Articulação de Competências (DAC) da Ciência da Computação. O projeto vai além do código bruto: ele conecta sensores eletrônicos simulados, engenharia de algoritmos de alta eficiência, paralelização em grande escala, rigoroso controle de projeto e autonomia intelectual para criar um painel dinâmico que atende a diretrizes de sustentabilidade e análise didática de cenários no Brasil.
         </p>
       </div>
 

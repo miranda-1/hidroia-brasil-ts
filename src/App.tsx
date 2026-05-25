@@ -61,7 +61,7 @@ function App() {
       case "ai":
         return (
           <AppShell route={route} go={setRoute} screenLabel={getScreenLabel(route)}>
-            <Methodology />
+            <Methodology go={setRoute} />
           </AppShell>
         );
       case "rec":

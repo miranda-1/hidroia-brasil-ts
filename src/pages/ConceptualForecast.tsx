@@ -11,7 +11,6 @@ import {
   Activity,
   FileText,
   GitBranch,
-  Brain,
   Gauge,
   LineChart,
   CheckCircle,
@@ -88,25 +87,6 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
       icon: <FileText size={16} />,
       desc: "Gera cenários simulados, recomendações conceituais e interpretação acadêmica como apoio didático à análise socioambiental.",
       chips: ["Interpretação acadêmica", "Cenários simulados", "Sem uso operacional"],
-    },
-  ];
-
-  const modelCards = [
-    {
-      title: "XGBoost Regressor",
-      badge: "ARQUITETURA FUTURA",
-      desc: "Modelo supervisionado de árvores em conjunto que poderia apoiar estimativa de tendência hidrológica em base histórica validada.",
-      note: "No protótipo atual, é referência metodológica e não há treino real nem validação operacional.",
-      chips: ["Tendência futura", "Dados tabulares", "Conceitual"],
-      icon: <Gauge size={14} />,
-    },
-    {
-      title: "SVR",
-      badge: "ARQUITETURA FUTURA",
-      desc: "Regressão por vetores de suporte que poderia modelar tendência com margem de erro em séries tratadas com ruído controlado.",
-      note: "No protótipo atual, é apresentado como possibilidade metodológica sem uso operacional.",
-      chips: ["Margem de erro", "Séries tratadas", "Conceitual"],
-      icon: <LineChart size={14} />,
     },
   ];
 
@@ -227,48 +207,182 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
 
       <div className="forecast-layout">
         <div>
-          <div className="row" style={{ gap: 8, marginBottom: 12 }}>
-            <Brain size={16} style={{ color: "var(--cyan)" }} />
-            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Modelos de previsão em arquitetura futura</h3>
-          </div>
+          <div className="card" style={{ padding: 20 }}>
+            <div className="row" style={{ gap: 8, marginBottom: 12, justifyContent: "space-between", flexWrap: "wrap" }}>
+              <div className="row" style={{ gap: 8, color: "var(--cyan)" }}>
+                <LineChart size={18} />
+                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Comparação conceitual de regressão</h3>
+              </div>
+              <span className="mono small" style={{ color: "var(--cyan)", opacity: 0.8 }}>ARQUITETURA FUTURA</span>
+            </div>
 
-          <div className="forecast-model-grid">
-            {modelCards.map((model) => (
-              <div key={model.title} className="model-card">
-                <div className="model-card-header">
-                  <span className="mono" style={{ fontSize: 9, color: "var(--cyan)", letterSpacing: "0.05em" }}>
-                    {model.badge}
-                  </span>
-                  <h4 style={{ margin: "2px 0 0", fontSize: 14, fontWeight: 600, color: "var(--text)" }}>
-                    {model.title}
-                  </h4>
-                </div>
+            <p className="small" style={{ color: "var(--text-2)", lineHeight: 1.5, marginBottom: 16 }}>
+              Esta visualização representa uma simulação didática de como modelos de regressão supervisionados poderiam estimar tendências futuras a partir de dados históricos tabulares simulados em uma arquitetura futura de IA.
+            </p>
 
-                <p className="small" style={{ lineHeight: 1.45, color: "var(--text-2)", marginBottom: 12 }}>
-                  {model.desc}
-                </p>
-
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-                  {model.chips.map((chip) => (
-                    <span key={chip} className="chip" style={{ padding: "2px 6px", fontSize: 10, cursor: "default" }}>
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="model-limitation" style={{ marginTop: "auto" }}>
-                  <div className="row" style={{ gap: 4, color: "var(--risk-high)", marginBottom: 2 }}>
-                    {model.icon}
-                    <strong style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.02em" }}>
-                      Nota metodológica
-                    </strong>
+            <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 20, alignItems: "stretch" }} className="forecast-hero-grid">
+              {/* Gráfico SVG de Tendência */}
+              <div style={{
+                background: "oklch(0.12 0.015 240)",
+                border: "1px solid var(--border-soft)",
+                borderRadius: 10,
+                padding: 16,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}>
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 6 }}>
+                    <span className="mono small" style={{ fontSize: 9.5 }}>Simulação temporal do nível do rio</span>
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--text-2)" }}>
+                        <span style={{ width: 8, height: 2, background: "var(--muted)", display: "inline-block" }} /> Série observada simulada
+                      </span>
+                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--cyan)" }}>
+                        <span style={{ width: 8, height: 2, background: "var(--cyan)", display: "inline-block", borderBottom: "1px dashed var(--cyan)" }} /> XGBoost
+                      </span>
+                      <span style={{ fontSize: 9.5, display: "flex", alignItems: "center", gap: 4, color: "var(--aqua)" }}>
+                        <span style={{ width: 8, height: 2, background: "var(--aqua)", display: "inline-block", borderBottom: "1px dotted var(--aqua)" }} /> SVR
+                      </span>
+                    </div>
                   </div>
-                  <p className="small" style={{ margin: 0, fontSize: 10.5, lineHeight: 1.35, color: "var(--text-2)" }}>
-                    {model.note}
+                  
+                  {/* SVG do Gráfico */}
+                  <svg viewBox="0 0 400 180" width="100%" height="220" style={{ display: "block" }}>
+                    {/* Grid lines */}
+                    <line x1="20" x2="390" y1="30" y2="30" stroke="oklch(1 0 0 / 0.04)" />
+                    <line x1="20" x2="390" y1="80" y2="80" stroke="oklch(1 0 0 / 0.04)" />
+                    <line x1="20" x2="390" y1="130" y2="130" stroke="oklch(1 0 0 / 0.04)" />
+                    <line x1="20" x2="20" y1="10" y2="160" stroke="oklch(1 0 0 / 0.08)" />
+                    <line x1="20" x2="390" y1="160" y2="160" stroke="oklch(1 0 0 / 0.08)" />
+
+                    {/* Curva Observada Simulada */}
+                    <path
+                      d="M 20 150 C 90 145, 120 40, 180 40 C 240 40, 280 120, 350 125 C 370 126, 380 135, 390 140"
+                      fill="none"
+                      stroke="var(--muted)"
+                      strokeWidth="2"
+                      opacity="0.7"
+                    />
+                    
+                    {/* Curva Projeção XGBoost (Dashed, com delay) */}
+                    <path
+                      d="M 20 150 C 92 147, 122 45, 210 45 C 260 45, 290 118, 350 123 C 370 124, 380 134, 390 138"
+                      fill="none"
+                      stroke="var(--cyan)"
+                      strokeWidth="2"
+                      strokeDasharray="4 4"
+                    />
+
+                    {/* Curva Projeção SVR (Dotted, mais suave) */}
+                    <path
+                      d="M 20 150 C 85 138, 115 50, 160 50 C 220 50, 270 125, 350 128 C 370 129, 380 137, 390 140"
+                      fill="none"
+                      stroke="var(--aqua)"
+                      strokeWidth="2"
+                      strokeDasharray="1.5 2.5"
+                    />
+
+                    {/* Destaque do Pico */}
+                    <circle cx="180" cy="40" r="3.5" fill="var(--risk-crit)" />
+                    <text x="180" y="32" fill="var(--text)" fontSize="8" textAnchor="middle" fontFamily="var(--font-mono)">Pico máximo</text>
+
+                    {/* Rótulos de tempo */}
+                    <text x="20" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)">t=0h</text>
+                    <text x="180" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="middle">t=12h (Pico)</text>
+                    <text x="390" y="172" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">t=24h</text>
+                    
+                    {/* Rótulos de nível */}
+                    <text x="14" y="33" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">6.0m</text>
+                    <text x="14" y="83" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">3.0m</text>
+                    <text x="14" y="133" fill="var(--text-3)" fontSize="8" fontFamily="var(--font-mono)" textAnchor="end">1.0m</text>
+                  </svg>
+                </div>
+
+                <div style={{
+                  marginTop: 10,
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  background: "oklch(0.74 0.18 52 / 0.04)",
+                  border: "1px solid oklch(0.74 0.18 52 / 0.10)"
+                }}>
+                  <p className="small" style={{ margin: 0, fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", lineHeight: 1.45 }}>
+                    As curvas representam uma projeção didática de como modelos de regressão poderiam estimar tendências em uma arquitetura futura.
                   </p>
                 </div>
               </div>
-            ))}
+
+              {/* Informações e Métricas dos Modelos */}
+              <div className="col" style={{ gap: 12, justifyContent: "space-between" }}>
+                <div className="col" style={{ gap: 10 }}>
+                  {/* XGBoost Card */}
+                  <div style={{
+                    padding: 12,
+                    borderRadius: 10,
+                    border: "1px solid var(--border-soft)",
+                    background: "oklch(1 0 0 / 0.015)"
+                  }}>
+                    <div className="row" style={{ gap: 6, color: "var(--cyan)", marginBottom: 4 }}>
+                      <Gauge size={14} />
+                      <strong style={{ fontSize: 13, color: "var(--text)" }}>XGBoost Regressor</strong>
+                    </div>
+                    <p className="small" style={{ margin: 0, fontSize: 11.5, lineHeight: 1.4, color: "var(--text-2)" }}>
+                      Modelo supervisionado baseado em árvores de decisão em conjunto (ensemble). Estima a tendência de elevação a partir de cenários tabulares simulados de chuva e vazão.
+                    </p>
+                    <div style={{ display: "flex", gap: 14, marginTop: 8, borderTop: "1px dashed var(--border-soft)", paddingTop: 6 }}>
+                      <div>
+                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de magnitude do pico:</span>
+                        <div className="mono" style={{ fontSize: 11.5, color: "var(--risk-low)", fontWeight: 600 }}>-5.2%</div>
+                      </div>
+                      <div>
+                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de tempo do pico:</span>
+                        <div className="mono" style={{ fontSize: 11.5, color: "var(--cyan)", fontWeight: 600 }}>+2h</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SVR Card */}
+                  <div style={{
+                    padding: 12,
+                    borderRadius: 10,
+                    border: "1px solid var(--border-soft)",
+                    background: "oklch(1 0 0 / 0.015)"
+                  }}>
+                    <div className="row" style={{ gap: 6, color: "var(--aqua)", marginBottom: 4 }}>
+                      <LineChart size={14} />
+                      <strong style={{ fontSize: 13, color: "var(--text)" }}>SVR (Support Vector Regressor)</strong>
+                    </div>
+                    <p className="small" style={{ margin: 0, fontSize: 11.5, lineHeight: 1.4, color: "var(--text-2)" }}>
+                      Regressão por vetores de suporte robusta a ruídos. Busca estabelecer uma tendência contínua e suave, minimizando desvios com margens de erro toleradas.
+                    </p>
+                    <div style={{ display: "flex", gap: 14, marginTop: 8, borderTop: "1px dashed var(--border-soft)", paddingTop: 6 }}>
+                      <div>
+                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de magnitude do pico:</span>
+                        <div className="mono" style={{ fontSize: 11.5, color: "var(--risk-med)", fontWeight: 600 }}>+8.4%</div>
+                      </div>
+                      <div>
+                        <span className="small text-3" style={{ fontSize: 9.5 }}>Erro de tempo do pico:</span>
+                        <div className="mono" style={{ fontSize: 11.5, color: "var(--aqua)", fontWeight: 600 }}>+4h</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Notas didáticas */}
+                <div style={{
+                  padding: 10,
+                  borderRadius: 8,
+                  background: "oklch(1 0 0 / 0.01)",
+                  border: "1px dashed var(--border-soft)"
+                }}>
+                  <div className="small" style={{ fontWeight: 600, color: "var(--text-2)", marginBottom: 4 }}>Métricas de avaliação na regressão:</div>
+                  <ul className="small" style={{ margin: 0, paddingLeft: 16, color: "var(--muted)", lineHeight: 1.4, fontSize: 11 }}>
+                    <li><strong>Erro de magnitude do pico:</strong> Diferença percentual na estimativa da altura máxima do rio.</li>
+                    <li><strong>Erro de tempo do pico:</strong> Diferença em horas no momento de ocorrência do pico máximo.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

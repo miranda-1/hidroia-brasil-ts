@@ -17,10 +17,15 @@ import {
   LineChart,
   Zap,
   CheckCircle,
-  FlaskConical
+  FlaskConical,
+  ArrowRight
 } from "lucide-react";
 
-export const Methodology: React.FC = () => {
+interface MethodologyProps {
+  go: (k: string) => void;
+}
+
+export const Methodology: React.FC<MethodologyProps> = ({ go }) => {
   const pipeline = [
     {
       num: "01",
@@ -92,23 +97,26 @@ export const Methodology: React.FC = () => {
     {
       name: "Isolation Forest",
       icon: <AlertTriangle size={14} />,
-      desc: "Identifica leituras atípicas a partir do isolamento de pontos incomuns no espaço de variáveis simuladas.",
+      desc: "Identifica leituras atípicas a partir do isolamento de pontos incomuns no espaço de variáveis simuladas. Protótipo disponível na página de Anomalias.",
       limitation: "O score é conceitual e depende da qualidade da base usada para comparação.",
-      chips: ["Demonstrado", "Anomalias", "Score conceitual"]
+      chips: ["Demonstrado", "Anomalias", "Score conceitual"],
+      route: "anomalies"
     },
     {
       name: "K-Means",
       icon: <Layers size={14} />,
-      desc: "Agrupa leituras com comportamento semelhante, apoiando a leitura de perfis hidrológicos simulados.",
+      desc: "Agrupa leituras com comportamento semelhante, apoiando a leitura de perfis hidrológicos simulados. Protótipo disponível na página de Clusters.",
       limitation: "Exige definição prévia do número de grupos e pode simplificar padrões complexos.",
-      chips: ["Demonstrado", "Agrupamento", "Perfis"]
+      chips: ["Demonstrado", "Agrupamento", "Perfis"],
+      route: "clustering"
     },
     {
       name: "PCA",
       icon: <Cpu size={14} />,
-      desc: "Reduz variáveis para componentes principais, facilitando visualização e interpretação de agrupamentos.",
+      desc: "Reduz variáveis para componentes principais, facilitando visualização e interpretação de agrupamentos. Protótipo disponível na página de Clusters.",
       limitation: "Pode reduzir a interpretação direta das variáveis originais.",
-      chips: ["Demonstrado", "Redução dimensional", "Visualização"]
+      chips: ["Demonstrado", "Redução dimensional", "Visualização"],
+      route: "clustering"
     }
   ];
 
@@ -116,44 +124,50 @@ export const Methodology: React.FC = () => {
     {
       name: "DBSCAN",
       icon: <Radar size={14} />,
-      desc: "Agrupa por densidade e identifica regiões densas e ruídos/outliers, sendo útil conceitualmente para episódios atípicos.",
+      desc: "Agrupa por densidade e identifica regiões densas e ruídos/outliers. Protótipo conceitual disponível como modo de agrupamento na página de Clusters.",
       limitation: "Exige calibração fina de parâmetros e pode sofrer com densidade variável.",
-      chips: ["Arquitetura futura", "Densidade", "Ruído"]
+      chips: ["Arquitetura futura", "Densidade", "Ruído"],
+      route: "clustering"
     },
     {
       name: "Hierarchical Clustering",
       icon: <Network size={14} />,
-      desc: "Constrói uma árvore de proximidade, chamada dendrograma, que pode apoiar análise exploratória de relações entre períodos ou regiões simuladas.",
+      desc: "Constrói uma árvore de proximidade (dendrograma) que apoia a análise exploratória. Protótipo conceitual disponível como modo de agrupamento na página de Clusters.",
       limitation: "Tem custo computacional maior em séries históricas amplas.",
-      chips: ["Arquitetura futura", "Dendrograma", "Exploratória"]
+      chips: ["Arquitetura futura", "Dendrograma", "Exploratória"],
+      route: "clustering"
     },
     {
       name: "Autoencoders",
       icon: <Brain size={14} />,
-      desc: "Podem ser utilizados como técnica não supervisionada ou auto-supervisionada, aprendendo a reconstruir a própria entrada por codificador, representação compactada e decodificador.",
-      limitation: "Em uma arquitetura futura, poderiam apoiar anomalias por erro de reconstrução, mas exigem validação cuidadosa para não confundir evento extremo com falha de leitura.",
-      chips: ["Arquitetura futura", "Erro de reconstrução", "Rede neural"]
+      desc: "Aprendem a reconstruir a própria entrada, sinalizando anomalias por erro de reconstrução. Protótipo conceitual disponível na página de Anomalias.",
+      limitation: "Exigem validação cuidadosa para não confundir evento extremo com falha de leitura.",
+      chips: ["Arquitetura futura", "Erro de reconstrução", "Rede neural"],
+      route: "anomalies"
     },
     {
       name: "t-SNE / UMAP",
       icon: <GitBranch size={14} />,
-      desc: "Reduzem dados de alta dimensão para visualizações 2D/3D, ajudando a revelar padrões visuais em análise exploratória.",
+      desc: "Reduzem dados de alta dimensão para visualizações 2D/3D no espaço de ilhas. Protótipo conceitual disponível como modo de agrupamento na página de Clusters.",
       limitation: "Demandam processamento e ajuste cuidadoso de hiperparâmetros.",
-      chips: ["Arquitetura futura", "2D/3D", "Exploração visual"]
+      chips: ["Arquitetura futura", "2D/3D", "Exploração visual"],
+      route: "clustering"
     },
     {
       name: "XGBoost Regressor",
       icon: <Gauge size={14} />,
-      desc: "Modelo supervisionado baseado em árvores de decisão em conjunto, podendo estimar tendências futuras em dados tabulares históricos.",
+      desc: "Modelo baseado em árvores de decisão em conjunto para previsão de tendências didáticas. Protótipo conceitual disponível na página de Previsão Conceitual.",
       limitation: "Depende de base de treino validada e pode ter dificuldade em extrapolar eventos nunca vistos.",
-      chips: ["Arquitetura futura", "Regressão", "Importância de variáveis"]
+      chips: ["Arquitetura futura", "Regressão", "Árvores em conjunto"],
+      route: "forecast"
     },
     {
       name: "SVR",
       icon: <LineChart size={14} />,
-      desc: "Regressão por vetores de suporte que busca uma tendência dentro de uma margem de erro, podendo ser estável em cenários com ruído tratado.",
+      desc: "Regressão por vetores de suporte que busca uma tendência dentro de uma margem de erro didática. Protótipo conceitual disponível na página de Previsão Conceitual.",
       limitation: "Pode ficar lenta com grandes volumes sem pré-processamento.",
-      chips: ["Arquitetura futura", "Regressão", "Margem de erro"]
+      chips: ["Arquitetura futura", "Regressão", "Margem de erro"],
+      route: "forecast"
     }
   ];
 
@@ -298,6 +312,27 @@ export const Methodology: React.FC = () => {
                   <p className="small" style={{ margin: "0 0 12px 0", color: "var(--text-2)", lineHeight: 1.45 }}>
                     {tech.desc}
                   </p>
+                  {tech.route && (
+                    <button
+                      onClick={() => go(tech.route)}
+                      className="btn btn-ghost btn-sm"
+                      style={{
+                        padding: "0",
+                        fontSize: "11px",
+                        color: "var(--cyan)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        marginBottom: "12px",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Acessar demonstração <ArrowRight size={10} />
+                    </button>
+                  )}
                 </div>
                 <div>
                   <div className="model-limitation" style={{ marginBottom: 12 }}>
@@ -355,6 +390,27 @@ export const Methodology: React.FC = () => {
                   <p className="small" style={{ margin: "0 0 12px 0", color: "var(--text-2)", lineHeight: 1.45 }}>
                     {tech.desc}
                   </p>
+                  {tech.route && (
+                    <button
+                      onClick={() => go(tech.route)}
+                      className="btn btn-ghost btn-sm"
+                      style={{
+                        padding: "0",
+                        fontSize: "11px",
+                        color: "var(--aqua)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        marginBottom: "12px",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Acessar protótipo <ArrowRight size={10} />
+                    </button>
+                  )}
                 </div>
                 <div>
                   <div className="model-limitation" style={{ marginBottom: 12 }}>
