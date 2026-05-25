@@ -47,7 +47,12 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
   // Didactic slider states (conceptual only, does not execute training)
   const [dbscanEps, setDbscanEps] = useState<number>(0.5);
   const [dbscanMinPts, setDbscanMinPts] = useState<number>(4);
-  const modeTransition = { duration: 0.24, ease: "easeOut" as const };
+  const modeTransition = { duration: 0.18, ease: [0.22, 1, 0.36, 1] as const };
+  const modeMotion = {
+    initial: { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -4 }
+  };
 
   // Generate 128 points of synthetic readings for PCA Projection
   // Seedable/predictable coordinates to look beautiful and clustered
@@ -247,6 +252,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             onClick={() => {
               setActiveMode(mode.id);
               setSelectedStation(null);
+              setHoveredStation(null);
             }}
             className={`btn btn-sm ${activeMode === mode.id ? "" : "btn-ghost"}`}
             style={{
@@ -275,10 +281,11 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
         <motion.div
           key={`kpis-${activeMode}`}
           className="kpis"
-          initial={{ opacity: 0, y: 8, filter: "blur(2px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: -6, filter: "blur(2px)" }}
+          initial={modeMotion.initial}
+          animate={modeMotion.animate}
+          exit={modeMotion.exit}
           transition={modeTransition}
+          style={{ willChange: "opacity, transform" }}
         >
           {activeMode === "kmeans" && [
             { label: "Algoritmo", value: "K-Means", trend: "Agrupamento não supervisionado" },
@@ -344,10 +351,11 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
           {activeMode === "kmeans" && (
             <motion.div
               key="main-kmeans"
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
+              style={{ willChange: "opacity, transform" }}
             >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
@@ -533,10 +541,11 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
           {activeMode === "dbscan" && (
             <motion.div
               key="main-dbscan"
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
+              style={{ willChange: "opacity, transform" }}
             >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
@@ -679,10 +688,11 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
           {activeMode === "hierarchical" && (
             <motion.div
               key="main-hierarchical"
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
+              style={{ willChange: "opacity, transform" }}
             >
               <div style={{ marginBottom: 14 }}>
                 <div className="card-title" style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>
@@ -813,9 +823,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             <motion.div
               key="sidebar-kmeans"
               style={{ display: "flex", flexDirection: "column" }}
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
             >
               <div className="card">
@@ -915,9 +925,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             <motion.div
               key="sidebar-dbscan"
               style={{ display: "flex", flexDirection: "column" }}
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
             >
               <div className="card">
@@ -973,9 +983,9 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             <motion.div
               key="sidebar-hierarchical"
               style={{ display: "flex", flexDirection: "column" }}
-              initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(2px)" }}
+              initial={modeMotion.initial}
+              animate={modeMotion.animate}
+              exit={modeMotion.exit}
               transition={modeTransition}
             >
               <div className="card">
