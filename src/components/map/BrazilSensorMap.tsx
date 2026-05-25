@@ -1,5 +1,6 @@
 import React from "react";
 import type { Station } from "../../types/hydro";
+import { AnimatePresence, motion } from "framer-motion";
 
 
 interface BrazilSensorMapProps {
@@ -27,6 +28,7 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
   isRaining = false,
   rainDrops
 }) => {
+  const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
   const riskFill: Record<string, string> = {
     low:  "var(--risk-low)",
     med:  "var(--risk-med)",
@@ -194,31 +196,41 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         {/* Capital pin removed */}
 
         {/* Stations */}
-        {stations.map(s => {
-          const selected = s.id === selectedId;
-          const isCrit = s.risk === "crit";
-          return (
-            <g key={s.id} className="station-dot"
-               onClick={() => onSelectStation(s)}
-               onMouseEnter={() => onMouseEnterStation?.(s)}
-               onMouseLeave={() => onMouseLeaveStation?.()}
-               transform={`translate(${s.x}, ${s.y})`}>
-              {isCrit && <circle r="22" fill="url(#critGlow)">
-                <animate attributeName="r" values="18;26;18" dur="2.4s" repeatCount="indefinite"/>
-              </circle>}
-              <circle r={selected ? 9 : 7}
-                       fill="oklch(0.15 0.025 240)"
-                       stroke={riskFill[s.risk]}
-                       strokeWidth="2"/>
-              <circle r={selected ? 4 : 3} fill={riskFill[s.risk]}/>
-              {selected && (
-                <circle r="14" fill="none" stroke="var(--cyan)" strokeWidth="1.5" strokeDasharray="3 3">
-                  <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
-                </circle>
-              )}
-            </g>
-          );
-        })}
+        <AnimatePresence initial={false}>
+          {stations.map(s => {
+            const selected = s.id === selectedId;
+            const isCrit = s.risk === "crit";
+            return (
+              <motion.g
+                key={s.id}
+                className="station-dot"
+                onClick={() => onSelectStation(s)}
+                onMouseEnter={() => onMouseEnterStation?.(s)}
+                onMouseLeave={() => onMouseLeaveStation?.()}
+                transform={`translate(${s.x}, ${s.y})`}
+                initial={{ opacity: 0, filter: "blur(2px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, filter: "blur(1.5px)" }}
+                transition={{ duration: 0.24, ease: smoothEase }}
+                style={{ cursor: "pointer" }}
+              >
+                {isCrit && <circle r="22" fill="url(#critGlow)">
+                  <animate attributeName="r" values="18;26;18" dur="2.4s" repeatCount="indefinite"/>
+                </circle>}
+                <circle r={selected ? 9 : 7}
+                        fill="oklch(0.15 0.025 240)"
+                        stroke={riskFill[s.risk]}
+                        strokeWidth="2"/>
+                <circle r={selected ? 4 : 3} fill={riskFill[s.risk]}/>
+                {selected && (
+                  <circle r="14" fill="none" stroke="var(--cyan)" strokeWidth="1.5" strokeDasharray="3 3">
+                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
+                  </circle>
+                )}
+              </motion.g>
+            );
+          })}
+        </AnimatePresence>
 
         {/* compass / scale */}
         {!compact && (

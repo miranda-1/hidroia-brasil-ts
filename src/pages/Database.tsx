@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import { StatusBadge } from "../components/ui/StatusBadge";
 import { DB_ROWS } from "../data/databaseRows";
+import { AnimatePresence, motion } from "framer-motion";
 import { 
   RefreshCw, 
   Download, 
@@ -12,6 +13,7 @@ import {
 export const Database: React.FC = () => {
   const [q, setQ] = useState("");
   const [risk, setRisk] = useState("all");
+  const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
   const rows = useMemo(() => {
     return DB_ROWS.filter(r =>
@@ -108,82 +110,92 @@ export const Database: React.FC = () => {
         </div>
       </div>
 
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ overflowX: "auto" }}>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Código Sim.</th>
-                <th>Estação</th>
-                <th>UF</th>
-                <th>Região</th>
-                <th>Bacia</th>
-                <th>Tipo</th>
-                <th style={{ textAlign: "right" }}>Nível (cm)</th>
-                <th style={{ textAlign: "right" }}>Vazão (m³/s)</th>
-                <th style={{ textAlign: "right" }}>Chuva 24h (mm)</th>
-                <th style={{ textAlign: "right" }}>Chuva 7d (mm)</th>
-                <th>Qualidade</th>
-                <th style={{ textAlign: "right" }}>Score Anom.</th>
-                <th>Risco</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r, i) => {
-                return (
-                  <tr key={i}>
-                    <td className="num mono small">{r.code}</td>
-                    <td style={{ fontWeight: 600 }}>{r.name}</td>
-                    <td className="mono">{r.uf}</td>
-                    <td className="small" style={{ color: "var(--text-2)" }}>{r.region}</td>
-                    <td className="small" style={{ color: "var(--text-2)" }}>{r.basin}</td>
-                    <td>
-                      <span className="chip" style={{ 
-                        fontSize: 9, 
-                        padding: "1px 6px",
-                        background: r.type === "Fluviométrica" ? "oklch(0.70 0.12 210 / 0.1)" : "oklch(0.75 0.14 140 / 0.1)",
-                        color: r.type === "Fluviométrica" ? "var(--cyan)" : "var(--aqua)",
-                        border: `1px solid ${r.type === "Fluviométrica" ? "var(--cyan-soft)" : "var(--border-soft)"}`
-                      }}>
-                        {r.type}
-                      </span>
-                    </td>
-                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.levelCm !== undefined ? `${r.levelCm} cm` : "-"}</td>
-                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.flowM3s !== undefined ? `${r.flowM3s.toLocaleString()} m³/s` : "-"}</td>
-                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall24hMm} mm</td>
-                    <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall7dMm} mm</td>
-                    <td>
-                      <span className="chip" style={{ 
-                        fontSize: 10, 
-                        padding: "2px 6px",
-                        background: r.dataQuality === "consistido" ? "oklch(0.62 0.17 150 / 0.1)" : "oklch(0.75 0.14 40 / 0.1)",
-                        color: r.dataQuality === "consistido" ? "var(--risk-low)" : "var(--risk-med)",
-                        border: `1px solid ${r.dataQuality === "consistido" ? "var(--risk-low-bg)" : "var(--risk-med-bg)"}`
-                       }}>
-                        {r.dataQuality}
-                      </span>
-                    </td>
-                    <td className="num mono" style={{ textAlign: "right", color: "var(--aqua)", fontWeight: 600, whiteSpace: "nowrap" }}>{r.score.toFixed(2)}</td>
-                    <td>
-                      <StatusBadge level={r.risk} label={r.status} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <div style={{
-          padding: "12px 18px", borderTop: "1px solid var(--border-soft)",
-          display: "flex", justifyContent: "space-between", alignItems: "center"
-        }}>
-          <span className="mono small">Página 1 de 1 · {rows.length}/{DB_ROWS.length} registros</span>
-          <div className="row" style={{ gap: 6 }}>
-            <button className="btn btn-sm btn-ghost" disabled>← Anterior</button>
-            <button className="btn btn-sm btn-ghost" disabled>Próxima →</button>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={risk}
+          className="card"
+          initial={{ opacity: 0.86, y: 7, filter: "blur(2px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -5, filter: "blur(1.5px)" }}
+          transition={{ duration: 0.24, ease: smoothEase }}
+          style={{ padding: 0, overflow: "hidden" }}
+        >
+          <div style={{ overflowX: "auto" }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Código Sim.</th>
+                  <th>Estação</th>
+                  <th>UF</th>
+                  <th>Região</th>
+                  <th>Bacia</th>
+                  <th>Tipo</th>
+                  <th style={{ textAlign: "right" }}>Nível (cm)</th>
+                  <th style={{ textAlign: "right" }}>Vazão (m³/s)</th>
+                  <th style={{ textAlign: "right" }}>Chuva 24h (mm)</th>
+                  <th style={{ textAlign: "right" }}>Chuva 7d (mm)</th>
+                  <th>Qualidade</th>
+                  <th style={{ textAlign: "right" }}>Score Anom.</th>
+                  <th>Risco</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((r, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className="num mono small">{r.code}</td>
+                      <td style={{ fontWeight: 600 }}>{r.name}</td>
+                      <td className="mono">{r.uf}</td>
+                      <td className="small" style={{ color: "var(--text-2)" }}>{r.region}</td>
+                      <td className="small" style={{ color: "var(--text-2)" }}>{r.basin}</td>
+                      <td>
+                        <span className="chip" style={{ 
+                          fontSize: 9, 
+                          padding: "1px 6px",
+                          background: r.type === "Fluviométrica" ? "oklch(0.70 0.12 210 / 0.1)" : "oklch(0.75 0.14 140 / 0.1)",
+                          color: r.type === "Fluviométrica" ? "var(--cyan)" : "var(--aqua)",
+                          border: `1px solid ${r.type === "Fluviométrica" ? "var(--cyan-soft)" : "var(--border-soft)"}`
+                        }}>
+                          {r.type}
+                        </span>
+                      </td>
+                      <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.levelCm !== undefined ? `${r.levelCm} cm` : "-"}</td>
+                      <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.flowM3s !== undefined ? `${r.flowM3s.toLocaleString()} m³/s` : "-"}</td>
+                      <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall24hMm} mm</td>
+                      <td className="num" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{r.rainfall7dMm} mm</td>
+                      <td>
+                        <span className="chip" style={{ 
+                          fontSize: 10, 
+                          padding: "2px 6px",
+                          background: r.dataQuality === "consistido" ? "oklch(0.62 0.17 150 / 0.1)" : "oklch(0.75 0.14 40 / 0.1)",
+                          color: r.dataQuality === "consistido" ? "var(--risk-low)" : "var(--risk-med)",
+                          border: `1px solid ${r.dataQuality === "consistido" ? "var(--risk-low-bg)" : "var(--risk-med-bg)"}`
+                         }}>
+                          {r.dataQuality}
+                        </span>
+                      </td>
+                      <td className="num mono" style={{ textAlign: "right", color: "var(--aqua)", fontWeight: 600, whiteSpace: "nowrap" }}>{r.score.toFixed(2)}</td>
+                      <td>
+                        <StatusBadge level={r.risk} label={r.status} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
+          <div style={{
+            padding: "12px 18px", borderTop: "1px solid var(--border-soft)",
+            display: "flex", justifyContent: "space-between", alignItems: "center"
+          }}>
+            <span className="mono small">Página 1 de 1 · {rows.length}/{DB_ROWS.length} registros</span>
+            <div className="row" style={{ gap: 6 }}>
+              <button className="btn btn-sm btn-ghost" disabled>← Anterior</button>
+              <button className="btn btn-sm btn-ghost" disabled>Próxima →</button>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
