@@ -85,10 +85,13 @@ O dataset é constituído por **8 estações hidrometeorológicas simuladas** di
 ## 6. Estado por Página (Detalhamento do Último Polimento)
 
 ### 6.1 Landing Page (Aprovado)
-- **Hero & Badge**: Exibe a badge informativa de protótipo acadêmico. O título principal destaca *"dados simulados"* em ciano.
+- **Hero & Badge**: Exibe badge de protótipo acadêmico (`frontend-only`, `base simulada`, `IA conceitual`).
+- **Título Atual do Hero**: **"IA conceitual para análise hidrometeorológica simulada"**, com balanceamento tipográfico e quebra visual otimizada para desktop.
+- **Narrativa Segura**: Inclui texto explícito de finalidade acadêmica e aviso de que dados/scores/cenários/previsões são simulados, sem integração oficial e sem uso operacional.
+- **KPIs da Home**: `8 estações simuladas`, `pipeline demonstrativo`, `100% dados simulados`.
 - **Mapa da Home**: Card interativo na direita com efeito de **chuva conceitual ao passar o mouse em qualquer área do card do mapa**.
 - **Acessibilidade**: Card/mapa clicável direcionando para o Dashboard, contendo acessibilidade por teclado (`role="button"`, `tabIndex={0}`, `aria-label` e suporte a Enter/Space).
-- **Seção Sobre**: Roda suavemente para o rodapé explicativo curto do DAC.
+- **Layout Large/Ultrawide**: Hero, faixa de recursos e seção "Sobre" centralizados com largura útil ampla para evitar composição espremida.
 
 ### 6.2 Topbar e Sidebar (Aprovado)
 - **Linguagem Segura**: Exibe estritamente `SIMULADO` (e não "LIVE") e `Cenário-base: 02/05/2024 · 08:30`.
@@ -116,13 +119,42 @@ O dataset é constituído por **8 estações hidrometeorológicas simuladas** di
   - Reposicionada como um card elegante de largura total logo abaixo da grid superior.
   - Possui design com gradiente sutil, dados explicativos à esquerda e badge/score (`0.88`) à direita, alinhados à grade de responsividade.
 
-### 6.6 Metodologia de IA (Aprovado)
-- **Linguagem Segura**: Pipeline renomeada ("Ingestão Simulada", "Filtro Conceitual de Ruído", "Apoio Didático à Análise"). Subtítulo atualizado para: *"Como o HidroIA organiza leituras hidrometeorológicas simuladas e demonstra conceitos de Aprendizado Não Supervisionado."*
-- **Reorganização de Layout**:
-  - A tabela de features (esquerda) recebeu `height: "fit-content"` para não deixar espaço vazio abaixo dela.
-  - A coluna da direita recebeu o card **"Limitações do Modelo"** (eyebrow: `LIMITAÇÕES DO MODELO`, título: `Escopo acadêmico e simulado`, texto sobre o caráter conceitual com chips estruturais: `Base simulada`, `Sem integração oficial`, `Sem uso operacional`).
-  - O painel **"Modelos e Funções Matemáticas"** virou um bloco horizontal de largura total na parte inferior, com as caixas de equações distribuídas em uma grid flexível reativa.
-  - **Removido** o botão de PDF do cabeçalho da página para manter a simplicidade do protótipo.
+### 6.6 Recomendações Conceituais (Aprovado)
+- **Reposicionamento de Narrativa**: A página deixou de parecer operacional e passou a funcionar como **interpretação acadêmica de cenários simulados**.
+- **Estrutura Atual**:
+  - Header com chips de escopo (`Dados simulados`, `Cenário-base`, `Sem uso operacional`).
+  - Card de aviso acadêmico explícito (não emite alertas oficiais, não aciona órgãos públicos, não substitui especialistas).
+  - Card principal de plano demonstrativo + painel lateral de critérios por estação.
+  - Seção de etapas do plano demonstrativo.
+  - Seção de cenários de resposta simulados.
+- **Ações Seguras**: Mantidos botões `Exportar simulação` e `Registrar interpretação`.
+
+### 6.7 Metodologia de IA (Aprovado)
+- **Pipeline Completo (8 Etapas)**: `Base simulada` → `Tratamento e normalização` → `Detecção conceitual de anomalias` → `Redução de dimensionalidade` → `Agrupamento de padrões` → `Previsão conceitual` → `Métricas de avaliação` → `Limitações acadêmicas`.
+- **Separação Didática de Técnicas**:
+  - **Demonstradas no protótipo**: K-Means, Isolation Forest, PCA.
+  - **Arquitetura conceitual/futura**: DBSCAN, Hierarchical Clustering, Autoencoders, t-SNE/UMAP, XGBoost Regressor, SVR.
+- **Métricas Conceituais**: F1-Score, Silhouette Score, erro de magnitude do pico, erro de tempo do pico.
+- **Nota Técnica Importante**: Autoencoders descritos corretamente como técnica não supervisionada/auto-supervisionada via erro de reconstrução.
+- **Layout Atual**: aviso acadêmico no topo + pipeline em grid + bloco de técnicas demonstradas + bloco de arquitetura futura + bloco de métricas.
+- **Ajuste Final**: removido o card repetido de escopo no fim, mantendo encerramento limpo após métricas.
+
+### 6.8 Previsão Conceitual (Aprovado)
+- **Nova Direção**: A tela virou uma **arquitetura conceitual de previsão** para apresentação metodológica no DAC.
+- **Fluxo Visual (8 Etapas)**:
+  - Entrada simulada
+  - Pré-processamento
+  - Filtro de qualidade/anomalias
+  - Redução/visualização
+  - Agrupamento
+  - Previsão conceitual
+  - Avaliação metodológica
+  - Saída didática
+- **Técnicas explicitamente mapeadas no pipeline**:
+  Isolation Forest, Autoencoders, PCA, t-SNE, UMAP, K-Means, DBSCAN, Hierarchical Clustering, XGBoost Regressor, SVR.
+- **Modelos de Previsão em Arquitetura Futura**: seção dedicada para XGBoost Regressor e SVR, com nota de que não há treino real nem validação operacional no protótipo atual.
+- **Métricas na Página**: F1-Score, Silhouette Score, erro de magnitude do pico e erro de tempo do pico como referência metodológica.
+- **Fechamento Didático**: card final "Do dado simulado à interpretação acadêmica" + CTA seguros (`Ver metodologia`, `Explorar clusters`, `Consultar base simulada`, `Ver recomendações conceituais`, `Voltar ao Dashboard`).
 
 ---
 
@@ -176,17 +208,17 @@ git push
 
 ## 10. Últimos Testes Conhecidos
 
-- **TypeScript e Linter (`npm run lint`)**: 100% de sucesso (0 erros, 0 avisos).
-- **Geração de Build Estático (`npm run build`)**: Vite build concluído em 127ms gerando o pacote de produção otimizado com sucesso total.
+- **TypeScript e Linter (`npm run lint`)**: 100% de sucesso (0 erros, 0 avisos) após os ajustes recentes de Landing, Recomendações, Metodologia e Previsão Conceitual.
+- **Geração de Build Estático (`npm run build`)**: builds recentes concluídas com sucesso total (faixa ~137ms a ~152ms), com pacote de produção otimizado.
 
 ---
 
 ## 11. Próximos Passos Recomendados para a Apresentação
 
-1. **Revisar K-Means / Clustering** (Aprovado/Completo): Conferir interações dos clusters e tooltips anti-bloqueio de quinas.
-2. **Revisar Recomendações e DAC** (Pendente): Avaliar a fluidez de termos acadêmicos seguros nesses dois últimos arquivos.
-3. **Simulação Oral**: Testar a apresentação das telas de PCA, Isolation Forest e K-Means dentro do tempo oficial do DAC.
-4. **Deploy Final**: Certificar-se de efetuar o git push para consolidar o build na Vercel antes do início da banca.
+1. **Revisar Clustering (K-Means/PCA)**: foco em fluidez visual e narrativa oral do gráfico de similaridade.
+2. **Checagem Final de Coerência Terminológica**: garantir que todas as páginas mantenham o padrão "simulado/conceitual/sem uso operacional".
+3. **Simulação Oral Integrada**: treinar a sequência Landing → Dashboard → Anomalias → Clustering → Metodologia → Previsão Conceitual → Recomendações.
+4. **Deploy e Checklist de Banca**: validar build final e disponibilidade da versão de apresentação.
 
 ---
 

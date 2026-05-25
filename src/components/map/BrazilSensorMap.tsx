@@ -36,10 +36,10 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
   };
 
   return (
-    <div className="map-wrap" style={{ height }}>
+    <div className={`map-wrap ${showLabels ? "map-dashboard" : "map-landing"}`} style={{ height: height || "100%", width: "100%" }}>
       <div className="map-grid"></div>
       <svg className="map-svg" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid meet"
-           style={{ flex: 1, width: "100%", height: "100%", minHeight: 0 }}>
+           style={{ display: "block", width: "100%", height: "100%", minHeight: 0, flex: 1 }}>
         <defs>
           <linearGradient id="brFill" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%"   stopColor="oklch(0.30 0.05 220)" stopOpacity="0.6"/>
@@ -54,25 +54,27 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
 
         <style>{`
           .br-state {
-            fill: oklch(0.215 0.030 235 / 0.55);
-            stroke: oklch(0.78 0.13 210 / 0.10);
-            stroke-width: 0.6px;
+            fill: oklch(0.215 0.030 235 / 0.65);
+            stroke: rgba(135, 190, 200, 0.32);
+            stroke-width: 1.1px;
+            vector-effect: non-scaling-stroke;
             pointer-events: none;
             user-select: none;
           }
           .state-label {
-            fill: var(--text-2);
+            fill: var(--text);
             font-family: var(--font-mono);
-            font-size: 8px;
-            letter-spacing: -0.05em;
+            font-size: 8.5px;
+            letter-spacing: -0.02em;
             pointer-events: none;
             user-select: none;
-            opacity: 0.55;
+            opacity: 0.8;
+            font-weight: 500;
           }
         `}</style>
 
         {/* Dynamic State Contours of Brazil */}
-        <g transform="translate(140, 15) scale(1.15)" style={{ filter: "drop-shadow(0 0 1px oklch(0.78 0.13 210 / 0.38))" }}>
+        <g transform="translate(140, 15) scale(1.15)" style={{ filter: "drop-shadow(0 0 2px oklch(0.78 0.13 210 / 0.55))" }}>
           <g>
             <g>
               <path className="br-state" d="M289.558,235.641 c16.104,0.575,44.973-31.647,44.835-45.259c-0.136-13.612-17.227-58.446-22.349-66.088c-5.122-7.628-37.905,2.506-37.905,2.506 S234.852,233.695,289.558,235.641z" />
