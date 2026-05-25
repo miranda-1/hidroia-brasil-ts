@@ -27,7 +27,7 @@ export const NAV_ITEMS: NavItem[] = [
   { k: "clustering", label: "Clusters e padrões",     iconName: "Layers",        crumb: "CLUSTERS E PADRÕES",      group: "ANÁLISES DE IA" },
   { k: "anomalies",  label: "Anomalias",              iconName: "AlertTriangle", crumb: "DETECÇÃO DE ANOMALIAS",    group: "ANÁLISES DE IA" },
   { k: "forecast",   label: "Previsão conceitual",    iconName: "TrendingUp",    crumb: "PREVISÃO CONCEITUAL",     group: "ANÁLISES DE IA" },
-  { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "MITIGAÇÃO",               group: "ANÁLISES DE IA" },
+  { k: "rec",        label: "Recomendações",          iconName: "Shield",        crumb: "RECOMENDAÇÕES",           group: "ANÁLISES DE IA" },
   { k: "ai",         label: "Metodologia de IA",      iconName: "Cpu",           crumb: "METODOLOGIA DE IA",       group: "DOCUMENTAÇÃO" },
   { k: "dac",        label: "Articulação DAC",        iconName: "GraduationCap", crumb: "ARTICULAÇÃO DAC",         group: "DOCUMENTAÇÃO" }
 ];
