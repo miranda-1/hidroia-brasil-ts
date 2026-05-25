@@ -76,7 +76,7 @@ export const Methodology: React.FC = () => {
       ico: <Activity size={16} />,
       status: "conceitual",
       body:
-        "Explica métricas de classificação, agrupamento e previsão como referência metodológica, sem validação operacional no protótipo atual.",
+        "Explica métricas de classificação, agrupamento e previsão como referência metodológica, sem validação operacional no protótipo.",
     },
     {
       num: "08",
@@ -90,92 +90,71 @@ export const Methodology: React.FC = () => {
 
   const demonstratedTechniques = [
     {
-      name: "K-Means Clustering",
-      icon: <Layers size={14} />,
-      desc:
-        "Agrupa dados por similaridade e representa padrões simulados como estiagem, chuva moderada e eventos extremos simulados.",
-      advantage: "Vantagem: simples, interpretável e didático para visualização de padrões.",
-      limitation:
-        "Limitação: exige definir o número de clusters e é sensível a outliers.",
-      chips: ["Demonstrado", "Não supervisionado", "Clusters simulados"],
-    },
-    {
       name: "Isolation Forest",
       icon: <AlertTriangle size={14} />,
-      desc:
-        "Isola pontos raros por partições aleatórias e apoia a detecção conceitual de leituras atípicas, falhas simuladas de sensor e picos incomuns.",
-      advantage: "Vantagem: útil para destacar desvios sem rótulos prévios.",
-      limitation:
-        "Limitação: pode gerar falsos positivos e não substitui validação especializada.",
-      chips: ["Demonstrado", "Score simulado", "Anomalias conceituais"],
+      desc: "Identifica leituras atípicas a partir do isolamento de pontos incomuns no espaço de variáveis simuladas.",
+      limitation: "O score é conceitual e depende da qualidade da base usada para comparação.",
+      chips: ["Demonstrado", "Anomalias", "Score conceitual"]
+    },
+    {
+      name: "K-Means",
+      icon: <Layers size={14} />,
+      desc: "Agrupa leituras com comportamento semelhante, apoiando a leitura de perfis hidrológicos simulados.",
+      limitation: "Exige definição prévia do número de grupos e pode simplificar padrões complexos.",
+      chips: ["Demonstrado", "Agrupamento", "Perfis"]
     },
     {
       name: "PCA",
       icon: <Cpu size={14} />,
-      desc:
-        "Reduz variáveis preservando parte relevante da informação, ajuda a compactar dados redundantes e alimentar visualizações e agrupamentos.",
-      advantage: "Vantagem: simplifica o espaço de análise e melhora leitura visual.",
-      limitation:
-        "Limitação: pode reduzir a interpretação direta de variáveis originais.",
-      chips: ["Demonstrado", "Redução didática", "Base de clusters"],
-    },
+      desc: "Reduz variáveis para componentes principais, facilitando visualização e interpretação de agrupamentos.",
+      limitation: "Pode reduzir a interpretação direta das variáveis originais.",
+      chips: ["Demonstrado", "Redução dimensional", "Visualização"]
+    }
   ];
 
   const futureArchitecture = [
     {
       name: "DBSCAN",
       icon: <Radar size={14} />,
-      desc:
-        "Agrupa por densidade, identifica regiões densas e ruídos/outliers, sendo útil conceitualmente para episódios atípicos.",
-      limitation:
-        "Exige calibração fina de parâmetros e pode sofrer com densidade variável.",
-      chips: ["Arquitetura futura", "Densidade", "Ruído"],
+      desc: "Agrupa por densidade e identifica regiões densas e ruídos/outliers, sendo útil conceitualmente para episódios atípicos.",
+      limitation: "Exige calibração fina de parâmetros e pode sofrer com densidade variável.",
+      chips: ["Arquitetura futura", "Densidade", "Ruído"]
     },
     {
       name: "Hierarchical Clustering",
       icon: <Network size={14} />,
-      desc:
-        "Constrói uma árvore de proximidade (dendrograma) que pode apoiar análise exploratória de relações entre períodos ou regiões simuladas.",
-      limitation:
-        "Tem custo computacional maior em séries históricas amplas.",
-      chips: ["Arquitetura futura", "Dendrograma", "Exploratória"],
+      desc: "Constrói uma árvore de proximidade, chamada dendrograma, que pode apoiar análise exploratória de relações entre períodos ou regiões simuladas.",
+      limitation: "Tem custo computacional maior em séries históricas amplas.",
+      chips: ["Arquitetura futura", "Dendrograma", "Exploratória"]
     },
     {
       name: "Autoencoders",
       icon: <Brain size={14} />,
-      desc:
-        "Autoencoders podem ser utilizados como técnica não supervisionada ou auto-supervisionada, aprendendo a reconstruir a própria entrada por codificador, representação compactada e decodificador.",
-      limitation:
-        "Em uma arquitetura futura, poderiam apoiar anomalias por erro de reconstrução, mas exigem maior custo computacional e validação cuidadosa para não confundir evento extremo com falha de leitura.",
-      chips: ["Arquitetura futura", "Erro de reconstrução", "Rede neural"],
+      desc: "Podem ser utilizados como técnica não supervisionada ou auto-supervisionada, aprendendo a reconstruir a própria entrada por codificador, representação compactada e decodificador.",
+      limitation: "Em uma arquitetura futura, poderiam apoiar anomalias por erro de reconstrução, mas exigem validação cuidadosa para não confundir evento extremo com falha de leitura.",
+      chips: ["Arquitetura futura", "Erro de reconstrução", "Rede neural"]
     },
     {
       name: "t-SNE / UMAP",
       icon: <GitBranch size={14} />,
-      desc:
-        "Reduzem dados de alta dimensão para visualizações 2D/3D, ajudando a revelar padrões visuais em análise exploratória.",
-      limitation:
-        "Demandam processamento e ajuste cuidadoso de hiperparâmetros.",
-      chips: ["Arquitetura futura", "2D/3D", "Exploração visual"],
+      desc: "Reduzem dados de alta dimensão para visualizações 2D/3D, ajudando a revelar padrões visuais em análise exploratória.",
+      limitation: "Demandam processamento e ajuste cuidadoso de hiperparâmetros.",
+      chips: ["Arquitetura futura", "2D/3D", "Exploração visual"]
     },
     {
       name: "XGBoost Regressor",
       icon: <Gauge size={14} />,
-      desc:
-        "Modelo supervisionado baseado em árvores de decisão em conjunto para estimar tendências futuras em dados tabulares históricos.",
-      limitation:
-        "Depende de base de treino validada e pode ter dificuldade em extrapolar eventos nunca vistos.",
-      chips: ["Arquitetura futura", "Regressão", "Importância de variáveis"],
+      desc: "Modelo supervisionado baseado em árvores de decisão em conjunto, podendo estimar tendências futuras em dados tabulares históricos.",
+      limitation: "Depende de base de treino validada e pode ter dificuldade em extrapolar eventos nunca vistos.",
+      chips: ["Arquitetura futura", "Regressão", "Importância de variáveis"]
     },
     {
       name: "SVR",
       icon: <LineChart size={14} />,
-      desc:
-        "Regressão por vetores de suporte que busca uma tendência dentro de uma margem de erro e pode ser estável em cenários com ruído tratado.",
-      limitation:
-        "Pode ficar lenta com grandes volumes sem pré-processamento.",
-      chips: ["Arquitetura futura", "Regressão", "Margem de erro"],
-    },
+      desc: "Regressão por vetores de suporte que busca uma tendência dentro de uma margem de erro, podendo ser estável em cenários com ruído tratado.",
+      limitation: "Pode ficar lenta com grandes volumes sem pré-processamento.",
+      chips: ["Arquitetura futura", "Regressão", "Margem de erro"]
+    }
   ];
 
   const metrics = [
@@ -271,94 +250,125 @@ export const Methodology: React.FC = () => {
         </div>
       </div>
 
-      <div
-        className="methodology-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
-          gap: 16,
-          marginTop: 16,
-        }}
-      >
-        <div className="card" style={{ padding: 14 }}>
-          <div className="card-head" style={{ marginBottom: 8 }}>
-            <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <FlaskConical size={14} /> Técnicas demonstradas no protótipo
+      <div className="card" style={{ padding: 24, marginTop: 16 }}>
+        <div style={{ marginBottom: 20 }}>
+          <div className="row" style={{ gap: 8, color: "var(--cyan)", marginBottom: 4 }}>
+            <Brain size={18} />
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 600 }}>Arquitetura conceitual de IA</h3>
+          </div>
+          <p className="small" style={{ margin: 0, lineHeight: 1.5, color: "var(--text-2)", fontSize: 13 }}>
+            O HidroIA organiza técnicas demonstradas no protótipo e possibilidades metodológicas futuras para análise de padrões, anomalias e tendências em cenários hidrometeorológicos simulados.
+          </p>
+        </div>
+
+        {/* Grupo 1 — Técnicas demonstradas */}
+        <div style={{ marginBottom: 32 }}>
+          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid var(--border-soft)", paddingBottom: 8 }}>
+            <div className="row" style={{ gap: 6, color: "var(--cyan)" }}>
+              <FlaskConical size={14} />
+              <strong style={{ fontSize: 14, color: "var(--text)" }}>Técnicas demonstradas no protótipo</strong>
             </div>
-            <span className="mono small">EXECUÇÃO DIDÁTICA</span>
+            <span className="mono small" style={{ fontSize: 10, color: "var(--cyan)", opacity: 0.85 }}>Foco Didático Atual</span>
           </div>
 
-          <div style={{ display: "grid", gap: 10 }}>
+          <div
+            className="methodology-models-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 14,
+            }}
+          >
             {demonstratedTechniques.map((tech) => (
               <div
                 key={tech.name}
+                className="model-card"
                 style={{
-                  border: "1px solid var(--border-soft)",
-                  borderRadius: 9,
-                  padding: 11,
-                  background: "oklch(1 0 0 / 0.015)",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
               >
-                <div className="row" style={{ gap: 6, marginBottom: 6, color: "var(--cyan)" }}>
-                  {tech.icon}
-                  <strong style={{ fontSize: 13, color: "var(--text)" }}>{tech.name}</strong>
+                <div>
+                  <div className="row" style={{ gap: 6, marginBottom: 8, color: "var(--cyan)" }}>
+                    {tech.icon}
+                    <strong style={{ fontSize: 13.5, color: "var(--text)" }}>{tech.name}</strong>
+                  </div>
+                  <p className="small" style={{ margin: "0 0 12px 0", color: "var(--text-2)", lineHeight: 1.45 }}>
+                    {tech.desc}
+                  </p>
                 </div>
-                <p className="small" style={{ margin: 0, color: "var(--text-2)", lineHeight: 1.45 }}>
-                  {tech.desc}
-                </p>
-                <p className="small" style={{ margin: "8px 0 0", color: "var(--text-2)", lineHeight: 1.4 }}>
-                  {tech.advantage}
-                </p>
-                <p className="small" style={{ margin: "6px 0 0", color: "var(--muted)", lineHeight: 1.4 }}>
-                  {tech.limitation}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-                  {tech.chips.map((chip) => (
-                    <span key={chip} className="chip" style={{ padding: "2px 7px", fontSize: 10.5 }}>
-                      {chip}
-                    </span>
-                  ))}
+                <div>
+                  <div className="model-limitation" style={{ marginBottom: 12 }}>
+                    <p className="small" style={{ margin: 0, color: "var(--muted)", lineHeight: 1.4, fontSize: 11 }}>
+                      <strong style={{ color: "var(--text-2)" }}>Limitação:</strong> {tech.limitation}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {tech.chips.map((chip) => (
+                      <span key={chip} className="chip" style={{ padding: "2px 7px", fontSize: 10 }}>
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="card" style={{ padding: 14 }}>
-          <div className="card-head" style={{ marginBottom: 8 }}>
-            <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <Brain size={14} /> Arquitetura conceitual e futura
+        {/* Grupo 2 — Possibilidades metodológicas futuras */}
+        <div>
+          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", marginBottom: 14, borderBottom: "1px solid var(--border-soft)", paddingBottom: 8 }}>
+            <div className="row" style={{ gap: 6, color: "var(--aqua)" }}>
+              <Brain size={14} />
+              <strong style={{ fontSize: 14, color: "var(--text)" }}>Possibilidades metodológicas futuras</strong>
             </div>
-            <span className="mono small">POSSIBILIDADES METODOLÓGICAS</span>
+            <span className="mono small" style={{ fontSize: 10, color: "var(--aqua)", opacity: 0.85 }}>Arquitetura de Expansão</span>
           </div>
 
-          <div style={{ display: "grid", gap: 10 }}>
+          <div
+            className="methodology-models-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 14,
+            }}
+          >
             {futureArchitecture.map((tech) => (
               <div
                 key={tech.name}
+                className="model-card"
                 style={{
-                  border: "1px solid var(--border-soft)",
-                  borderRadius: 9,
-                  padding: 11,
-                  background: "oklch(1 0 0 / 0.015)",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
               >
-                <div className="row" style={{ gap: 6, marginBottom: 6, color: "var(--aqua)" }}>
-                  {tech.icon}
-                  <strong style={{ fontSize: 13, color: "var(--text)" }}>{tech.name}</strong>
+                <div>
+                  <div className="row" style={{ gap: 6, marginBottom: 8, color: "var(--aqua)" }}>
+                    {tech.icon}
+                    <strong style={{ fontSize: 13.5, color: "var(--text)" }}>{tech.name}</strong>
+                  </div>
+                  <p className="small" style={{ margin: "0 0 12px 0", color: "var(--text-2)", lineHeight: 1.45 }}>
+                    {tech.desc}
+                  </p>
                 </div>
-                <p className="small" style={{ margin: 0, color: "var(--text-2)", lineHeight: 1.45 }}>
-                  {tech.desc}
-                </p>
-                <p className="small" style={{ margin: "7px 0 0", color: "var(--muted)", lineHeight: 1.4 }}>
-                  Limitação: {tech.limitation}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-                  {tech.chips.map((chip) => (
-                    <span key={chip} className="chip" style={{ padding: "2px 7px", fontSize: 10.5 }}>
-                      {chip}
-                    </span>
-                  ))}
+                <div>
+                  <div className="model-limitation" style={{ marginBottom: 12 }}>
+                    <p className="small" style={{ margin: 0, color: "var(--muted)", lineHeight: 1.4, fontSize: 11 }}>
+                      <strong style={{ color: "var(--text-2)" }}>Limitação:</strong> {tech.limitation}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {tech.chips.map((chip) => (
+                      <span key={chip} className="chip" style={{ padding: "2px 7px", fontSize: 10 }}>
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
