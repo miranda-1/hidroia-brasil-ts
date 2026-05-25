@@ -186,6 +186,9 @@ export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go
               background: "linear-gradient(180deg, oklch(0.22 0.03 238 / 0.8), oklch(0.18 0.02 240 / 0.8))",
               boxShadow: "0 1px 0 oklch(1 0 0 / 0.03) inset",
               cursor: "pointer",
+              color: "var(--text)",
+              WebkitTextFillColor: "var(--text)",
+              fontFamily: "inherit",
               display: "flex",
               flexDirection: "column",
               gap: 10,
@@ -200,7 +203,7 @@ export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go
             transition={{ duration: 0.24, ease: smoothEase }}
           >
             <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-              <span className="mono" style={{ fontSize: 22, fontWeight: 700, opacity: 0.25, lineHeight: 1 }}>
+              <span className="mono" style={{ fontSize: 22, fontWeight: 700, opacity: 0.55, color: "var(--text-3)", lineHeight: 1 }}>
                 {formatIndex(index)}
               </span>
               <span
@@ -222,7 +225,7 @@ export const DacArticulation: React.FC<{ go?: (route: string) => void }> = ({ go
               <span style={{ color: discipline.badgeColor, display: "flex", alignItems: "center" }}>
                 {iconMap[discipline.iconName] || <Cpu size={17} />}
               </span>
-              <h3 style={{ fontSize: 15, fontWeight: 600, margin: 0, lineHeight: 1.35 }}>{discipline.name}</h3>
+              <h3 style={{ fontSize: 15, fontWeight: 600, margin: 0, lineHeight: 1.35, color: "var(--text)" }}>{discipline.name}</h3>
             </div>
 
             <div className="row" style={{ justifyContent: "space-between", alignItems: "center", marginTop: "auto" }}>
