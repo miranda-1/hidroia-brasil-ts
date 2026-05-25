@@ -31,7 +31,7 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
       zone: "ENTRADA",
       icon: <Database size={16} />,
       desc: "Organiza chuva 24h/7d, nível, vazão, qualidade do dado e cenário-base em uma base mockada inspirada em estruturas ANA/HIDRO.",
-      chips: ["Dados simulados", "Cenário-base", "Frontend-only"],
+      chips: ["Dados simulados", "Cenário-base", "Conceitual"],
     },
     {
       num: "02",
@@ -149,7 +149,7 @@ export const ConceptualForecast: React.FC<ConceptualForecastProps> = ({ go }) =>
 
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
         {[
-          "Frontend-only",
+          "IA Conceitual",
           "Dados simulados",
           "Arquitetura futura",
           "Sem uso operacional",

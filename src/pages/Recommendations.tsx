@@ -112,7 +112,7 @@ const INTERPRETATION_STEPS = [
   },
   {
     title: "Exportar simulacao",
-    desc: "Usar o plano apenas como artefato demonstrativo do prototipo frontend-only."
+    desc: "Exportar as conclusões e planos como artefato conceitual de simulação."
   }
 ];
 

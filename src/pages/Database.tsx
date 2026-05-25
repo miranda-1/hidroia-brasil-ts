@@ -42,7 +42,7 @@ export const Database: React.FC = () => {
       <PageHeader 
         category="BASE DE DADOS" 
         title="Base de Dados Hidrometeorológicos" 
-        subtitle="Leituras consolidadas das estações simuladas com classificação conceitual de risco. Estrutura inspirada no padrão ANA/HIDRO, com registros mockados para demonstração acadêmica."
+        subtitle="Leituras consolidadas de sensores com classificação conceitual de risco. Estrutura de dados inspirada no padrão ANA/HIDRO, com registros simulados para fins didáticos."
         rightElement={
           <div className="row" style={{ gap: 10 }}>
             <button className="btn btn-sm" onClick={() => { setQ(""); setRisk("all"); }}>
@@ -66,7 +66,7 @@ export const Database: React.FC = () => {
             <AlertTriangle size={16} />
           </span>
           <span style={{ fontSize: 13 }}>
-            <strong>Protótipo Acadêmico • Dados Simulados</strong> · Esta base mockada segue uma estrutura inspirada no padrão ANA/HIDRO. Os registros, leituras e scores são simulados para demonstração acadêmica e não devem ser usados para decisões operacionais.
+            <strong>Escopo Conceitual • Dados Simulados</strong> · Base de dados simulada inspirada na estrutura padrão ANA/HIDRO. Registros, telemetria e scores operam sob cenários didáticos pré-configurados e não devem ser utilizados para fins operacionais.
           </span>
         </div>
       </div>

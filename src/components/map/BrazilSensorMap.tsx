@@ -294,7 +294,7 @@ export const BrazilSensorMap: React.FC<BrazilSensorMapProps> = ({
         fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--muted-2)",
         letterSpacing: "0.06em", textTransform: "uppercase"
       }}>
-        Mapa esquemático — protótipo acadêmico
+        Painel Cartográfico Conceitual
       </div>
     </div>
   );

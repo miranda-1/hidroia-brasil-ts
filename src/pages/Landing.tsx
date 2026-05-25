@@ -79,7 +79,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
           <div className="chip" style={{ marginBottom: 24 }}>
             <span className="live-dot" style={{ width: 7, height: 7, background: "var(--cyan)" }}></span>
             <span className="mono" style={{ fontSize: 10, letterSpacing: "0.04em" }}>
-              PROTÓTIPO ACADÊMICO • FRONTEND-ONLY • BASE SIMULADA • IA CONCEITUAL
+              ANÁLISE HIDROAMBIENTAL • BASE SIMULADA • IA CONCEITUAL
             </span>
           </div>
           <h1
@@ -107,7 +107,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             fontSize: 15, color: "var(--text-2)", lineHeight: 1.6,
             maxWidth: 660, marginTop: 28
           }}>
-            O <strong>HidroIA</strong> é um protótipo acadêmico frontend-only que utiliza uma base simulada de estações hidrometeorológicas, inspirada em estruturas ANA/HIDRO, para demonstrar visualização de dados, detecção conceitual de anomalias, agrupamento de padrões e previsão didática de tendências hidrológicas.
+            O <strong>HidroIA</strong> organiza leituras simuladas de chuva, nível e vazão para visualizar padrões, identificar anomalias conceituais e apoiar a interpretação de cenários hidroambientais com recursos de Inteligência Artificial.
           </p>
 
           <div className="card" style={{
@@ -330,7 +330,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontSize: 14.5, color: "var(--text-2)", lineHeight: 1.6 }}>
               <p style={{ margin: 0 }}>
-                O <strong>HidroIA</strong> foi desenvolvido como um protótipo acadêmico frontend-only para o DAC (Desafio de Articulação de Competências) do 5º semestre de Ciência da Computação. A proposta é demonstrar como dados hidrometeorológicos simulados podem ser organizados, visualizados e analisados em uma interface moderna de apoio didático à análise socioambiental.
+                O <strong>HidroIA</strong> foi concebido como uma plataforma ambiental conceitual para o DAC (Desafio de Articulação de Competências) do 5º semestre de Ciência da Computação. A proposta é demonstrar como dados hidrometeorológicos simulados podem ser organizados, visualizados e analisados em uma interface moderna e inteligente de apoio à análise socioambiental.
               </p>
               <p style={{ margin: 0 }}>
                 A base do projeto utiliza 8 estações hidrometeorológicas simuladas, com campos inspirados em estruturas ANA/HIDRO, como bacia, tipo de estação, nível do rio, vazão estimada, chuva acumulada, qualidade do dado, marcador de cenário e score de anomalia.
@@ -344,9 +344,9 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
           {/* Coluna Direita - Mini Cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {[
-              { t: "Dados 100% simulados", s: "Base mockada com scores e cenários criados para demonstração acadêmica." },
+              { t: "Dados 100% simulados", s: "Base simulada com scores e cenários estruturados para análise didática." },
               { t: "Previsão conceitual", s: "Arquitetura didática para representar tendências hidrológicas em um cenário-base." },
-              { t: "Sem uso operacional", s: "Estrutura frontend-only sem backend, API, integração oficial ou coleta externa." }
+              { t: "Sem uso operacional", s: "Plataforma conceitual sem coleta externa em tempo real ou integração operacional." }
             ].map((card, idx) => (
               <div key={idx} className="card" style={{ 
                 padding: "14px 18px", 
@@ -370,7 +370,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         background: "oklch(0.12 0.015 238 / 0.4)"
       }}>
         <div>
-          HidroIA • Protótipo acadêmico frontend-only • DAC 5º semestre • Dados simulados • Previsão conceitual
+          HidroIA • Plataforma Conceitual • DAC 5º semestre • Dados simulados • Previsão conceitual
         </div>
       </footer>
     </div>

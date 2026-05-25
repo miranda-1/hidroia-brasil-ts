@@ -78,7 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ route, go }) => {
         })}
       </nav>
       <div className="nav-foot" style={{ padding: "10px", fontSize: "11px", borderRadius: "10px", border: "1px solid var(--border-soft)", background: "oklch(1 0 0 / 0.015)" }}>
-        <strong style={{ color: "var(--text)" }}>Protótipo acadêmico</strong>
+        <strong style={{ color: "var(--text)" }}>Plataforma Conceitual</strong>
         <div style={{ color: "var(--muted)", marginTop: 4, fontSize: "10.5px" }}>DAC • 5º semestre</div>
         <div className="mono" style={{ marginTop: 6, fontSize: "8.5px", color: "var(--cyan)", fontWeight: 600, letterSpacing: "0.02em" }}>
           DADOS SIMULADOS

@@ -438,7 +438,7 @@ export const Clustering: React.FC<ClusteringProps> = ({ go }) => {
             </div>
 
             <div style={{ marginTop: 6, fontSize: 10, color: "var(--text-3)", fontStyle: "italic", textAlign: "left" }}>
-              * PCA não representa localização geográfica. É uma projeção matemática de similaridade (protótipo acadêmico).
+              * A projeção PCA representa similaridade comportamental entre as estações e não sua localização geográfica.
             </div>
           </div>
 

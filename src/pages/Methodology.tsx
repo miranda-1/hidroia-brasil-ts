@@ -80,11 +80,11 @@ export const Methodology: React.FC = () => {
     },
     {
       num: "08",
-      title: "Limitações acadêmicas",
+      title: "Limitações do Escopo",
       ico: <Shield size={16} />,
       status: "demonstrado",
       body:
-        "Reforça que todo o fluxo é frontend-only, com base simulada, sem integração oficial, sem coleta em tempo real e sem uso operacional.",
+        "Demonstra que o fluxo opera sob uma base simulada de cenários pré-configurados, sem coleta em tempo real e sem uso operacional.",
     },
   ];
 
@@ -219,7 +219,7 @@ export const Methodology: React.FC = () => {
           Escopo metodológico conceitual e simulado
         </div>
         <p className="small" style={{ marginTop: 10, lineHeight: 1.55, color: "var(--text-2)" }}>
-          O HidroIA é um protótipo acadêmico frontend-only que utiliza uma base simulada de estações hidrometeorológicas, inspirada em estruturas ANA/HIDRO, para demonstrar visualização de dados, detecção conceitual de anomalias, agrupamento de padrões e previsão didática de tendências hidrológicas com apoio de técnicas de Inteligência Artificial.
+          O HidroIA é uma plataforma ambiental conceitual que utiliza uma base simulada de estações hidrometeorológicas, inspirada em estruturas ANA/HIDRO, para demonstrar visualização de dados, detecção de anomalias, agrupamento de padrões e previsão didática de tendências hidrológicas com apoio de técnicas de Inteligência Artificial.
         </p>
         <p className="small" style={{ marginTop: 8, lineHeight: 1.55, color: "var(--text-2)" }}>
           Todos os dados, scores, cenários e previsões apresentados são simulados e possuem finalidade acadêmica, sem integração oficial, sem coleta em tempo real e sem uso operacional.
