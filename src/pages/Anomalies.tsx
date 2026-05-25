@@ -7,7 +7,6 @@ import {
   RefreshCw, 
   Shield, 
   AlertTriangle,
-  FileText,
   Brain
 } from "lucide-react";
 
@@ -18,6 +17,7 @@ interface AnomaliesProps {
 
 export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
   const [severityFilter, setSeverityFilter] = useState<string>("all");
+  void go;
 
   const filteredRows = useMemo(() => {
     if (severityFilter === "all") return ANOMALY_ROWS;
@@ -32,14 +32,9 @@ export const Anomalies: React.FC<AnomaliesProps> = ({ go }) => {
         title="Detecção de anomalias (Iso Forest)" 
         subtitle="Análise conceitual de comportamentos atípicos em leituras simuladas, inspirada no algoritmo Isolation Forest."
         rightElement={
-          <div className="row" style={{ gap: 10 }}>
-            <button className="btn btn-sm" onClick={() => setSeverityFilter("all")}>
-              <RefreshCw size={12} /> Limpar filtros
-            </button>
-            <button className="btn btn-primary btn-sm" onClick={() => go("rec")}>
-              <FileText size={12} /> Gerar relatório demo
-            </button>
-          </div>
+          <button className="btn btn-sm" onClick={() => setSeverityFilter("all")}>
+            <RefreshCw size={12} /> Limpar filtros
+          </button>
         }
       />
 
