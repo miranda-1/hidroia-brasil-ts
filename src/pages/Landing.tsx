@@ -176,7 +176,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         </div>
 
         {/* Hero visual — abstract map + floating cards */}
-        <div style={{ position: "relative" }}>
+        <div className="landing-hero-visual" style={{ position: "relative" }}>
           <div 
             onClick={() => go("dashboard")}
             onKeyDown={(e) => {
@@ -208,8 +208,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
           </div>
           
           {/* Floating cards */}
-          <div className="card" style={{
-            position: "absolute", top: 30, left: -10, width: 220,
+          <div className="card landing-float-card landing-float-kmeans" style={{
             padding: 14, backdropFilter: "blur(6px)",
             background: "oklch(0.20 0.03 235 / 0.92)",
             boxShadow: "var(--shadow-card)"
@@ -227,8 +226,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             </div>
           </div>
 
-          <div className="card" style={{
-            position: "absolute", bottom: 36, right: -10, width: 230,
+          <div className="card landing-float-card landing-float-anomalies" style={{
             padding: 14, backdropFilter: "blur(6px)",
             background: "oklch(0.20 0.03 235 / 0.92)",
             boxShadow: "var(--shadow-card)"
@@ -245,8 +243,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             </div>
           </div>
 
-          <div className="card" style={{
-            position: "absolute", top: 180, right: -20, width: 200,
+          <div className="card landing-float-card landing-float-modeling" style={{
             padding: 12, backdropFilter: "blur(6px)",
             background: "oklch(0.20 0.03 235 / 0.92)",
             boxShadow: "var(--shadow-card)"
@@ -262,8 +259,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
             </div>
           </div>
 
-          <div className="card" style={{
-            position: "absolute", top: 310, left: -20, width: 220,
+          <div className="card landing-float-card landing-float-failure" style={{
             padding: 12, backdropFilter: "blur(6px)",
             background: "oklch(0.20 0.03 235 / 0.92)",
             boxShadow: "var(--shadow-card)"
@@ -294,7 +290,7 @@ export const Landing: React.FC<LandingProps> = ({ go }) => {
         {[
           { ico: <Database size={16} />, title: "Base simulada", body: "Organiza estações hidrometeorológicas mockadas com chuva, nível, vazão, score e qualidade dos dados." },
           { ico: <BrainCircuit size={16} />, title: "Análise conceitual", body: "Demonstra scores, agrupamentos e detecção conceitual de anomalias com finalidade didática." },
-          { ico: <Cpu size={16} />, title: "Previsão didática", body: "Apresenta uma arquitetura conceitual para estimar tendências hidrológicas, sem uso operacional." },
+          { ico: <Cpu size={16} />, title: "Modelagem didática", body: "Apresenta uma estrutura conceitual para interpretar tendências hidrológicas, sem uso operacional." },
           { ico: <Layers size={16} />, title: "Interpretação acadêmica", body: "Transforma cenários simulados em leituras didáticas para apoiar a apresentação do DAC." },
         ].map((f, i) => (
           <div key={i} className="card">

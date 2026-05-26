@@ -827,6 +827,89 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: 0 0 12px oklch(0.78 0.13 210 / 0.2);
 }
 
+.landing-hero-visual {
+  min-width: 0;
+}
+
+.landing-float-card {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.landing-float-kmeans {
+  top: 30px;
+  left: -10px;
+  width: 220px;
+}
+
+.landing-float-anomalies {
+  bottom: 36px;
+  right: -10px;
+  width: 230px;
+}
+
+.landing-float-modeling {
+  top: 180px;
+  right: -20px;
+  width: 200px;
+}
+
+.landing-float-failure {
+  top: 310px;
+  left: -20px;
+  width: 220px;
+}
+
+@media (max-width: 1600px) {
+  .landing-float-kmeans {
+    left: 8px;
+    width: 206px;
+  }
+
+  .landing-float-anomalies {
+    right: 8px;
+    width: 214px;
+  }
+
+  .landing-float-modeling {
+    right: 8px;
+    width: 188px;
+  }
+
+  .landing-float-failure {
+    left: 8px;
+    width: 206px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .landing-float-modeling,
+  .landing-float-failure {
+    display: none;
+  }
+
+  .landing-float-kmeans {
+    top: 18px;
+    left: 12px;
+  }
+
+  .landing-float-anomalies {
+    right: 12px;
+    bottom: 18px;
+  }
+}
+
+@media (max-width: 1240px) {
+  .landing-float-card {
+    display: none;
+  }
+
+  .landing-map-interactive .map-landing {
+    height: clamp(320px, 52vw, 460px) !important;
+  }
+}
+
 /* ── Global interactive micro-interactions ─────────── */
 
 .interactive-action {
